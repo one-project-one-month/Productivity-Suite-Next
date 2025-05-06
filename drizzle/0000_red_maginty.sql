@@ -1,3 +1,29 @@
+CREATE TYPE "public"."timer_type_enum" AS ENUM('FOCUS', 'BREAK');--> statement-breakpoint
+CREATE TABLE "sequence" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" text NOT NULL,
+	"category" text,
+	"description" text,
+	"priority" integer,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	CONSTRAINT "sequence_id_unique" UNIQUE("id")
+);
+--> statement-breakpoint
+CREATE TABLE "timer" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"duration" integer NOT NULL,
+	"remaining" integer NOT NULL,
+	"type" timer_type_enum NOT NULL,
+	CONSTRAINT "timer_id_unique" UNIQUE("id")
+);
+--> statement-breakpoint
+CREATE TABLE "timer_sequence" (
+	"timer_id" uuid NOT NULL,
+	"sequence_id" uuid NOT NULL,
+	"step" integer NOT NULL,
+	CONSTRAINT "timer_sequence_sequence_id_timer_id_pk" PRIMARY KEY("sequence_id","timer_id")
+);
+--> statement-breakpoint
 CREATE TABLE "account" (
 	"id" text PRIMARY KEY NOT NULL,
 	"account_id" text NOT NULL,
@@ -34,6 +60,8 @@ CREATE TABLE "user" (
 	"image" text,
 	"created_at" timestamp NOT NULL,
 	"updated_at" timestamp NOT NULL,
+	"user_name" text NOT NULL,
+	"password" text NOT NULL,
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
@@ -46,5 +74,6 @@ CREATE TABLE "verification" (
 	"updated_at" timestamp
 );
 --> statement-breakpoint
+ALTER TABLE "sequence" ADD CONSTRAINT "sequence_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
