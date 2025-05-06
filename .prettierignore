@@ -3,3 +3,5 @@ build
 coverage
 bun.lock
 package.json
+.github
+.gitignore
