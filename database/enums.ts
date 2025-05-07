@@ -7,3 +7,6 @@ export const TodoStatus = pgEnum("todo_status_enum", [
     "COMPLETE",
     "OVERDUE",
 ]);
+
+export type TimerType = (typeof TimerType.enumValues)[number];
+export type TodoStatus = (typeof TodoStatus.enumValues)[number];
