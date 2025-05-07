@@ -8,6 +8,13 @@
       "when": 1746550578589,
       "tag": "0000_red_maginty",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1746618801553,
+      "tag": "0001_wide_toxin",
+      "breakpoints": true
     }
   ]
 }

@@ -9,11 +9,12 @@ import {
     text,
     timestamp,
     uuid,
+    varchar,
 } from "drizzle-orm/pg-core";
-import { TimerType } from "@/database/enums";
+import { TimerType, TodoStatus } from "@/database/enums";
 import { user } from "@/database/auth-schema";
 
-export const timer = pgTable("timer", {
+export const timers = pgTable("timer", {
     id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
     duration: integer("duration").notNull(),
     remaining: integer("remaining").notNull(),
@@ -21,7 +22,7 @@ export const timer = pgTable("timer", {
 });
 
 // TODO: Find a way to add a constraint in priority column
-export const sequence = pgTable("sequence", {
+export const sequences = pgTable("sequence", {
     id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
     userId: text("user_id")
         .references(() => user.id, { onDelete: "cascade" })
@@ -43,3 +44,23 @@ export const timerSequence = pgTable(
     },
     (table) => [primaryKey({ columns: [table.sequenceId, table.timerId] })],
 );
+
+/*
+ *  Todolist Table
+ * */
+
+export const todos = pgTable("todo", {
+    id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+    title: varchar("title", { length: 255 }).notNull(),
+    description: text("description"),
+    userId: text("user_id")
+        .references(() => user.id, { onDelete: "cascade" })
+        .notNull(),
+    status: TodoStatus("status").default("PENDING").notNull(),
+    priority: integer("priority").default(1).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+        .defaultNow()
+        .notNull(),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    dueAt: timestamp("due_at", { withTimezone: true }),
+});
