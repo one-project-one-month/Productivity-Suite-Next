@@ -119,6 +119,6 @@ export const budget = pgTable("budget", {
         .notNull()
         .unique(),
     amountSpent: integer("amountSpent").notNull().default(0),
-    durationFrom: timestamp("durationFrom", { withTimezone: true }).notNull(),
-    durationTo: timestamp("durationTo", { withTimezone: true }).notNull(),
+    durationFrom: timestamp("duration_from", { withTimezone: true }).notNull(),
+    durationTo: timestamp("duration_to", { withTimezone: true }).notNull(),
 });
