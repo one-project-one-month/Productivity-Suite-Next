@@ -15,6 +15,13 @@
       "when": 1746618801553,
       "tag": "0001_wide_toxin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1746619348378,
+      "tag": "0002_lethal_warlock",
+      "breakpoints": true
     }
   ]
 }

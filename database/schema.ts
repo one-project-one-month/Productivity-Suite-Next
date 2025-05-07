@@ -3,6 +3,7 @@
  * */
 
 import {
+    decimal,
     integer,
     pgTable,
     primaryKey,
@@ -63,4 +64,61 @@ export const todos = pgTable("todo", {
         .notNull(),
     completedAt: timestamp("completed_at", { withTimezone: true }),
     dueAt: timestamp("due_at", { withTimezone: true }),
+});
+
+/*
+ * Note related tables
+ * */
+
+export const notes = pgTable("note", {
+    id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+    title: varchar("title", { length: 255 }).notNull(),
+    body: text("body"),
+    userId: text("user_id")
+        .references(() => user.id, { onDelete: "cascade" })
+        .notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+        .defaultNow()
+        .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }),
+});
+
+/*
+ * Budget Management Related Tables
+ * */
+
+export const category = pgTable("category", {
+    id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+    name: varchar("category", { length: 255 }).notNull().unique(),
+});
+
+export const transactions = pgTable("transaction", {
+    id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+    userId: text("user_id")
+        .references(() => user.id, { onDelete: "cascade" })
+        .notNull(),
+    categoryId: uuid("category_id")
+        .references(() => category.id)
+        .notNull(),
+    amount: integer("amount").notNull(),
+    description: text("description"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+        .defaultNow()
+        .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }),
+});
+
+export const budget = pgTable("budget", {
+    id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+    userId: text("user_id")
+        .references(() => user.id, { onDelete: "cascade" })
+        .notNull(),
+    amount: integer("amount").notNull(),
+    categoryId: uuid("category_id")
+        .references(() => category.id)
+        .notNull()
+        .unique(),
+    amountSpent: integer("amountSpent").notNull().default(0),
+    durationFrom: timestamp("durationFrom", { withTimezone: true }).notNull(),
+    durationTo: timestamp("durationTo", { withTimezone: true }).notNull(),
 });
