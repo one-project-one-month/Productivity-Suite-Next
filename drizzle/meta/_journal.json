@@ -5,15 +5,29 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1746535285793,
-      "tag": "0000_ancient_red_ghost",
+      "when": 1746550578589,
+      "tag": "0000_red_maginty",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1746545019558,
-      "tag": "0001_watery_tag",
+      "when": 1746618801553,
+      "tag": "0001_wide_toxin",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1746619348378,
+      "tag": "0002_lethal_warlock",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1746619724171,
+      "tag": "0003_long_major_mapleleaf",
       "breakpoints": true
     }
   ]
