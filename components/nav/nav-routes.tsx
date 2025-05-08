@@ -3,10 +3,10 @@ import { JSX } from "react";
 
 export type TNavItems = {
   name: string;
-  icon: JSX.Element,
-  link: string,
-  color: string,
-}
+  icon: JSX.Element;
+  link: string;
+  color: string;
+};
 
 export const navRoutes: TNavItems[] = [
   {

@@ -92,7 +92,7 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
           onPressedChange={option.onClick}
           variant="outline"
           size="sm"
-          className="data-[state=on]:bg-primary data-[state=on]:text-muted cursor-pointer"  
+          className="data-[state=on]:bg-primary data-[state=on]:text-muted cursor-pointer"
         >
           {option.icon}
         </Toggle>

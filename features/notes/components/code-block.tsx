@@ -13,12 +13,11 @@ import { all, createLowlight } from "lowlight";
 
 export function setUpCodeBlock() {
   const lowlight = createLowlight(all);
-  const languages = {html, css, js, ts, csharp, c, cpp, bash, java, go};
-  
+  const languages = { html, css, js, ts, csharp, c, cpp, bash, java, go };
+
   Object.entries(languages).forEach(([name, language]) => {
     lowlight.register(name, language);
   });
 
   return lowlight;
 }
-

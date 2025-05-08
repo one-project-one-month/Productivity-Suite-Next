@@ -5,3 +5,4 @@ bun.lock
 package.json
 .github
 .gitignore
+drizzle
