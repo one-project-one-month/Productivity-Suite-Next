@@ -3,7 +3,6 @@
  * */
 
 import {
-    decimal,
     integer,
     pgTable,
     primaryKey,
@@ -15,6 +14,10 @@ import {
 import { TimerType, TodoStatus } from "@/database/enums";
 import { user } from "@/database/auth-schema";
 
+/*
+ * Timer table is used to store the pomodoro sessions of the user.
+ * Category column is used to distinguish between the focus session and the break session
+ * */
 export const timers = pgTable("timer", {
     id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
     duration: integer("duration").notNull(),
@@ -23,6 +26,9 @@ export const timers = pgTable("timer", {
 });
 
 // TODO: Find a way to add a constraint in priority column
+/**
+ * Sequence table is used to store the detail information of the pomodoro sequence
+ * */
 export const sequences = pgTable("sequence", {
     id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
     userId: text("user_id")
@@ -36,6 +42,10 @@ export const sequences = pgTable("sequence", {
         .notNull(),
 });
 
+/*
+ * TimerSequence table track the relationship between the sequence and the timers.
+ * Its also track the location of time in the sequence.
+ * */
 export const timerSequence = pgTable(
     "timer_sequence",
     {
@@ -50,6 +60,9 @@ export const timerSequence = pgTable(
  *  Todolist Table
  * */
 
+/*
+ * Todos table is used to store the todos-item of the users.
+ * */
 export const todos = pgTable("todo", {
     id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
     title: varchar("title", { length: 255 }).notNull(),
@@ -70,6 +83,9 @@ export const todos = pgTable("todo", {
  * Note related tables
  * */
 
+/*
+ * Note table is used to store the notes of the users.
+ * */
 export const notes = pgTable("note", {
     id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
     title: varchar("title", { length: 255 }).notNull(),
@@ -87,11 +103,18 @@ export const notes = pgTable("note", {
  * Budget Management Related Tables
  * */
 
+/**
+ * Category Table is used to track the category of the defined budget plan.
+ * In order to avoid name clashing, it is decided to make the name column to become unique
+ * */
 export const category = pgTable("category", {
     id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
     name: varchar("category", { length: 255 }).notNull().unique(),
 });
 
+/**
+ * Transaction table is store the expanse of user related to the certain category
+ * */
 export const transactions = pgTable("transaction", {
     id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
     userId: text("user_id")
@@ -108,6 +131,11 @@ export const transactions = pgTable("transaction", {
     updatedAt: timestamp("updated_at", { withTimezone: true }),
 });
 
+/**
+ * Budget table is store the budget plan of the user.
+ * Category must be unique for each budget plan.
+ * Plan will be tracked by utilizing durationFrom and durationTo fields.
+ * */
 export const budget = pgTable("budget", {
     id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
     userId: text("user_id")
