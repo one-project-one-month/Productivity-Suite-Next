@@ -1,4 +1,4 @@
-// import Note from "@/features/note/components/note";
+// import Note from "@/features/notes/components/note";
 
 export default function NotePage() {
   return (
