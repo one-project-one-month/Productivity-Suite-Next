@@ -1,7 +1,3 @@
-
-
 export default function page() {
-  return (
-    <div>NOTE ID</div>
-  );
+  return <div>NOTE ID</div>;
 }

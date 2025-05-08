@@ -53,12 +53,8 @@
           "name": "sequence_user_id_user_id_fk",
           "tableFrom": "sequence",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -68,9 +64,7 @@
         "sequence_id_unique": {
           "name": "sequence_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -105,10 +99,7 @@
       "compositePrimaryKeys": {
         "timer_sequence_sequence_id_timer_id_pk": {
           "name": "timer_sequence_sequence_id_timer_id_pk",
-          "columns": [
-            "sequence_id",
-            "timer_id"
-          ]
+          "columns": ["sequence_id", "timer_id"]
         }
       },
       "uniqueConstraints": {},
@@ -154,9 +145,7 @@
         "timer_id_unique": {
           "name": "timer_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -233,12 +222,8 @@
           "name": "todo_user_id_user_id_fk",
           "tableFrom": "todo",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -248,9 +233,7 @@
         "todo_id_unique": {
           "name": "todo_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -346,12 +329,8 @@
           "name": "account_user_id_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -421,12 +400,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -436,9 +411,7 @@
         "session_token_unique": {
           "name": "session_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -511,9 +484,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -574,19 +545,12 @@
     "public.timer_type_enum": {
       "name": "timer_type_enum",
       "schema": "public",
-      "values": [
-        "FOCUS",
-        "BREAK"
-      ]
+      "values": ["FOCUS", "BREAK"]
     },
     "public.todo_status_enum": {
       "name": "todo_status_enum",
       "schema": "public",
-      "values": [
-        "PENDING",
-        "COMPLETE",
-        "OVERDUE"
-      ]
+      "values": ["PENDING", "COMPLETE", "OVERDUE"]
     }
   },
   "schemas": {},

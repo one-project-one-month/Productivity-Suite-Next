@@ -5,26 +5,24 @@ import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "tiptap-markdown";
 // import {Highlight} from "@tiptap/extension-highlight";
 // import {Code} from "@tiptap/extension-code";
-import {CodeBlockLowlight} from "@tiptap/extension-code-block-lowlight";
+import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
 import MenuBar from "./menu";
 import { setUpCodeBlock } from "./code-block";
 
 export default function Editor() {
-
   const lowlight = setUpCodeBlock();
 
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
         heading: {
-          levels: [1,2,3],
+          levels: [1, 2, 3],
         },
         horizontalRule: {
           HTMLAttributes: {
             class: "py-0! my-3! border! border-muted-foreground!",
           },
         },
-
       }),
       CodeBlockLowlight.configure({
         lowlight,
@@ -55,11 +53,11 @@ export default function Editor() {
   // editor?.commands.setHighlight({ color: "#ffcc00" });
 
   // console.log(editor);
-  // console.log(editor?.storage.markdown.getMarkdown()); 
+  // console.log(editor?.storage.markdown.getMarkdown());
 
   return (
-    <div 
-    className="
+    <div
+      className="
       prose dark:prose-invert 
       prose-li:leading-5 
       prose-headings:py-0 prose-headings:my-2 

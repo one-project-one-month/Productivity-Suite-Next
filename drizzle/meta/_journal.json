@@ -29,6 +29,41 @@
       "when": 1746619724171,
       "tag": "0003_long_major_mapleleaf",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1746710378486,
+      "tag": "0004_unusual_whiplash",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1746710639426,
+      "tag": "0005_orange_masked_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1746710696266,
+      "tag": "0006_cultured_hellion",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1746710773899,
+      "tag": "0007_concerned_darkstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1746711015223,
+      "tag": "0008_powerful_james_howlett",
+      "breakpoints": true
     }
   ]
 }
