@@ -1,85 +1,37 @@
-import {
-  Bold,
-  Braces,
-  Code2,
-  Heading1,
-  Heading2,
-  Heading3,
-  Italic,
-  List,
-  ListOrdered,
-  Quote,
-  Strikethrough,
-} from "lucide-react";
+import { Toggle } from "@/components/ui/toggle";
 import { Editor } from "@tiptap/react";
+import LinkOption from "./link-menu-option";
+import { menuOptions } from "./menu-option";
 
-export const menuOptions = (editor: Editor) => {
-  return [
-    {
-      name: "Heading 1",
-      icon: <Heading1 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
-      pressed: editor.isActive("heading", { level: 1 }),
-    },
-    {
-      name: "Heading 2",
-      icon: <Heading2 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-      pressed: editor.isActive("heading", { level: 2 }),
-    },
-    {
-      name: "Heading 3",
-      icon: <Heading3 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
-      pressed: editor.isActive("heading", { level: 3 }),
-    },
-    {
-      name: "Bold",
-      icon: <Bold className="size-4" />,
-      onClick: () => editor.chain().focus().toggleBold().run(),
-      pressed: editor.isActive("bold"),
-    },
-    {
-      name: "Italic",
-      icon: <Italic className="size-4" />,
-      onClick: () => editor.chain().focus().toggleItalic().run(),
-      pressed: editor.isActive("italic"),
-    },
-    {
-      name: "Strike through",
-      icon: <Strikethrough className="size-4" />,
-      onClick: () => editor.chain().focus().toggleStrike().run(),
-      pressed: editor.isActive("strike"),
-    },
-    {
-      name: "Bullet list",
-      icon: <List className="size-4" />,
-      onClick: () => editor.chain().focus().toggleBulletList().run(),
-      pressed: editor.isActive("bulletList"),
-    },
-    {
-      name: "Order list",
-      icon: <ListOrdered className="size-4" />,
-      onClick: () => editor.chain().focus().toggleOrderedList().run(),
-      pressed: editor.isActive("orderedList"),
-    },
-    {
-      name: "Code",
-      icon: <Code2 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleCode().run(),
-      pressed: editor.isActive("code"),
-    },
-    {
-      name: "Code Block",
-      icon: <Braces className="size-4" />,
-      onClick: () => editor.chain().focus().toggleCodeBlock().run(),
-      pressed: editor.isActive("codeBlock"),
-    },
-    {
-      name: "Blockquote",
-      icon: <Quote className="size-4" />,
-      onClick: () => editor.chain().focus().toggleBlockquote().run(),
-      pressed: editor.isActive("blockquote"),
-    },
-  ];
-};
+export default function MenuBar({ editor }: { editor: Editor | null }) {
+  if (!editor) {
+    return null;
+  }
+
+  const options = menuOptions(editor);
+  const separator = [2, 5, 7, 10];
+
+  return (
+    <div className="border rounded-sm p-1 mb-1 bg-background z-50 flex flex-wrap gap-1">
+      {
+        options.map((option, idx) => (
+          <div key={idx} title={option.name} className="contents">
+            <Toggle
+              pressed={option.pressed}
+              onPressedChange={option.onClick}
+              variant="outline"
+              size="sm"
+              className="data-[state=on]:bg-primary data-[state=on]:text-muted cursor-pointer"
+            >
+              {option.icon}
+            </Toggle>
+            {
+              (separator.includes(idx)) && <div className="w-[1.5px] h-7 hidden sm:block my-auto mx-2 bg-muted-foreground/30"></div>
+            }
+          </div>
+        ))
+      }
+      <LinkOption editor={editor} />
+    </div>
+  );
+}
