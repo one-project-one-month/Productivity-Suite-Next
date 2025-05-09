@@ -4,7 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Note from "@/features/notes/components/note";
 import { Plus } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata:Metadata = {
+  title: {
+    template: "%s | Note",
+    default: "Notes",
+  },
+  description: "Notes Taking app",
+};
 
 const dummyNotes = [
   {

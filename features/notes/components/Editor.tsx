@@ -1,23 +1,14 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { Markdown } from "tiptap-markdown";
-import Typography from "@tiptap/extension-typography";
-import Document from "@tiptap/extension-document";
-import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
+import { EditorContent } from "@tiptap/react";
 import MenuBar from "./menu";
-import { setUpCodeBlock } from "./code-block";
-
-import Table from "@tiptap/extension-table";
-import TableCell from "@tiptap/extension-table-cell";
-import TableHeader from "@tiptap/extension-table-header";
-import TableRow from "@tiptap/extension-table-row";
-import Link from "@tiptap/extension-link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Save } from "lucide-react";
+import { Edit2, Info, Save } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { useCustomEditor } from "../hooks/use-custom-editor";
+import TypoStyle from "./typo-style";
 
 export default function Editor({
   title,
@@ -30,77 +21,45 @@ export default function Editor({
   updatedAt: Date;
   createdAt: Date
 }) {
-  const lowlight = setUpCodeBlock();
+
   const [toggleMd, setToggleMd] = useState(true);
-  const [edit, setEdit] = useState(false);
   const [saved, setSaved] = useState(true);
   const [markdownText, setMarkdownText] = useState(body);
 
-  const editor = useEditor({
-    extensions: [
-      
-      StarterKit.configure({
-        heading: { levels: [1, 2, 3] },
-        horizontalRule: {
-          HTMLAttributes: {
-            class: "py-0! my-3! border! border-muted-foreground!",
-          },
-        },
-      }),
-
-      CodeBlockLowlight.configure({
-        lowlight,
-        defaultLanguage: "plaintext",
-      }),
-      Typography,
-      Document,
-      Table,
-      TableCell,
-      TableHeader,
-      TableRow,
-      Link,
-      Markdown.configure({
-        html: false,
-        tightLists: true,
-        bulletListMarker: "-",
-        linkify: true,
-        breaks: false,
-        transformPastedText: true,
-        transformCopiedText: true,
-      }),
-    ],
-    content: body,
-    immediatelyRender: false,
-    editorProps: {
-      attributes: {
-        class: "bg-muted w-full min-h-[calc(100dvh-200px)] p-2 block  ",
-      },
-    },
-  });
-
-  function handleEdit() {
-    editor?.setEditable(true);
-    setEdit(true);
-    setSaved(false);
-  }
+  const editor = useCustomEditor(body);
 
   function handleSave() {
-    editor?.setEditable(false);
-    setEdit(false);
     setSaved(true);
   }
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const initialMarkdown = body;
+    const handleUpdate = () => {
+      const currentMarkdown = editor.storage.markdown.getMarkdown();
+      setSaved(currentMarkdown === initialMarkdown);
+    };
+
+    editor.on("update", handleUpdate);
+
+    return () => {
+      editor.off("update", handleUpdate);
+    };
+  }, [editor, body]);
 
 
   useEffect(() => {
     if (!editor) return;
-    editor.setEditable(false);
+
     if (!toggleMd) {
       const md = editor.storage.markdown.getMarkdown();
       setMarkdownText(md);
     }
   }, [toggleMd, editor]);
 
-  const handleToggle = () => {
+
+  function handleToggle() {
     if (!editor) return;
 
     if (!toggleMd) {
@@ -112,62 +71,60 @@ export default function Editor({
 
   return (
     <section className="w-full p-1 min-h-[calc(100dvh-80px)]">
-      <div className="w-full mb-2 flex justify-between px-2">
-        <div>
-          <h1 className="text-2xl font-bold">{title}</h1>
-          <p className="text-sm" title={createdAt.toString()}>
+      <div className="w-full mb-1 flex justify-between px-2 gap-2">
+        <div className=" ">
+          {/* <h1 className="text-2xl font-bold">{title}</h1> */}
+          <form className="relative">
+            <Input type="text" defaultValue={title} className="peer font-bold text-2xl md:text-3xl" />
+            <Edit2 className="inline size-4 absolute top-2.5 right-1 peer-focus:hidden pointer-events-none" />
+          </form>
+          <p className="text-xs text-primary/50 font-medium pl-2 mt-1" title={createdAt.toString()}>
             Last Saved: {updatedAt.toLocaleDateString()}
+            <span className="empty:hidden bg-red-500/20 select-none text-red-500 px-1 rounded-sm ml-1">{!saved && "not saved"}</span>
           </p>
         </div>
-        <div className="space-x-1">
-          { saved &&
-            <Button size="sm" className="cursor-pointer" onClick={handleEdit}>Edit</Button>
-          }
-          {
-            edit &&
-            <>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleToggle}
-                className="cursor-pointer hover:bg-muted-foreground/20"
-              >
-                {toggleMd ? "Markdown" : "Rich Text"}
-              </Button>
-              <Button onClick={handleSave} size="sm" className="cursor-pointer bg-green-600 hover:bg-green-500">
-                <Save /> Save
-              </Button>
-            </>
-          }
+
+        <div className="space-x-1 shrink-0 flex">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleToggle}
+            className="cursor-pointer hover:bg-muted-foreground/20"
+          >
+            {toggleMd ? "Markdown" : "Rich Text"}
+          </Button>
+
+          <Button disabled={saved} onClick={handleSave} size="sm" className="cursor-pointer bg-green-600 hover:bg-green-500">
+            <Save /> Save
+          </Button>
+
+          <Button size="sm" variant="destructive" className="cursor-pointer" disabled={saved}>
+            Cancel
+          </Button>
         </div>
       </div>
 
-      <div className="">
-        <div
-          className="max-w-full min-h-[calc(100dvh-150px)] 
-          prose dark:prose-invert 
-          prose-li:leading-7 prose-li:my-0 prose-li:py-0 prose-p:in-prose-li:p-0
-          prose-headings:py-0 prose-headings:my-2 
-          prose-p:leading-6 prose-p:my-0 prose-p:py-1
-          prose-code:bg-[oklch(0.205_0_0)] prose-code:px-1.5 prose-code:rounded-xs prose-code:text-white prose-code:my-0 prose-code:font-medium
-          prose-blockquote:my-1 prose-blockquote:py-1
-          prose-pre:bg-[oklch(0.205_0_0)] prose-code:in-prose-pre:bg-transparent prose-code:in-prose-pre:text-white prose-pre:my-2 prose-pre:w-max
-          prose-a:text-blue-500 prose-a:underline prose-a:cursor-pointer prose-a:hover:no-underline
-          prose-table:w-fit prose-th:px-2 prose-tr:py-1 prose-td:p-0 prose-table:border prose-td:border prose-th:border prose-table:**:border-black
-        "
-        >
-          {toggleMd && edit && <MenuBar editor={editor} />}
-          {toggleMd ? (
-            <EditorContent editor={editor} />
-          ) : (
-            <Textarea
-              value={markdownText}
-              onChange={(e) => setMarkdownText(e.target.value)}
-              className=" w-full font-mono text-sm min-h-[calc(100dvh-150px)]"
-            />
-          )}
-        </div>
-
+      <div>
+        <TypoStyle>
+          <div className="relative max-w-full min-h-[calc(100dvh-180px)] ">
+            {toggleMd && !saved && <MenuBar editor={editor} />}
+            {toggleMd ?
+              <EditorContent editor={editor} />
+              :
+              <Textarea
+                value={markdownText}
+                onChange={(e) => setMarkdownText(e.target.value)}
+                className=" w-full bg-muted font-mono text-sm min-h-[calc(100dvh-180px)]"
+              />
+            }
+            {!saved && <div className="absolute top-13 right-1">
+              <Button size="sm" variant="outline" className="size-7 rounded-full hover:shadow-md cursor-pointer"><Info /></Button>
+            </div>}
+          </div>
+          <div className="w-full bg-muted-foreground/20">
+           { editor?.storage.characterCount.characters()} characters {editor?.storage.characterCount.words()} words
+          </div>
+        </TypoStyle>
 
       </div>
     </section>
