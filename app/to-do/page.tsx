@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TodoTable from "@/features/to-do/components/todo-table";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import FilterTodo from "@/features/to-do/components/filter-todo";
@@ -39,7 +39,7 @@ export default function TodoPage() {
     const pageCount = Math.ceil(filteredTodos.length / ITEMS_PER_PAGE);
     const paginatedTodos = filteredTodos.slice(
         page * ITEMS_PER_PAGE,
-        page * ITEMS_PER_PAGE + ITEMS_PER_PAGE
+        page * ITEMS_PER_PAGE + ITEMS_PER_PAGE,
     );
 
     return (
