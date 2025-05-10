@@ -2,7 +2,7 @@ import { db } from "@/database/drizzle";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import * as schema from "@/database/auth-schema";
-// import { resend } from "@/lib/resend";
+import { resend } from "@/lib/resend";
 import SingUpVerificationTemplate from "@/components/resend/sing-up-verification-template";
 
 export const auth = betterAuth({
