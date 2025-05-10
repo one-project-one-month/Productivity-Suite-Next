@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-const AuthLayout = ({ children }: { children: ReactNode }) => {
+const AuthLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <main
       className={
