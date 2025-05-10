@@ -27,3 +27,11 @@ jobs:
 
       - name: Run tests
         run: bun test
+
+      - name: Build the project
+        run: bun build
+        env:
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
+          BETTER_AUTH_SECRET: ${{secrets.BETTER_AUTH_SECRET}}
+          BETTER_AUTH_URL: ${{secrets.BETTER_AUTH_URL}}
+          RESEND_API_KEY: ${{secrets.RESEND_API_KEY}}
