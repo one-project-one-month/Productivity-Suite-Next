@@ -34,3 +34,12 @@ export const SignUpFormSchema = createInsertSchema(user, {
   });
 
 export type SignUpSchema = Zod.infer<typeof SignUpFormSchema>;
+
+export const SignInFormSchema = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters" }),
+});
+
+export type SignInSchema = Zod.infer<typeof SignInFormSchema>;
