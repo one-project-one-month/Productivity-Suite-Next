@@ -7,15 +7,8 @@ type ViewTimerProps = {
   setIsEditingTime: (val: boolean) => void;
 };
 
-const ViewTimer = ({
-  isEditingTime,
-  setIsEditingTime,
-}: ViewTimerProps) => {
-const {
-    time,
-    setTime,
-    pauseTimer,
-  } = usePomodoro();
+const ViewTimer = ({ isEditingTime, setIsEditingTime }: ViewTimerProps) => {
+  const { time, setTime, pauseTimer } = usePomodoro();
 
   const editValueHandler = () => {
     setIsEditingTime(!isEditingTime);
