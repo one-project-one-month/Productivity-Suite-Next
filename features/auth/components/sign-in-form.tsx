@@ -1,6 +1,6 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { SignUpFormSchema, SignUpSchema } from "@/database/validators";
+import { SignInFormSchema, SignInSchema } from "@/database/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -9,19 +9,18 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import PasswordField from "./password-field";
+import PasswordField from "@/features/auth/components/password-field";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import { authClient } from "@/lib/client-auth";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-const SignUpForm = () => {
-  const form = useForm<SignUpSchema>({
-    resolver: zodResolver(SignUpFormSchema),
+const SignInForm = () => {
+  const form = useForm<SignInSchema>({
+    resolver: zodResolver(SignInFormSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -29,41 +28,33 @@ const SignUpForm = () => {
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<SignUpSchema> = async (values) => {
-    await authClient.signUp.email(
+  const onSubmit: SubmitHandler<SignInSchema> = async (values) => {
+    await authClient.signIn.email(
       {
         ...values,
       },
       {
         onSuccess: () => {
-          toast.success("Sign up successfully");
-          router.replace("/auth/sign-in");
+          toast.success("Sign In successfully");
+          router.push("/");
         },
         onError: (ctx) => {
-          toast.error("Sign up failed", { description: ctx.error.message });
+          toast.error("Sign In Failed", {
+            description: ctx.error.message,
+            classNames: {
+              description: "!text-black",
+            },
+          });
         },
       },
     );
   };
-
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className={"py-6 flex flex-col gap-y-4"}
       >
-        <FormField
-          control={form.control}
-          name={"name"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Full name:</FormLabel>
-              <FormControl>
-                <Input placeholder={"Eg: Super Mario"} {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name={"email"}
@@ -89,17 +80,17 @@ const SignUpForm = () => {
           )}
         />
         <Button
-          className={"mt-4 w-full"}
+          className={"mt-2 w-full"}
           type={"submit"}
           disabled={form.formState.isSubmitting || !form.formState.isValid}
         >
           {form.formState.isSubmitting ? (
             <>
               <Loader2 className={"mr-2 inline-block animate-spin"} />
-              <span>Signing Up..</span>
+              <span>Signing In..</span>
             </>
           ) : (
-            <span>Sign Up</span>
+            <span>Sign In</span>
           )}
         </Button>
       </form>
@@ -107,4 +98,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignInForm;
