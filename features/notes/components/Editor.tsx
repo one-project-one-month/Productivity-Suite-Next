@@ -4,11 +4,13 @@ import { EditorContent } from "@tiptap/react";
 import MenuBar from "./menu";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Edit2, Info, Save } from "lucide-react";
+import { Edit2, Save } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useCustomEditor } from "../hooks/use-custom-editor";
 import TypoStyle from "./typo-style";
+import Help from "./help/help-dialog";
+import CancelBtn from "./cancel-btn";
 
 export default function Editor({
   title,
@@ -29,6 +31,11 @@ export default function Editor({
   const editor = useCustomEditor(body);
 
   function handleSave() {
+    setSaved(true);
+  }
+
+  function handleCancel() {
+    editor?.commands.setContent(body);
     setSaved(true);
   }
 
@@ -71,17 +78,13 @@ export default function Editor({
 
   return (
     <section className="w-full p-1 min-h-[calc(100dvh-80px)]">
-      <div className="w-full mb-1 flex justify-between px-2 gap-2">
+      <div className="w-full flex justify-between px-2 gap-2">
         <div className=" ">
           {/* <h1 className="text-2xl font-bold">{title}</h1> */}
           <form className="relative">
-            <Input type="text" defaultValue={title} className="peer font-bold text-2xl md:text-3xl" />
-            <Edit2 className="inline size-4 absolute top-2.5 right-1 peer-focus:hidden pointer-events-none" />
+            <Input type="text" defaultValue={title} disabled={saved} className="peer disabled:opacity-100 pl-1 field-sizing-content min-[540px]:max-w-64 max-w-32 sm:max-w-80 md:max-w-[480px] lg:max-w-[720px] pr-6 font-bold text-xl md:text-xl shadow-none outline-none border-0" />
+            {!saved && <Edit2 className="inline size-4 absolute top-2.5 right-1 peer-focus:hidden pointer-events-none " />}
           </form>
-          <p className="text-xs text-primary/50 font-medium pl-2 mt-1" title={createdAt.toString()}>
-            Last Saved: {updatedAt.toLocaleDateString()}
-            <span className="empty:hidden bg-red-500/20 select-none text-red-500 px-1 rounded-sm ml-1">{!saved && "not saved"}</span>
-          </p>
         </div>
 
         <div className="space-x-1 shrink-0 flex">
@@ -94,19 +97,24 @@ export default function Editor({
             {toggleMd ? "Markdown" : "Rich Text"}
           </Button>
 
-          <Button disabled={saved} onClick={handleSave} size="sm" className="cursor-pointer bg-green-600 hover:bg-green-500">
+          {!saved && <Button disabled={saved} onClick={handleSave} size="sm" className="cursor-pointer text-white bg-green-600 hover:bg-green-500">
             <Save /> Save
-          </Button>
+          </Button>}
 
-          <Button size="sm" variant="destructive" className="cursor-pointer" disabled={saved}>
-            Cancel
-          </Button>
+          {!saved && <CancelBtn handleCancel={handleCancel} />}
         </div>
+      </div>
+
+      <div className="">
+        <p className="text-xs text-primary/50 pl-3 mb-0.5" title={createdAt.toString()}>
+            Last Saved: {updatedAt.toLocaleDateString()}
+            <span className="empty:hidden bg-red-500/20 select-none text-red-500 px-1 rounded-sm ml-1">{!saved && "not saved"}</span>
+          </p>
       </div>
 
       <div>
         <TypoStyle>
-          <div className="relative max-w-full min-h-[calc(100dvh-180px)] ">
+          <div className="relative max-w-full min-h-[calc(100dvh-150px)] ">
             {toggleMd && !saved && <MenuBar editor={editor} />}
             {toggleMd ?
               <EditorContent editor={editor} />
@@ -117,12 +125,13 @@ export default function Editor({
                 className=" w-full bg-muted font-mono text-sm min-h-[calc(100dvh-180px)]"
               />
             }
-            {!saved && <div className="absolute top-13 right-1">
-              <Button size="sm" variant="outline" className="size-7 rounded-full hover:shadow-md cursor-pointer"><Info /></Button>
-            </div>}
+            {!saved && <Help />
+            }
           </div>
-          <div className="w-full bg-muted-foreground/20">
-           { editor?.storage.characterCount.characters()} characters {editor?.storage.characterCount.words()} words
+          <div className="w-full max-w-7xl bg-background text-foreground left-1/2 -translate-x-1/2 fixed bottom-0 z-10 text-right text-sm">
+            <span className="">{editor?.storage.characterCount.characters()} characters</span>
+            <span className="mx-3">{editor?.storage.characterCount.words()} words</span>
+            <span className="mx-3">{2048 - Number(editor?.storage.characterCount.characters()) || 0} remaining</span>
           </div>
         </TypoStyle>
 

@@ -52,7 +52,9 @@ export default function NotePage() {
       
       <div className="flex gap-3 items-center justify-center mb-2">
         <Input type="search" placeholder="search..." className="max-w-md" />
-        <Button className="bg-yellow-400 hover:bg-yellow-500"> <Plus /> New Note</Button>
+        <Button className="bg-yellow-400 hover:bg-yellow-500 cursor-pointer" asChild> 
+          <Link href="/notes/somenote"><Plus /> New Note</Link>
+        </Button>
       </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 p-2 ">

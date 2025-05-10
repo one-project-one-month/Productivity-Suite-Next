@@ -1,7 +1,7 @@
 import { Toggle } from "@/components/ui/toggle";
 import { Editor } from "@tiptap/react";
-import LinkOption from "./link-menu-option";
-import { menuOptions } from "./menu-option";
+import LinkOption from "@/features/notes/components/menu/link-menu-option";
+import { menuOptions } from "@/features/notes/components/menu/menu-option";
 
 export default function MenuBar({ editor }: { editor: Editor | null }) {
   if (!editor) {

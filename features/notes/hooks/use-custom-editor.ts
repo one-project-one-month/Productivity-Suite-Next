@@ -60,7 +60,7 @@ import { setUpCodeBlock } from "../components/code-block";
       immediatelyRender: false,
       editorProps: {
         attributes: {
-          class: "bg-muted w-full min-h-[calc(100dvh-180px)] p-2 block  ",
+          class: "bg-muted w-full min-h-[calc(100dvh-180px)] p-2 block ",
         },
       },
     });

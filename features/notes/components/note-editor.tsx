@@ -8,7 +8,7 @@ export default function NoteEditor() {
     <div className="min-h-[calc(100dvh-80px)]">
         <Editor 
           title="Note-1" 
-          body={"## Header1 \n`poop`\n```js\n console.log('hi') \n```\n > quote text\n\n[google](https://www.google.com) \n\n Hello world"} 
+          body={"# Header-1 \nlorem ipsum `code` dolor sit amet.\n```js\nconsole.log('hello world') \n```\n \n\n## Sub Header \n > quote text\n\n[google](https://www.google.com) \n\n Hello world\n\n "} 
           createdAt={new Date("12 3 2020")}
           updatedAt={new Date("12 3 2020")}
         />
