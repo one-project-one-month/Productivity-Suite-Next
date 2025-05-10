@@ -42,7 +42,7 @@ const SignInForm = () => {
           toast.error("Sign In Failed", {
             description: ctx.error.message,
             classNames: {
-              description: "!text-black",
+              description: "text-black",
             },
           });
         },
