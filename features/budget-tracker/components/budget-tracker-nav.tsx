@@ -4,22 +4,20 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
-import { useState } from "react";
 
 const ALLOWED_ROUTES = ["overview", "analytics", "budgets", "expenses"];
 
 const BudgetTrackerNav = () => {
   const router = useRouter();
   const pathName = usePathname();
+
   const currentTab = pathName.split("/budget-tracker/").pop();
-  const [tab, setTab] = useState(currentTab);
 
   if (!ALLOWED_ROUTES.includes(currentTab || "")) {
     return;
   }
 
   const onTabChange = (value: string) => {
-    setTab(value);
     router.push(`/budget-tracker/${value}`);
   };
 
@@ -29,7 +27,7 @@ const BudgetTrackerNav = () => {
         "flex flex-col gap-y-4 md:flex-row md:justify-between md:items-center"
       }
     >
-      <Tabs value={tab} onValueChange={onTabChange}>
+      <Tabs value={currentTab} onValueChange={onTabChange}>
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
