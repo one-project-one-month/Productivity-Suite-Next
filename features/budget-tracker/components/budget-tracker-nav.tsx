@@ -11,12 +11,13 @@ const ALLOWED_ROUTES = ["overview", "analytics", "budgets", "expenses"];
 const BudgetTrackerNav = () => {
   const router = useRouter();
   const pathName = usePathname();
-  const currentTab = pathName.split("/budget-tracker")[0] || "overview";
+  const currentTab = pathName.split("/budget-tracker/").pop();
+  const [tab, setTab] = useState(currentTab);
 
-  if (!ALLOWED_ROUTES.includes(currentTab)) {
+  if (!ALLOWED_ROUTES.includes(currentTab || "")) {
     return;
   }
-  const [tab, setTab] = useState(currentTab);
+
   const onTabChange = (value: string) => {
     setTab(value);
     router.push(`/budget-tracker/${value}`);
