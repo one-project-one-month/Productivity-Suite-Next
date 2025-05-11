@@ -3,7 +3,6 @@
  * */
 
 import {
-  decimal,
   integer,
   pgTable,
   primaryKey,

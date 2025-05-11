@@ -121,11 +121,11 @@ export default function Editor({
               :
               <Textarea
                 value={markdownText}
-                onChange={(e) => setMarkdownText(e.target.value)}
+                onChange={(e) => {setMarkdownText(e.target.value); setSaved(false);}}
                 className=" w-full bg-muted font-mono text-sm min-h-[calc(100dvh-180px)]"
               />
             }
-            {!saved && <Help />
+            {!saved && <Help md={toggleMd} />
             }
           </div>
           <div className="w-full max-w-7xl bg-background text-foreground left-1/2 -translate-x-1/2 fixed bottom-0 z-10 text-right text-sm">
