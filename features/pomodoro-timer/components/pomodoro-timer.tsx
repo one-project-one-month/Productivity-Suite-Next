@@ -44,12 +44,11 @@ export function PomodoroTimer() {
     pauseTimer();
   };
 
-
   return (
     <>
       <Card className="w-[350px]">
         <CardHeader>
-          <AddNewPomodoro/>
+          <AddNewPomodoro />
           <CardTitle className="text-center text-2xl">
             {timerState === "work" && "Focus Time"}
             {timerState === "shortBreak" && "Short Break"}
@@ -67,9 +66,12 @@ export function PomodoroTimer() {
                   }}
                 ></div>
               </div>
-             {
-              <ViewTimer isEditingTime={isEditingTime} setIsEditingTime={setIsEditingTime}/>
-             }
+              {
+                <ViewTimer
+                  isEditingTime={isEditingTime}
+                  setIsEditingTime={setIsEditingTime}
+                />
+              }
             </div>
             <div className="text-sm text-muted-foreground">
               Completed Pomodoros: {pomodoroCount}

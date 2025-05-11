@@ -4,25 +4,24 @@ import { useState, useEffect, useCallback } from "react";
 
 type TimerState = "work" | "shortBreak" | "longBreak" | "idle";
 
-  interface UsePomodoroReturn {
-      time: number;
-      setTime:(time: number) => void;
-      isActive: boolean;
-      timerState: TimerState;
-      setTimerState: (state: TimerState) => void;
-      pomodoroCount: number;
-      startTimer: () => void;
-      pauseTimer: () => void;
-      resetTimer: () => void;
-    }
+interface UsePomodoroReturn {
+  time: number;
+  setTime: (time: number) => void;
+  isActive: boolean;
+  timerState: TimerState;
+  setTimerState: (state: TimerState) => void;
+  pomodoroCount: number;
+  startTimer: () => void;
+  pauseTimer: () => void;
+  resetTimer: () => void;
+}
 
-
-  export const usePomodoro = () : UsePomodoroReturn => {
-    const [mounted, setMounted] = useState(false);
-    const [time, setTime] = useState(25 * 60);
-    const [isActive, setIsActive] = useState(false);
-    const [timerState, setTimerState] = useState<TimerState>("idle");
-    const [pomodoroCount, setPomodoroCount] = useState(0);
+export const usePomodoro = (): UsePomodoroReturn => {
+  const [mounted, setMounted] = useState(false);
+  const [time, setTime] = useState(25 * 60);
+  const [isActive, setIsActive] = useState(false);
+  const [timerState, setTimerState] = useState<TimerState>("idle");
+  const [pomodoroCount, setPomodoroCount] = useState(0);
 
   // Add mounted check
   useEffect(() => {
@@ -43,7 +42,6 @@ type TimerState = "work" | "shortBreak" | "longBreak" | "idle";
     setTimerState("idle");
     setTime(25 * 60);
   }, []);
-  
 
   const switchToBreak = useCallback(() => {
     const isLongBreak = pomodoroCount > 0 && (pomodoroCount + 1) % 4 === 0;
@@ -77,7 +75,7 @@ type TimerState = "work" | "shortBreak" | "longBreak" | "idle";
     setTime,
     isActive,
     timerState,
-    setTimerState, 
+    setTimerState,
     pomodoroCount,
     startTimer,
     pauseTimer,
