@@ -4,10 +4,10 @@ import { DescriptionDialog } from "./description-dialog"
 import { StatusDropdown } from "./status-dropdown"
 import { ActionDropdown } from "./action-dropdown"
 import { cn } from "@/lib/utils"
-import { DisplayTodo } from "@/app/to-do/page"
+import { TodoSchema } from "../types/todo-schema"
 
 type TodoTableProps = {
-    todos: DisplayTodo[]
+    todos: TodoSchema[]
 }
 
 const TodoTable = ({ todos }: TodoTableProps) => {
@@ -30,7 +30,10 @@ const TodoTable = ({ todos }: TodoTableProps) => {
                     {todos.length > 0 ? todos.map((todo: any) => (
                         <TableRow key={todo.id}>
                             <TableCell className="py-4">{todo.id}</TableCell>
-                            <TableCell>{todo.title}</TableCell>
+                            <TableCell className={cn("px-2 py-1 rounded font-medium",
+                                todo.status === "COMPLETED" && "strike line-through",
+                                todo.status === "OVERDUE" && "text-destructive"
+                            )}>{todo.title}</TableCell>
                             <TableCell><DescriptionDialog title={todo.title} description={todo.description} /></TableCell>
                             <TableCell>{new Date(todo.dueAt).toLocaleDateString()}</TableCell>
                             <TableCell>{todo.priority}</TableCell>

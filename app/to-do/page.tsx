@@ -9,18 +9,15 @@ import { TodoSchema } from "@/features/to-do/types/todo-schema";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
-export type DisplayTodo = TodoSchema & {
-    status: "PENDING" | "COMPLETED" | "OVERDUE";
-};
 
 // sample data
-const sampleTodos: DisplayTodo[] = Array.from({ length: 50 }, (_, i) => ({
-    id: i + 1,
+const sampleTodos: TodoSchema[] = Array.from({ length: 50 }, (_, i) => ({
+    id: (i + 1).toString(),
     title: `Task ${i + 1}`,
     description: `This is the description for task ${i + 1}`,
     dueAt: new Date("2025-05-20T10:00:00Z"),
     status: i % 3 === 0 ? "PENDING" : i % 3 === 1 ? "COMPLETED" : "OVERDUE",
-    priority: ((i % 3) + 1).toString() as "1" | "2" | "3",
+    priority: ((i % 3) + 1).toString(),
 }));
 
 // const sampleTodos: DisplayTodo[] = []
