@@ -37,11 +37,10 @@ const SignUpForm = () => {
       {
         onSuccess: () => {
           toast.success("Sign up successfully");
-          router.replace("/");
+          router.replace("/auth/sign-in");
         },
         onError: (ctx) => {
-          console.log(ctx);
-          toast.error("Sign up failed");
+          toast.error("Sign up failed", { description: ctx.error.message });
         },
       },
     );

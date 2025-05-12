@@ -30,7 +30,7 @@ export const navRoutes: TNavItems[] = [
   {
     name: "Budget Tracker",
     icon: <DollarSign />,
-    link: "/budget",
+    link: "/budget-tracker/overview",
     color: "#6a0572",
   },
 ];
