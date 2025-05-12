@@ -7,7 +7,7 @@ type RecentExpenseProps = {
   amount: number;
   category: string;
 };
-const RecentExpense = ({
+const Expense = ({
   title,
   budgetTitle,
   amount,
@@ -16,7 +16,7 @@ const RecentExpense = ({
 }: RecentExpenseProps) => {
   return (
     <article
-      className={"py-4 flex items-center justify-between capitalize border-b-1"}
+      className={"py-4 flex items-start justify-between capitalize border-b-1"}
     >
       <div>
         <h1 className={"text-lg font-bold"}>{title}</h1>
@@ -25,7 +25,7 @@ const RecentExpense = ({
           <span className={"ml-4"}>{budgetTitle}</span>
         </p>
       </div>
-      <div>
+      <div className={"text-right"}>
         <p className={"text-lg font-bold"}>${amount}</p>
         <p className={"font-medium text-gray-500"}>{category}</p>
       </div>
@@ -33,4 +33,4 @@ const RecentExpense = ({
   );
 };
 
-export default RecentExpense;
+export default Expense;

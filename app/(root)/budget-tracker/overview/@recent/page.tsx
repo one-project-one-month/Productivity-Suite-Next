@@ -1,5 +1,5 @@
 import { RECENT_EXPENSES_PLACEHOLDER } from "@/constants";
-import RecentExpense from "@/features/budget-tracker/components/recent-expense";
+import Expense from "@/features/budget-tracker/components/expense";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -12,7 +12,7 @@ const RecentTransactionPage = () => {
       </p>
       <div className={"lg:max-h-[300px] overflow-y-scroll lg:px-4"}>
         {RECENT_EXPENSES_PLACEHOLDER.map((item, idx) => (
-          <RecentExpense {...item} key={idx} />
+          <Expense {...item} key={idx} />
         ))}
       </div>
       <Button asChild={true} variant={"outline"} className={"mt-4"}>
