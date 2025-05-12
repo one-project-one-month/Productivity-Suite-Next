@@ -6,8 +6,8 @@ const HomePage = async () => {
   const _session = await getUserSession();
   return (
     <>
-    <HeroSection/>
-    <CardSection/>
+      <HeroSection />
+      <CardSection />
     </>
   );
 };

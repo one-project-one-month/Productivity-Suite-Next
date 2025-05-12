@@ -36,9 +36,7 @@ interface PomodoroTask {
 
 const AddNewPomodoro = () => {
   // State to hold overall Pomodoro task data
-  const {
-      startTimer,
-    } = usePomodoro();
+  const { startTimer } = usePomodoro();
   const [task, setTask] = useState<PomodoroTask>({
     category: "",
     description: "",
@@ -250,7 +248,9 @@ const AddNewPomodoro = () => {
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
               <DialogClose asChild>
-                <Button type="submit" onClick={startTimer}>Start Pomodoro</Button>
+                <Button type="submit" onClick={startTimer}>
+                  Start Pomodoro
+                </Button>
               </DialogClose>
             </div>
           </form>

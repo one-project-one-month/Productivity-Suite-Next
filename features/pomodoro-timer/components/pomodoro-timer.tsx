@@ -213,7 +213,11 @@ export function PomodoroTimer() {
               >
                 Reset
               </Button>
-              <Button onClick={handleEditTime} className="cursor-pointer" disabled={isActive}>
+              <Button
+                onClick={handleEditTime}
+                className="cursor-pointer"
+                disabled={isActive}
+              >
                 {isEditingTime ? "Done" : "Edit"}
               </Button>
             </div>
