@@ -88,7 +88,7 @@ export const notes = pgTable("note", {
 
 export const category = pgTable("category", {
   id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
-  name: varchar("category", { length: 255 }).notNull(),
+  name: varchar("category", { length: 255 }).notNull().unique(),
 });
 
 export const transactions = pgTable("transaction", {

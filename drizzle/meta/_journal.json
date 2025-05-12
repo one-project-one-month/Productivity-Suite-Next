@@ -8,6 +8,13 @@
       "when": 1746974754580,
       "tag": "0000_hesitant_maestro",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1747064636004,
+      "tag": "0001_mighty_talon",
+      "breakpoints": true
     }
   ]
 }
