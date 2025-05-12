@@ -11,7 +11,7 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import { TimerType, TodoStatus } from "@/database/enums";
+import { CurrencyType, TimerType, TodoStatus } from "@/database/enums";
 import { user } from "@/database/auth-schema";
 
 export const timers = pgTable("timer", {
@@ -88,7 +88,7 @@ export const notes = pgTable("note", {
 
 export const category = pgTable("category", {
   id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
-  name: varchar("category", { length: 255 }).notNull().unique(),
+  name: varchar("category", { length: 255 }).notNull(),
 });
 
 export const transactions = pgTable("transaction", {
@@ -115,9 +115,9 @@ export const budget = pgTable("budget", {
   amount: integer("amount").notNull(),
   categoryId: uuid("category_id")
     .references(() => category.id)
-    .notNull()
-    .unique(),
+    .notNull(),
   amountSpent: integer("amountSpent").notNull().default(0),
   durationFrom: timestamp("duration_from", { withTimezone: true }).notNull(),
   durationTo: timestamp("duration_to", { withTimezone: true }).notNull(),
+  currency: CurrencyType("currency").notNull().default("MMK"),
 });
