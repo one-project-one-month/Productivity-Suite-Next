@@ -40,9 +40,10 @@ const CardSection = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   //show images based on the hover image
-  const backgroundImage = hoveredIndex !== null
-    ? sectionBackgrounds.find((item) => item.index === hoveredIndex)?.image
-    : null;
+  const backgroundImage =
+    hoveredIndex !== null
+      ? sectionBackgrounds.find((item) => item.index === hoveredIndex)?.image
+      : null;
 
   return (
     <section
@@ -55,7 +56,7 @@ const CardSection = () => {
         backgroundBlendMode: "overlay",
       }}
     >
-      <div className="md:grid md:grid-cols-1 flex flex-col items-center justify-center gap-6 w-full max-w-7xl">
+      <div className="md:grid md:grid-cols-4 flex flex-col items-center justify-center gap-6 w-full max-w-7xl">
         {cards.map((card, index) => (
           <div key={index} className="relative">
             <CardData

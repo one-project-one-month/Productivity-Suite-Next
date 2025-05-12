@@ -42,7 +42,6 @@ const CardData = ({
           className="w-full h-full cursor-pointer bg-transparent z-10 p-0"
         >
           <Card className="relative w-full h-full overflow-hidden">
-
             {/* Image with blur effect on hover */}
             <motion.div
               initial={{ filter: "blur(0px)" }}
