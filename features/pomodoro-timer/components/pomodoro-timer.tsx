@@ -84,7 +84,6 @@ export function PomodoroTimer() {
       <Card className="w-[350px]">
         <CardHeader>
           <AddNewPomodoro />
-          <AddNewPomodoro />
           <CardTitle className="text-center text-2xl">
             {timerState === "work" && "Focus Time"}
             {timerState === "shortBreak" && "Short Break"}
