@@ -4,24 +4,35 @@ import { useState, useEffect, useCallback } from "react";
 
 type TimerState = "work" | "shortBreak" | "longBreak" | "idle";
 
-interface UsePomodoroReturn {
-  time: number;
-  setTime: (time: number) => void;
-  isActive: boolean;
-  timerState: TimerState;
-  setTimerState: (state: TimerState) => void;
-  pomodoroCount: number;
-  startTimer: () => void;
-  pauseTimer: () => void;
-  resetTimer: () => void;
-}
+  interface UsePomodoroReturn {
+      time: number;
+      setTime:(time: number) => void;
+      workTime: number;
+      setWorkTime:(time: number) => void;
+      shortBreakTime: number;
+      setShortBreakTime:(time: number) => void;
+      longBreakTime: number;
+      setLongBreakTime:(time: number) => void;
+      isActive: boolean;
+      timerState: TimerState;
+      setTimerState: (state: TimerState) => void;
+      pomodoroCount: number;
+      startTimer: () => void;
+      pauseTimer: () => void;
+      resetTimer: () => void;
+    }
 
-export const usePomodoro = (): UsePomodoroReturn => {
-  const [mounted, setMounted] = useState(false);
-  const [time, setTime] = useState(25 * 60);
-  const [isActive, setIsActive] = useState(false);
-  const [timerState, setTimerState] = useState<TimerState>("idle");
-  const [pomodoroCount, setPomodoroCount] = useState(0);
+
+  export const usePomodoro = () : UsePomodoroReturn => {
+    const [mounted, setMounted] = useState(false);
+    const [time, setTime] = useState<number>(25 * 60);
+    const [workTime, setWorkTime] = useState<number>(25 * 60);
+    const [shortBreakTime, setShortBreakTime] = useState<number>(5 * 60);
+    const [longBreakTime, setLongBreakTime] = useState<number>(15 * 60);
+    const [isActive, setIsActive] = useState(false);
+    const [timerState, setTimerState] = useState<TimerState>("idle");
+    const [pomodoroCount, setPomodoroCount] = useState(0);
+const [workCompleted, setWorkCompleted] = useState(false);
 
   // Add mounted check
   useEffect(() => {
@@ -30,8 +41,14 @@ export const usePomodoro = (): UsePomodoroReturn => {
 
   const startTimer = useCallback(() => {
     setIsActive(true);
-    setTimerState("work");
-  }, []);
+    if(timerState==="shortBreak"){
+      setTimerState("shortBreak");
+    }else if(timerState==="longBreak"){
+      setTimerState("longBreak");
+    }else{
+      setTimerState("work");
+    }
+  }, [timerState]);
 
   const pauseTimer = useCallback(() => {
     setIsActive(false);
@@ -40,39 +57,50 @@ export const usePomodoro = (): UsePomodoroReturn => {
   const resetTimer = useCallback(() => {
     setIsActive(false);
     setTimerState("idle");
-    setTime(25 * 60);
   }, []);
 
   const switchToBreak = useCallback(() => {
     const isLongBreak = pomodoroCount > 0 && (pomodoroCount + 1) % 4 === 0;
     setTimerState(isLongBreak ? "longBreak" : "shortBreak");
-    setTime(isLongBreak ? 15 * 60 : 5 * 60);
-  }, [pomodoroCount]);
+    setTime(isLongBreak ? longBreakTime : shortBreakTime);
+  }, [pomodoroCount,longBreakTime,shortBreakTime]);
 
   useEffect(() => {
-    if (!mounted) return; // Only run timer effect when component is mounted
+  if (!mounted) return;
 
-    let interval: NodeJS.Timeout;
+  let interval: NodeJS.Timeout;
 
-    if (isActive && time > 0) {
-      interval = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
-      }, 1000);
-    } else if (time === 0) {
-      if (timerState === "work") {
+  if (isActive && time > 0) {
+    interval = setInterval(() => {
+      setTime((prevTime) => prevTime - 1);
+    }, 1000);
+  } else if (time === 0) {
+    if (timerState === "work") {
+      setWorkCompleted(true); // Mark that a work session finished
+      switchToBreak();
+    } else if (timerState === "shortBreak") {
+      if (workCompleted) {
         setPomodoroCount((prev) => prev + 1);
-        switchToBreak();
-      } else {
-        resetTimer();
+        setWorkCompleted(false); // Reset after counting
       }
+      resetTimer();
+    } else {
+      resetTimer(); // for long break or other states
     }
+  }
 
-    return () => clearInterval(interval);
-  }, [isActive, time, timerState, switchToBreak, resetTimer, mounted]);
+  return () => clearInterval(interval);
+}, [isActive, time, timerState, switchToBreak, resetTimer, mounted, workCompleted]);
 
   return {
     time,
     setTime,
+    workTime,
+    setWorkTime,
+    shortBreakTime,
+    setShortBreakTime,
+    longBreakTime,
+    setLongBreakTime,
     isActive,
     timerState,
     setTimerState,

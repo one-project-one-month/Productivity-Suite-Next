@@ -49,6 +49,7 @@
     "drizzle-orm": "^0.43.1",
     "drizzle-zod": "^0.7.1",
     "eslint-plugin-drizzle": "^0.2.3",
+    "framer-motion": "^12.10.5",
     "highlight.js": "^11.11.1",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.509.0",
