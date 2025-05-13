@@ -91,22 +91,6 @@ export const category = pgTable("category", {
   name: varchar("category", { length: 255 }).notNull().unique(),
 });
 
-export const transactions = pgTable("transaction", {
-  id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
-  userId: text("user_id")
-    .references(() => user.id, { onDelete: "cascade" })
-    .notNull(),
-  categoryId: uuid("category_id")
-    .references(() => category.id)
-    .notNull(),
-  amount: integer("amount").notNull(),
-  description: text("description"),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .defaultNow()
-    .notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }),
-});
-
 export const budget = pgTable("budget", {
   id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
   userId: text("user_id")
@@ -120,4 +104,20 @@ export const budget = pgTable("budget", {
   durationFrom: timestamp("duration_from", { withTimezone: true }).notNull(),
   durationTo: timestamp("duration_to", { withTimezone: true }).notNull(),
   currency: CurrencyType("currency").notNull().default("MMK"),
+});
+
+export const transactions = pgTable("transaction", {
+  id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+  userId: text("user_id")
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
+  budgetId: uuid("budget_id")
+    .references(() => budget.id)
+    .notNull(),
+  amount: integer("amount").notNull(),
+  description: text("description"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }),
 });

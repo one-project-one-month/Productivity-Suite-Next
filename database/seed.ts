@@ -10,30 +10,30 @@ export const BUDGET_PLANS = [
     title: "Monthly Groceries",
     description: "Budget for all grocery shopping",
     category: "Food",
-    amount: 600,
+    amount: 800,
   },
   {
     title: "Entertainment",
     description: "Movies, games, and other entertainment",
-    amount: 200,
+    amount: 600,
   },
   {
     title: "Utilities",
     description: "Electricity, water, and internet bills",
     category: "Housing",
-    amount: 350,
+    amount: 600,
   },
   {
     title: "Dining Out",
     description: "Restaurants and takeout",
     category: "Food",
-    amount: 400,
+    amount: 1000,
   },
   {
     title: "Transportation",
     description: "Gas, public transit, and car maintenance",
     category: "Transport",
-    amount: 300,
+    amount: 600,
   },
 ];
 
@@ -75,13 +75,13 @@ try {
   const generatedExpenses = generatedBudgetPlans.map(async (item) => {
     const len = faker.helpers.rangeToNumber({ min: 5, max: 10 });
     const expenses = Array.from({ length: len }, async () => {
-      const amount = faker.helpers.rangeToNumber({ min: 10, max: 25 });
+      const amount = faker.helpers.rangeToNumber({ min: 40, max: 80 });
       return db
         .insert(transactions)
         .values({
           userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
           amount: amount,
-          categoryId: item.categoryId,
+          budgetId: item.id,
           description: faker.lorem.words(8),
         })
         .returning();
