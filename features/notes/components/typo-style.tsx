@@ -1,8 +1,9 @@
 import React from "react";
 
-export default function TypoStyle({children}: {children: React.ReactNode}) {
+export default function TypoStyle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="
+    <div
+      className="
       max-w-full min-h-full bg-muted
       prose dark:prose-invert 
       prose-li:leading-7 prose-li:my-0 prose-li:py-0 prose-p:in-prose-li:p-0
@@ -13,7 +14,8 @@ export default function TypoStyle({children}: {children: React.ReactNode}) {
       prose-pre:bg-[oklch(0.205_0_0)] prose-code:in-prose-pre:bg-transparent prose-code:in-prose-pre:text-white prose-pre:my-2 prose-pre:text-wrap prose-pre:hyphens-auto prose-code:in-prose-pre:text-wrap
       prose-a:text-blue-500 prose-a:underline prose-a:cursor-pointer prose-a:hover:no-underline
       prose-table:w-fit prose-th:px-2 prose-tr:py-1 prose-td:p-0 prose-table:border prose-td:border prose-th:border prose-table:**:border-black
-    ">
+    "
+    >
       {children}
     </div>
   );

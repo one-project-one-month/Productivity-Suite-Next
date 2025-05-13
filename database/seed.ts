@@ -39,9 +39,10 @@ export const BUDGET_PLANS = [
 
 async function cleanUp() {
   // eslint-disable-next-line drizzle/enforce-delete-with-where
-  await db.delete(budget);
-  // eslint-disable-next-line drizzle/enforce-delete-with-where
   await db.delete(transactions);
+  // eslint-disable-next-line drizzle/enforce-delete-with-where
+  await db.delete(budget);
+
   // eslint-disable-next-line drizzle/enforce-delete-with-where
   await db.delete(category);
 }

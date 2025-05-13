@@ -1,27 +1,33 @@
 import SummaryCard from "@/features/budget-tracker/components/summary-card";
+import { getBudgetsOverview } from "@/features/budget-tracker/actions/get-budgets-overview";
+import { notFound } from "next/navigation";
 
-const BudgetTrackerOverviewPage = () => {
+const BudgetTrackerOverviewPage = async () => {
+  const data = await getBudgetsOverview();
+  if (!data) return notFound();
+  const percentSpent = Math.round((data.amountSpent / data.totalBudget) * 100);
+
   return (
     <>
       <SummaryCard
         title={"Total Budget"}
-        data={"$4550"}
+        data={`$${data.totalBudget}`}
         description={"Across all category"}
       />
       <SummaryCard
         title={"Total Spent"}
-        data={"$2345.5"}
-        description={"51.5% of all Total Budget"}
+        data={`$${data.amountSpent}`}
+        description={`${percentSpent}% of all Total Budget`}
       />
       <SummaryCard
         title={"Remaining"}
-        data={"$2204.5"}
-        description={"48.5% of all Total Budget"}
+        data={`$${data.totalBudget - data.amountSpent}`}
+        description={`${100 - percentSpent}% of all Total Budget`}
       />
       <SummaryCard
         title={"Active Budget"}
-        data={"5"}
-        description={"Across 3 categories"}
+        data={data.activeBudget.toString()}
+        description={`Across ${data.activeCategory} categories`}
       />
     </>
   );

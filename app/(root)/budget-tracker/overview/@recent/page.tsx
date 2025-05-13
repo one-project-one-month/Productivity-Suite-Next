@@ -3,7 +3,7 @@ import Expense from "@/features/budget-tracker/components/expense";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const RecentTransactionPage = () => {
+const RecentTransactionPage = async () => {
   return (
     <div className={"md:col-span-2 p-6  border rounded-xl shadow-md"}>
       <h2 className={"font-bold text-2xl"}>Budget Overview</h2>
