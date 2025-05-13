@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 type CardType = {
   cardTitle: string;
@@ -12,6 +12,7 @@ type CardType = {
   isDimmed: boolean;
   onHoverStart: () => void;
   onHoverEnd: () => void;
+  link: string;
 };
 
 const CardData = ({
@@ -21,24 +22,23 @@ const CardData = ({
   isDimmed,
   onHoverStart,
   onHoverEnd,
+  link,
 }: CardType) => {
   return (
     <motion.div
-      className={`relative md:w-full w-[340px] sm:max-w-sm md:max-w-md h-80 sm:h-96 rounded-xl overflow-hidden transition-opacity duration-300 ${
+      className={`relative md:w-full w-[340px] sm:max-w-sm md:max-w-md sm:h-96 rounded-xl overflow-hidden transition-opacity duration-300 ${
         isDimmed ? "opacity-0 invisible" : "opacity-100 visible"
       }`}
       onMouseEnter={onHoverStart}
       onMouseLeave={onHoverEnd}
-      onTouchStart={onHoverStart} // simulate hover on touch
-      onTouchEnd={onHoverEnd}
     >
       <motion.div
         whileHover={{ y: -5, scale: 1.02 }}
         transition={{ type: "spring", stiffness: 300 }}
         className="w-full h-full"
       >
-        <Button
-          onClick={() => console.log(cardTitle)}
+        <Link
+          href={`/${link}`}
           className="w-full h-full cursor-pointer bg-transparent z-10 p-0"
         >
           <Card className="relative w-full h-full overflow-hidden">
@@ -82,7 +82,7 @@ const CardData = ({
               </span>
             </CardContent>
           </Card>
-        </Button>
+        </Link>
       </motion.div>
     </motion.div>
   );

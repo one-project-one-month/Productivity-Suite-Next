@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import CardData from "./card";
+import CardDataMobile from "./card-mobile";
 
 const sectionBackgrounds = [
   { index: 0, image: "/landingPageImage/pomodoro-wallpaper.png" },
@@ -15,24 +16,32 @@ const cards = [
     image: "/landingPageImage/pomodoro.png",
     description:
       "A Pomodoro Timer is a time management tool that breaks work into focused intervals, typically 25 minutes long, separated by short breaks.",
+    mobileDescription: "use time management tool",
+    link: "pomodoro-timer",
   },
   {
     title: "Todo",
     image: "/landingPageImage/todo.png",
     description:
       "Organize your daily tasks, set deadlines, and track your productivity.",
+    mobileDescription: "organize your daily tasks",
+    link: "to-do",
   },
   {
     title: "Notes",
     image: "/landingPageImage/notes.png",
     description:
       "Quickly jot down your thoughts and keep your ideas organized.",
+    mobileDescription: "keep your ideas organized.",
+    link: "notes",
   },
   {
     title: "Budget Tracker",
     image: "/landingPageImage/budgetTracker.png",
     description:
       "A tool that helps you monitor your income, expenses, and savings in real-time and categorizes spending to show where your money goes.",
+    mobileDescription: "To monitor income, expenses and savings",
+    link: "budget-tracker/overview",
   },
 ];
 
@@ -47,7 +56,7 @@ const CardSection = () => {
 
   return (
     <section
-      className={`w-full min-h-screen mt-14 flex flex-col items-center justify-center px-6 py-16 transition-all duration-500 bg-black bg-cover bg-center`}
+      className={`w-full min-h-screen mb-36 md:mb-0 md:mt-14 flex flex-col items-center justify-center px-6 py-16 transition-all duration-500 bg-black bg-cover bg-center`}
       style={{
         backgroundImage: backgroundImage
           ? `url(${backgroundImage})`
@@ -56,7 +65,22 @@ const CardSection = () => {
         backgroundBlendMode: "overlay",
       }}
     >
-      <div className="md:grid md:grid-cols-4 flex flex-col items-center justify-center gap-6 w-full max-w-7xl">
+      {/* mobile card :3 */}
+      <div className="grid grid-cols-1 md:hidden items-center justify-center gap-6 w-full max-w-7xl">
+        {cards.map((card, index) => (
+          <div key={index} className="relative">
+            <CardDataMobile
+              cardTitle={card.title}
+              image={card.image}
+              mobileDescription={card.mobileDescription}
+              link={card.link}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* desktop card :3 */}
+      <div className="hidden md:grid md:grid-cols-4 items-center justify-center gap-6 h-full w-full max-w-7xl">
         {cards.map((card, index) => (
           <div key={index} className="relative">
             <CardData
@@ -66,11 +90,12 @@ const CardSection = () => {
               isDimmed={hoveredIndex !== null && hoveredIndex !== index}
               onHoverStart={() => setHoveredIndex(index)}
               onHoverEnd={() => setHoveredIndex(null)}
+              link={card.link}
             />
 
             {hoveredIndex === index && (
               <div
-                className={`absolute top-0 transition-all duration-500 ease-in-out delay-200 
+                className={`md:absolute top-0 transition-all duration-500 ease-in-out delay-200 
                 ${index === 0 || index === 1 ? "left-full" : "right-full mr-10"} 
                 w-max min-h-80  text-white p-6 rounded-xl
                 flex items-center justify-center md:opacity-100 opacity-0`}

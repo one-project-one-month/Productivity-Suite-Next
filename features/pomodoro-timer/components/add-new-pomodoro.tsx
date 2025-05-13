@@ -100,17 +100,17 @@ const AddNewPomodoro = () => {
       },
     }));
 
-    // Logs results (you can replace this with actual saving logic)
+    // Logs results
     console.log("Sequence:", sequence);
     console.log("Timer Sequence:", timerSequence);
   };
 
   return (
-    <div className="w-full border-dashed border-2 border-gray-300 rounded-lg flex items-center justify-between">
+    <div className="w-4/5 border-dashed border-2 border-gray-300 rounded-lg flex items-center justify-between">
       <Dialog>
         {/* Button to trigger dialog */}
-        <DialogTrigger className="w-full h-full bg-transparent text-lg outline-none text-gray-300 cursor-pointer px-4 py-2">
-          Enter New Pomodoro...
+        <DialogTrigger className="w-full h-full bg-transparent text-lg outline-none text-gray-300 cursor-pointer px-4 py">
+          New Pomodoro...
         </DialogTrigger>
 
         {/* Dialog box content */}

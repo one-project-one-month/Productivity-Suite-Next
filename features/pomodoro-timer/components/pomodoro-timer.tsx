@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePomodoro } from "../hooks/usePomodoro";
-import { useState } from "react";
 
-import AddNewPomodoro from "./add-new-pomodoro";
 import { Slider } from "@/components/ui/slider";
+import { useState } from "react";
+import ShowPomodoroList from "./show-pomodoro-list";
 export function PomodoroTimer() {
   const {
     time,
@@ -43,13 +43,8 @@ export function PomodoroTimer() {
 
   const calculateProgress = () => {
     const maxTime = getMaxTime();
-    if (timerState === "shortBreak") {
-      return ((maxTime - shortBreakTime) / maxTime) * 100;
-    } else if (timerState === "longBreak") {
-      return ((maxTime - longBreakTime) / maxTime) * 100;
-    } else {
-      return ((maxTime - workTime) / maxTime) * 100;
-    }
+    const currentTime = time;
+    return ((maxTime - currentTime) / maxTime) * 100;
   };
 
   const editValueHandler = () => {
@@ -66,7 +61,6 @@ export function PomodoroTimer() {
     } else {
       setWorkTime(time);
     }
-    console.log(workTime);
     pauseTimer();
   };
 
@@ -76,51 +70,62 @@ export function PomodoroTimer() {
   ) => {
     resetTimer();
     setTimerState(state);
-    if (!isEditingTime) setTime(duration);
+    setTime(duration);
   };
 
   return (
     <>
       <Card className="w-[350px]">
-        <CardHeader>
-          <AddNewPomodoro />
-          <CardTitle className="text-center text-2xl">
+        <CardHeader className="relative flex items-center h-16">
+          <CardTitle className="absolute left-1/2 transform -translate-x-1/2 text-xl font-bold">
             {timerState === "work" && "Focus Time"}
             {timerState === "shortBreak" && "Short Break"}
             {timerState === "longBreak" && "Long Break"}
             {timerState === "idle" && "Pomodoro Timer"}
           </CardTitle>
+
+          <div className="ml-auto">
+            <ShowPomodoroList />
+          </div>
         </CardHeader>
+
         <CardContent>
           <div className="flex flex-col items-center gap-4">
-            <div>
-              <div>
-                <div
-                  style={{
-                    height: `${calculateProgress()}%`,
-                  }}
-                ></div>
-              </div>
-              <div>
+            <div className="relative w-52 h-52 ">
+              {!isEditingTime && (
+                <svg className="w-52 h-52 -rotate-90">
+                  <circle
+                    cx="104"
+                    cy="104"
+                    r="94"
+                    className="stroke-muted stroke-[8px] fill-none"
+                  />
+                  <circle
+                    cx="104"
+                    cy="104"
+                    r="94"
+                    className="stroke-primary stroke-[8px] fill-none"
+                    strokeLinecap="round"
+                    strokeDasharray={590}
+                    strokeDashoffset={590 - (590 * calculateProgress()) / 100}
+                    style={{
+                      transition: "stroke-dashoffset 1s linear",
+                    }}
+                  />
+                </svg>
+              )}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
                 {isEditingTime ? (
-                  <div className="flex gap-2 items-center flex-col h-40 cursor-pointer relative">
-                    <div className="flex gap-2 text-3xl font-medium mt-10 select-none z-10">
+                  <div className="flex gap-2 items-center flex-col cursor-pointer">
+                    <div className="flex gap-2 text-3xl font-medium select-none">
                       <Button
                         className="text-3xl"
                         onClick={() => {
                           const max = 3600;
-                          if (isEditingTime) {
-                            setTime(Math.min(time + 60, max));
-                          }
+                          setTime(Math.min(time + 60, max));
                         }}
                       >
-                        <svg
-                          width="40"
-                          height="40"
-                          viewBox="0 0 15 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
+                        <svg width="40" height="40" viewBox="0 0 15 15">
                           <path
                             d="M4 9H11L7.5 4.5L4 9Z"
                             fill="currentColor"
@@ -128,31 +133,20 @@ export function PomodoroTimer() {
                         </svg>
                       </Button>
 
-                      <div
-                        onClick={editValueHandler}
-                        className="w-20 text-center"
-                      >
+                      <div className="w-24 text-center">
                         {Math.floor(time / 60)
                           .toString()
                           .padStart(2, "0")}
                         :{(time % 60).toString().padStart(2, "0")}
                       </div>
+
                       <Button
                         className="text-3xl"
                         onClick={() => {
-                          const max = 3600;
-                          if (isEditingTime) {
-                            setTime(Math.min(time - 60, max));
-                          }
+                          setTime(Math.max(time - 60, 60));
                         }}
                       >
-                        <svg
-                          width="15"
-                          height="15"
-                          viewBox="0 0 15 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
+                        <svg width="40" height="40" viewBox="0 0 15 15">
                           <path
                             d="M4 6H11L7.5 10.5L4 6Z"
                             fill="currentColor"
@@ -165,14 +159,15 @@ export function PomodoroTimer() {
                       value={[time]}
                       onValueChange={([val]) => setTime(val)}
                       max={3600}
+                      min={60}
                       step={60}
-                      className="w-48 h-10 z-10"
+                      className="w-48 h-10"
                     />
                   </div>
                 ) : (
                   <div
                     onClick={editValueHandler}
-                    className="text-5xl flex items-center justify-center font-bold h-40 cursor-pointer select-none"
+                    className="text-5xl flex items-center justify-center font-bold cursor-pointer select-none"
                   >
                     {Math.floor(time / 60)
                       .toString()
