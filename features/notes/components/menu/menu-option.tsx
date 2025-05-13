@@ -14,7 +14,7 @@ import {
 import { Editor } from "@tiptap/react";
 
 export const menuOptions = (editor: Editor) => {
-  return[
+  return [
     {
       name: "Heading 1",
       icon: <Heading1 className="size-4" />,

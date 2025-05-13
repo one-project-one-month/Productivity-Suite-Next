@@ -13,15 +13,20 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { linkSchema, TLinkSchema } from "../note-types";
-
 
 export default function LinkOption({ editor }: { editor: Editor | null }) {
   const [open, setOpen] = useState(false);
 
-  const{register, handleSubmit, formState:{errors}, setValue,resetField} = useForm({resolver: zodResolver(linkSchema)});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    resetField,
+  } = useForm({ resolver: zodResolver(linkSchema) });
 
   const isTextSelected = editor?.state?.selection?.empty === false;
 
@@ -33,15 +38,20 @@ export default function LinkOption({ editor }: { editor: Editor | null }) {
     }
   }, [open, editor, setValue]);
 
-
-  const submitLink = (data:TLinkSchema) => {
+  const submitLink = (data: TLinkSchema) => {
     if (!editor) return;
     // console.log(data);
-    const {to} = editor.state.selection;
+    const { to } = editor.state.selection;
 
-      editor.chain().focus().extendMarkRange("link").setLink({ href: data.url, target: "_blank" }).setTextSelection(to).run();
-      setOpen(false);
-      resetField("url");
+    editor
+      .chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: data.url, target: "_blank" })
+      .setTextSelection(to)
+      .run();
+    setOpen(false);
+    resetField("url");
   };
 
   if (!editor) return null;
@@ -64,7 +74,10 @@ export default function LinkOption({ editor }: { editor: Editor | null }) {
           <DialogTitle>Add Link</DialogTitle>
           <DialogDescription asChild>
             <form onSubmit={handleSubmit(submitLink)} className="space-y-2">
-              <label htmlFor="url" className="block w-full text-left font-medium leading-7">
+              <label
+                htmlFor="url"
+                className="block w-full text-left font-medium leading-7"
+              >
                 Url
                 <span className="text-red-500 ml-2">{errors.url?.message}</span>
                 <Input
