@@ -20,63 +20,60 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { usePomodoro } from "../hooks/usePomodoro";
+import AddWorkBreakSession from "./add-work-break-session";
 
-// Type definition for individual step containing work and break duration
-type Step = { work: number | null; break: number | null };
+// Step now holds either work or break, not both
+type Step = { type: "work" | "break"; duration: number | null };
 
-// Interface for the overall Pomodoro task
 interface PomodoroTask {
   category: string;
   description: string;
   durations: number[];
   breakTimes: number[];
-  priority: 1 | 2 | 3; // low, medium, high
+  priority: 1 | 2 | 3;
 }
 
 const AddNewPomodoro = () => {
-  // State to hold overall Pomodoro task data
-  const { startTimer } = usePomodoro();
   const [task, setTask] = useState<PomodoroTask>({
     category: "",
     description: "",
     durations: [],
     breakTimes: [],
-    priority: 2, // medium
+    priority: 2,
   });
 
-  // State to manage the dynamic list of steps (work + break sessions)
-  const [steps, setSteps] = useState<Step[]>([{ work: 25, break: 5 }]);
+  // Start with a work step
+  const [steps, setSteps] = useState<Step[]>([
+    { type: "work", duration: 25 },
+    { type: "break", duration: 5 },
+  ]);
 
-  // Adds a new empty step
+  // Add new step, alternating between work and break
   const addStep = () => {
-    setSteps((prev) => [...prev, { work: null, break: null }]);
+    setSteps((prev) => [
+      ...prev,
+      { type: "work", duration: 25 },
+      { type: "break", duration: 5 },
+    ]);
   };
 
-  // Removes a specific step by index
-  const removeStep = (index: number) => {
-    setSteps((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  // Handles form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Filters out incomplete steps
-    const validSteps = steps.filter((s) => s.work !== null);
+    const durations = steps
+      .filter((s) => s.type === "work" && s.duration !== null)
+      .map((s) => s.duration!) as number[];
 
-    // Extracts work and break durations
-    const durations = validSteps.map((s) => s.work as number);
-    const breakTimes = validSteps.map((s) => (s.break !== null ? s.break! : 5));
+    const breakTimes = steps
+      .filter((s) => s.type === "break" && s.duration !== null)
+      .map((s) => s.duration!) as number[];
 
-    // Updates task state with processed durations and breaks
     setTask((prev) => ({
       ...prev,
       durations,
       breakTimes,
     }));
 
-    // Creates task summary data
     const sequence = {
       user_id: "user123",
       category: task.category,
@@ -85,47 +82,62 @@ const AddNewPomodoro = () => {
       created: new Date().toISOString(),
     };
 
-    // Prepares timer sequence for Pomodoro rounds
-    const timerSequence = durations.map((duration, index) => ({
-      step: index + 1,
-      timer: {
-        duration,
-        remaining: duration,
-        type: "work",
-      },
-      break: {
-        duration: breakTimes[index] || 5,
-        remaining: breakTimes[index] || 5,
-        type: "break",
-      },
-    }));
+    const timerSequence = durations.flatMap((duration, index) => {
+      const breakDuration = breakTimes[index] || 5;
+      return [
+        {
+          step: index * 2 + 1,
+          timer: {
+            duration,
+            remaining: duration,
+            type: "work",
+          },
+        },
+        {
+          step: index * 2 + 2,
+          timer: {
+            duration: breakDuration,
+            remaining: breakDuration,
+            type: "break",
+          },
+        },
+      ];
+    });
 
-    // Logs results
     console.log("Sequence:", sequence);
     console.log("Timer Sequence:", timerSequence);
+
+    // ✅ Reset steps to initial state
+    setSteps([
+      { type: "work", duration: 25 },
+      { type: "break", duration: 5 },
+    ]);
+
+    // ✅ Optionally reset task form fields too
+    setTask({
+      category: "",
+      description: "",
+      durations: [],
+      breakTimes: [],
+      priority: 2,
+    });
   };
 
   return (
-    <div className="w-4/5 border-dashed border-2 border-gray-300 rounded-lg flex items-center justify-between">
+    <div className="w-full border-dashed border-2 border-gray-300 py-2 rounded-lg flex items-center justify-between ">
       <Dialog>
-        {/* Button to trigger dialog */}
         <DialogTrigger className="w-full h-full bg-transparent text-lg outline-none text-gray-300 cursor-pointer px-4 py">
-          New Pomodoro...
+          Add New Pomodoro...
         </DialogTrigger>
-
-        {/* Dialog box content */}
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] md:max-w-[500px] h-[600px] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add New Pomodoro</DialogTitle>
             <DialogDescription>
-              Set your task details, focus and break durations, and priority
-              level.
+              Set your task details, durations and break times.
             </DialogDescription>
           </DialogHeader>
 
-          {/* Pomodoro input form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Category input */}
+          <form onSubmit={handleSubmit} className="space-y-4 ">
             <div className="space-y-2">
               <Label htmlFor="category">Category</Label>
               <Input
@@ -137,7 +149,6 @@ const AddNewPomodoro = () => {
               />
             </div>
 
-            {/* Description input */}
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <Input
@@ -150,7 +161,6 @@ const AddNewPomodoro = () => {
               />
             </div>
 
-            {/* Priority selector */}
             <div className="space-y-2">
               <Label htmlFor="priority">Priority</Label>
               <Select
@@ -169,88 +179,20 @@ const AddNewPomodoro = () => {
                 </SelectContent>
               </Select>
             </div>
+            <hr />
+            <AddWorkBreakSession
+              steps={steps}
+              setSteps={setSteps}
+              addStep={addStep}
+            />
+            <hr />
 
-            {/* Dynamic step inputs for work/break durations */}
-            <div className="space-y-4">
-              {steps.map((step, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  {/* Work duration selector */}
-                  <div className="space-y-1">
-                    <Label>Work</Label>
-                    <Select
-                      value={step.work?.toString() || ""}
-                      onValueChange={(value) => {
-                        const updated = [...steps];
-                        updated[index].work = parseInt(value);
-                        setSteps(updated);
-                      }}
-                    >
-                      <SelectTrigger className="w-[120px]">
-                        <SelectValue placeholder="Select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="15">15 min</SelectItem>
-                        <SelectItem value="20">20 min</SelectItem>
-                        <SelectItem value="25">25 min</SelectItem>
-                        <SelectItem value="30">30 min</SelectItem>
-                        <SelectItem value="45">45 min</SelectItem>
-                        <SelectItem value="60">60 min</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* Break duration selector */}
-                  <div className="space-y-1">
-                    <Label>Break</Label>
-                    <Select
-                      value={step.break?.toString() || ""}
-                      onValueChange={(value) => {
-                        const updated = [...steps];
-                        updated[index].break = parseInt(value);
-                        setSteps(updated);
-                      }}
-                    >
-                      <SelectTrigger className="w-[120px]">
-                        <SelectValue placeholder="Select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="3">3 min</SelectItem>
-                        <SelectItem value="5">5 min</SelectItem>
-                        <SelectItem value="10">10 min</SelectItem>
-                        <SelectItem value="15">15 min</SelectItem>
-                        <SelectItem value="20">20 min</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* Remove step button */}
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="icon"
-                    onClick={() => removeStep(index)}
-                    title="Remove step"
-                  >
-                    ✕
-                  </Button>
-                </div>
-              ))}
-
-              {/* Add new step button */}
-              <Button type="button" variant="secondary" onClick={addStep}>
-                Add New Step
-              </Button>
-            </div>
-
-            {/* Form action buttons */}
             <div className="flex justify-end space-x-2 pt-4">
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
               <DialogClose asChild>
-                <Button type="submit" onClick={startTimer}>
-                  Start Pomodoro
-                </Button>
+                <Button type="submit">Start Pomodoro</Button>
               </DialogClose>
             </div>
           </form>
