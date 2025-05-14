@@ -10,8 +10,53 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import AddNewPomodoro from "./add-new-pomodoro";
+import PomodoroCard from "./pomodoros-card";
+import { useState } from "react";
 
 const ShowPomodoroList = () => {
+  const [cards, setCards] = useState([
+    { id: 1, content: "Pomodoro 1" },
+    { id: 2, content: "Pomodoro 2" },
+    { id: 3, content: "Pomodoro 3" },
+    { id: 4, content: "Pomodoro 4" },
+    { id: 5, content: "Pomodoro 5" },
+  ]);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dropTarget, setDropTarget] = useState<number | null>(null);
+
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    e.dataTransfer.setData("text/plain", index.toString());
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    setDropTarget(index);
+  };
+
+  const handleDragLeave = () => {
+    setDropTarget(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDropTarget(null);
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    const dragIndex = parseInt(e.dataTransfer.getData("text/plain"));
+    const newCards = [...cards];
+    const draggedCard = newCards[dragIndex];
+
+    newCards.splice(dragIndex, 1);
+    newCards.splice(dropIndex, 0, draggedCard);
+
+    setCards(newCards);
+    setDraggedIndex(null);
+    setDropTarget(null);
+  };
+
   return (
     <div className="w-10 flex justify-center items-center">
       <Dialog>
@@ -41,12 +86,29 @@ const ShowPomodoroList = () => {
             <DialogDescription className="text-sm md:text-base">
               Check Your List Here!
             </DialogDescription>
-          </DialogHeader>
-
-          <div className="mt-4">
             <DialogClose asChild>
               <AddNewPomodoro />
             </DialogClose>
+          </DialogHeader>
+          <div className="h-40 md:h-55 lg:h-64 overflow-y-scroll">
+            {cards.map((card, index) => (
+              <div
+                key={card.id}
+                draggable
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragOver={(e) => handleDragOver(e, index)}
+                onDragLeave={handleDragLeave}
+                onDragEnd={handleDragEnd}
+                onDrop={(e) => handleDrop(e, index)}
+                className={`
+                  cursor-move transition-all duration-200
+                  ${draggedIndex === index ? "opacity-50 scale-95" : ""}
+                  ${dropTarget === index ? "border rounded-2xl  border-primary translate-y-2" : ""}
+                `}
+              >
+                <PomodoroCard id={card.id} content={card.content} />
+              </div>
+            ))}
           </div>
         </DialogContent>
       </Dialog>
