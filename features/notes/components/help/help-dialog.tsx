@@ -24,9 +24,9 @@ export default function Help({ md }: { md: boolean }) {
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="min-h-[calc(100dvh-200px)] max-h-[120px] max-w-6xl! w-[calc(100%-50px)]">
+      <DialogContent className="min-h-[calc(100dvh-200px)] overflow-auto max-h-[120px] max-w-6xl! w-[calc(100%-50px)]">
         <DialogHeader>
-          <DialogTitle>Commands and shortcuts</DialogTitle>
+          <DialogTitle>Markdown Scripts</DialogTitle>
           <DialogDescription asChild>
             <HelpContents />
           </DialogDescription>
