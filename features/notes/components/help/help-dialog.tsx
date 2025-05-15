@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/dialog";
 import HelpContents from "./help-contents";
 
-export default function Help() {
+export default function Help({ md }: { md: boolean }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="absolute top-13 right-1">
+        <div className="absolute right-1" style={{ top: md ? "50px" : "5px" }}>
           <Button
             size="sm"
             variant="outline"
