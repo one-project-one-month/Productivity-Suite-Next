@@ -1,30 +1,65 @@
 "use client";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Trash } from "lucide-react";
 import EditDialogForm from "./edit-dialog-form";
 import { TodoSchema } from "../types/todo-schema";
+import { useAction } from "next-safe-action/hooks";
+import { deleteTodo } from "../actions/todo-action";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 type todoActionProp = {
-    todo: TodoSchema
-}
+  todo: TodoSchema;
+};
 export const ActionDropdown = (todo: todoActionProp) => {
-    const todoData = todo.todo
+  const todoData = todo.todo;
+  const router = useRouter();
 
-    return (
-        <DropdownMenu>
-            <DropdownMenuTrigger className="px-2 py-1 border rounded">
-                <MoreHorizontal className="h-4 w-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                    <EditDialogForm todo={todoData} />
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                    <div className="w-full px-2 py-1 bg-red-400 hover:bg-red-700 text-white rounded cursor-pointer flex justify-center items-center gap-2"
-                        onClick={() => alert(`Delete ${todoData.title}`)}>
-                        <Trash className="w-5 h-5 text-white" /> Delete
-                    </div>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    );
+  const { execute } = useAction(deleteTodo, {
+    onSuccess: ({ data }) => {
+      if (data?.error) {
+        toast.error(data?.error);
+      }
+      if (data?.success) {
+        toast.success(data?.success);
+        router.push("/to-do");
+      }
+    },
+  });
+
+  const handleDelete = () => {
+    if (!todoData.id) {
+      toast.error("Missing ID for deletion");
+      return;
+    }
+    execute({ id: todoData.id });
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="px-2 py-1 border rounded">
+        <MoreHorizontal className="h-4 w-4" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="space-y-2">
+        <DropdownMenuItem asChild>
+          <EditDialogForm todo={todoData} />
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild>
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="w-full px-2 py-1 bg-red-400 hover:!bg-red-700 text-white hover:!text-white rounded cursor-pointer flex justify-center items-center gap-2"
+            >
+              <Trash className="w-5 h-5 text-white" /> Delete
+            </button>
+          </DropdownMenuItem>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 };
