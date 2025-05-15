@@ -5,7 +5,7 @@ export const todoSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
   priority: z.string().min(1, "Priority is required").max(1),
-  status: z.enum(["PENDING", "COMPLETED", "OVERDUE"]).optional(),
+  status: z.enum(["PENDING", "COMPLETE", "OVERDUE"]).optional(),
   dueAt: z.date(),
 });
 
@@ -16,3 +16,8 @@ export const deleteTodoSchema = z.object({
 });
 
 export type DeleteTodoInput = z.infer<typeof deleteTodoSchema>;
+
+export const statusUpdateSchema = z.object({
+  id: z.string(),
+  status: z.enum(["PENDING", "COMPLETE", "OVERDUE"]),
+});

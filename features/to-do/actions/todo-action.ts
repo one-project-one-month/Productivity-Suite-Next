@@ -1,9 +1,13 @@
 "use server";
 import { db } from "@/database/drizzle";
 import { todos } from "@/database/schema";
-import { eq } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
 import { actionClient } from "./safe-action";
-import { deleteTodoSchema, todoSchema } from "../types/todo-schema";
+import {
+  deleteTodoSchema,
+  statusUpdateSchema,
+  todoSchema,
+} from "../types/todo-schema";
 
 export const createOrUpdateTodo = actionClient
   .schema(todoSchema)
@@ -49,7 +53,9 @@ export const createOrUpdateTodo = actionClient
 
 export const getTodos = async () => {
   try {
-    const todosData = await db.query.todos.findMany();
+    const todosData = await db.query.todos.findMany({
+      orderBy: [asc(todos.dueAt), desc(todos.priority)],
+    });
     if (!todosData) {
       return { error: "No todos found!" };
     }
@@ -84,6 +90,21 @@ export const deleteTodo = actionClient
     }
   });
 
-// export const updateStatus = actionClient.schema(todoSchema).action(async ({ parsedInput: { status, id } }) => {
+export const updateStatus = actionClient
+  .schema(statusUpdateSchema)
+  .action(async ({ parsedInput: { id, status } }) => {
+    try {
+      if (!id) return { error: "Missing ID for deletion" };
 
-// });
+      await db.update(todos).set({ status }).where(eq(todos.id, id));
+      return { success: "Product status updated successfully" };
+    } catch (error) {
+      console.error(
+        "Database Error:",
+        JSON.stringify(error, Object.getOwnPropertyNames(error)),
+      );
+      return {
+        error: `Something went wrong: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
+  });

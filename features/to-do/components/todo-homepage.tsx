@@ -22,7 +22,7 @@ const sampleTodos: TodoSchema[] = Array.from({ length: 50 }, (_, i) => ({
   title: `Task ${i + 1}`,
   description: `This is the description for task ${i + 1}`,
   dueAt: new Date("2025-05-20T10:00:00Z"),
-  status: i % 3 === 0 ? "PENDING" : i % 3 === 1 ? "COMPLETED" : "OVERDUE",
+  status: i % 3 === 0 ? "PENDING" : i % 3 === 1 ? "COMPLETE" : "OVERDUE",
   priority: ((i % 3) + 1).toString(),
 }));
 
