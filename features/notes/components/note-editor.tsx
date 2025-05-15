@@ -1,17 +1,29 @@
 "use client";
 
 import dynamic from "next/dynamic";
-const Editor = dynamic(() => import("@/features/notes/components/Editor"), { ssr: false});
+import { INoteType, TNoteType } from "./note-types";
+const Editor = dynamic(() => import("@/features/notes/components/Editor"), {
+  ssr: false,
+});
 
-export default function NoteEditor() {
+export default function NoteEditor({
+  data,
+  mutate,
+}: {
+  data: TNoteType;
+  mutate: (data: INoteType) => Promise<void>;
+}) {
   return (
     <div className="min-h-[calc(100dvh-80px)]">
-        <Editor 
-          title="Note-1" 
-          body={"# Header-1 \nlorem ipsum `code` dolor sit amet.\n```js\nconsole.log('hello world') \n```\n \n\n## Sub Header \n > quote text\n\n[google](https://www.google.com) \n\n Hello world\n\n "} 
-          createdAt={new Date("12 3 2020")}
-          updatedAt={new Date("12 3 2020")}
-        />
+      <Editor
+        data={data}
+        mutate={mutate}
+        // id={id}
+        // title={title}
+        // body={body}
+        // createdAt={createdAt}
+        // updatedAt={updatedAt}
+      />
     </div>
   );
 }

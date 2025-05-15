@@ -1,10 +1,17 @@
 import TypoStyle from "../typo-style";
-import HelpEditor from "./help-editor";
+// import HelpEditor from "./help-editor";
+import dynamic from "next/dynamic";
 
+const HelpEditor = dynamic(() => import("./help-editor"), { ssr: false });
 
 const commands = [
-  "# Header 1", "## Header 2", "### Header 3", 
-  "**bold**", "*italic*", "***bold & italic***", "~~strike~~", 
+  "# Header 1",
+  "## Header 2",
+  "### Header 3",
+  "**bold**",
+  "*italic*",
+  "***bold & italic***",
+  "~~strike~~",
   "`code`",
   "``` code block ```",
   "> quote text",
@@ -14,17 +21,17 @@ const commands = [
 ];
 
 export default function HelpContents() {
-
   return (
     <TypoStyle>
-        {
-          commands.map(cmd => (
-            <div className="grid grid-cols-2 *:border *:place-content-center *:text-left *:pl-2" key={cmd}>
-              <span className="font-mono text-sm">{cmd}</span><HelpEditor body={cmd} />
-            </div>
-          ))
-        }
+      {commands.map((cmd) => (
+        <div
+          className="grid grid-cols-2 *:border *:place-content-center *:text-left *:pl-2"
+          key={cmd}
+        >
+          <span className="font-mono text-sm">{cmd}</span>
+          <HelpEditor body={cmd} />
+        </div>
+      ))}
     </TypoStyle>
-
   );
 }
