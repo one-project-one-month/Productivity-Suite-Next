@@ -15,6 +15,7 @@ const page = async () => {
       dueAt: todo.dueAt!,
       priority: String(todo.priority),
       status: todo.status ?? "PENDING",
+      createdAt: todo.createdAt,
     }));
 
   return <TodoHomePage todos={todos} />;

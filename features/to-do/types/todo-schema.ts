@@ -7,6 +7,7 @@ export const todoSchema = z.object({
   priority: z.string().min(1, "Priority is required").max(1),
   status: z.enum(["PENDING", "COMPLETE", "OVERDUE"]).optional(),
   dueAt: z.date(),
+  createdAt: z.date().optional(),
 });
 
 export type TodoSchema = z.infer<typeof todoSchema>;

@@ -25,10 +25,11 @@ const TodoTable = ({ todos, page }: TodoTableProps) => {
             <TableCell className="py-4">ID</TableCell>
             <TableCell>Title</TableCell>
             <TableCell>Description</TableCell>
+            <TableCell>CreatedAt</TableCell>
             <TableCell>DueAt</TableCell>
             <TableCell>Priority</TableCell>
             <TableCell>Status</TableCell>
-            <TableCell>StatusACtion</TableCell>
+            <TableCell>StatusAction</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHeader>
@@ -44,7 +45,7 @@ const TodoTable = ({ todos, page }: TodoTableProps) => {
                     todo.status === "OVERDUE" && "text-destructive",
                   )}
                 >
-                  {todo.title}
+                  {todo.title.substring(0, 15) + " ..." || todo.title}
                 </TableCell>
                 <TableCell>
                   <DescriptionDialog
@@ -53,9 +54,12 @@ const TodoTable = ({ todos, page }: TodoTableProps) => {
                   />
                 </TableCell>
                 <TableCell>
+                  {new Date(todo.createdAt!).toLocaleDateString()}
+                </TableCell>
+                <TableCell className="text-red-600">
                   {new Date(todo.dueAt).toLocaleDateString()}
                 </TableCell>
-                <TableCell>{todo.priority}</TableCell>
+                <TableCell className="text-center">{todo.priority}</TableCell>
                 <TableCell
                   className={cn(
                     "px-2 py-1 rounded font-medium",
