@@ -15,7 +15,13 @@ export default function Help() {
     <Dialog>
       <DialogTrigger asChild>
         <div className="absolute top-13 right-1">
-          <Button size="sm" variant="outline" className="size-7 rounded-full hover:shadow-md cursor-pointer"><Info /></Button>
+          <Button
+            size="sm"
+            variant="outline"
+            className="size-7 rounded-full hover:shadow-md cursor-pointer"
+          >
+            <Info />
+          </Button>
         </div>
       </DialogTrigger>
       <DialogContent className="min-h-[calc(100dvh-200px)] max-h-[120px] max-w-6xl! w-[calc(100%-50px)]">

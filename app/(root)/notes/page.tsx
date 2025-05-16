@@ -7,7 +7,7 @@ import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata:Metadata = {
+export const metadata: Metadata = {
   title: {
     template: "%s | Note",
     default: "Notes",
@@ -49,22 +49,24 @@ const dummyNotes = [
 export default function NotePage() {
   return (
     <section className="bg-background text-foreground max-w-7xl mx-auto">
-      
       <div className="flex gap-3 items-center justify-center mb-2">
         <Input type="search" placeholder="search..." className="max-w-md" />
-        <Button className="bg-yellow-400 hover:bg-yellow-500 cursor-pointer" asChild> 
-          <Link href="/notes/somenote"><Plus /> New Note</Link>
+        <Button
+          className="bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
+          asChild
+        >
+          <Link href="/notes/somenote">
+            <Plus /> New Note
+          </Link>
         </Button>
       </div>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 p-2 ">
-        {
-          dummyNotes.map((item, idx) => (
-            <Link href={`/notes/${item.id}`} key={idx}>
-              <Note {...item}/>
-            </Link>
-          ))
-        }
+        {dummyNotes.map((item, idx) => (
+          <Link href={`/notes/${item.id}`} key={idx}>
+            <Note {...item} />
+          </Link>
+        ))}
       </div>
     </section>
   );
