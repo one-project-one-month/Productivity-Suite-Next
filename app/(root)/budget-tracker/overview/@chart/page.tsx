@@ -7,7 +7,7 @@ const ChartSummaryPage = async () => {
       <p className={"mb-4 text-gray-400 font-semibold"}>
         Your budget plan and spending for the current month
       </p>
-      <BudgetOverviewChart />
+      <BudgetOverviewChart data={[]} />
     </div>
   );
 };

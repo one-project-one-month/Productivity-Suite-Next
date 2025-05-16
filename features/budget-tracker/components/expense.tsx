@@ -2,11 +2,11 @@ import { formatDate } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type RecentExpenseProps = {
-  title: string;
-  budgetTitle: string;
+  title: string | null;
+  budgetTitle: string | null;
   createdAt: Date;
   amount: number;
-  category: string;
+  category: string | null;
 };
 const Expense = ({
   title,

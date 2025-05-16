@@ -58,11 +58,12 @@ try {
   });
   const generatedCategories = await Promise.all(categoryPromises);
   const budgetPlanPromises = BUDGET_PLANS.map(async (item, idx) => {
+    const categoryId = generatedCategories[idx].id;
     const data = await db
       .insert(budget)
       .values({
         ...item,
-        categoryId: generatedCategories[idx].id,
+        categoryId,
         userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
         currency: "USD",
         durationFrom: new Date(),
@@ -83,7 +84,7 @@ try {
           userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
           amount: amount,
           budgetId: item.id,
-          description: faker.lorem.words(8),
+          title: faker.lorem.words(5),
         })
         .returning();
     });

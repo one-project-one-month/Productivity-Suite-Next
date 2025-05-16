@@ -12,8 +12,18 @@ import {
 
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 
-export default function BudgetOverviewChart() {
-  const data = [
+interface BudgetOverviewChartData {
+  name: string;
+  budget: number;
+  spent: number;
+}
+
+export default function BudgetOverviewChart({
+  data,
+}: {
+  data: BudgetOverviewChartData[];
+}) {
+  const chartData = [
     {
       name: "Groceries",
       budget: 600,
@@ -63,7 +73,7 @@ export default function BudgetOverviewChart() {
         className={"max-w-[300px] md:max-w-full"}
       >
         <BarChart
-          data={data}
+          data={chartData}
           margin={{ top: 10, right: 10, left: 0, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
