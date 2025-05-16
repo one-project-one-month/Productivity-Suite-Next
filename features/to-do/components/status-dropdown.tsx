@@ -43,14 +43,6 @@ export const StatusDropdown = ({ id }: StatusDropdownProp) => {
     execute({ id, status: "COMPLETE" });
   };
 
-  const handleOverdue = () => {
-    if (!id) {
-      toast.error("Missing ID for update status");
-      return;
-    }
-    execute({ id, status: "OVERDUE" });
-  };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="underline text-blue-500">
@@ -58,22 +50,16 @@ export const StatusDropdown = ({ id }: StatusDropdownProp) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem
-          className="cursor-pointer text-yellow-500 font-medium"
+          className="cursor-pointer text-yellow-500 font-medium hover:!bg-yellow-500 hover:!text-white"
           onClick={handlePending}
         >
           PENDING
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer text-green-500 font-medium"
+          className="cursor-pointer text-green-500 font-medium hover:!bg-green-500 hover:!text-white"
           onClick={handleComplete}
         >
           COMPLETE
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="cursor-pointer text-red-500 font-medium"
-          onClick={handleOverdue}
-        >
-          OVERDUE
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

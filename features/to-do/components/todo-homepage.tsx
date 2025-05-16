@@ -17,14 +17,14 @@ import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
 // sample data
-const sampleTodos: TodoSchema[] = Array.from({ length: 50 }, (_, i) => ({
-  id: (i + 1).toString(),
-  title: `Task ${i + 1}`,
-  description: `This is the description for task ${i + 1}`,
-  dueAt: new Date("2025-05-20T10:00:00Z"),
-  status: i % 3 === 0 ? "PENDING" : i % 3 === 1 ? "COMPLETE" : "OVERDUE",
-  priority: ((i % 3) + 1).toString(),
-}));
+// const sampleTodos: TodoSchema[] = Array.from({ length: 50 }, (_, i) => ({
+//   id: (i + 1).toString(),
+//   title: `Task ${i + 1}`,
+//   description: `This is the description for task ${i + 1}`,
+//   dueAt: new Date("2025-05-20T10:00:00Z"),
+//   status: i % 3 === 0 ? "PENDING" : i % 3 === 1 ? "COMPLETE" : "OVERDUE",
+//   priority: ((i % 3) + 1).toString(),
+// }));
 
 const ITEMS_PER_PAGE = 5;
 
@@ -37,7 +37,7 @@ const TodoHomePage = ({ todos }: todoProps) => {
   const [priorityFilter, setPriorityFilter] = useState("all");
   const filteredTodos =
     priorityFilter === "all"
-      ? sampleTodos
+      ? todos
       : todos.filter((todo) => todo.priority === priorityFilter);
 
   // for pagination
