@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getTodos } from "@/features/to-do/actions/todo-action";
 import TodoHomePage from "@/features/to-do/components/todo-homepage";
 import { TodoSchema } from "@/features/to-do/types/todo-schema";
