@@ -78,3 +78,5 @@ export const BUDGET_PLAN_PLACEHOLDER = [
     spent: 250,
   },
 ];
+
+export const NOTE_CHARS_LIMIT = 32000;
