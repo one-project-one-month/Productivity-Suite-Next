@@ -9,53 +9,60 @@ import {
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import AddNewPomodoro from "./add-new-pomodoro";
 import PomodoroCard from "./pomodoros-card";
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useGetSequenceDataByUserId } from "../hooks/use-get-sequence-data-by-userId";
 
-const ShowPomodoroList = () => {
-  const [cards, setCards] = useState([
-    { id: 1, content: "Pomodoro 1" },
-    { id: 2, content: "Pomodoro 2" },
-    { id: 3, content: "Pomodoro 3" },
-    { id: 4, content: "Pomodoro 4" },
-    { id: 5, content: "Pomodoro 5" },
-  ]);
-  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
-  const [dropTarget, setDropTarget] = useState<number | null>(null);
+interface PomodoroProps {
+  userId: string;
+}
 
-  const handleDragStart = (e: React.DragEvent, index: number) => {
-    e.dataTransfer.setData("text/plain", index.toString());
-    setDraggedIndex(index);
+const ShowPomodoroList = ({ userId }: PomodoroProps) => {
+  const { data: sequences } = useGetSequenceDataByUserId(userId);
+
+  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+
+  useEffect(() => {
+    const savedId = localStorage.getItem("selectedPomodoroId");
+    if (savedId) {
+      setSelectedId(savedId);
+    }
+  }, []);
+
+  const handlePomodoroSelect = (id: string, description: string) => {
+    setSelectedId(id);
+    localStorage.setItem("selectedPomodoroId", id);
+    localStorage.setItem("selectedPomodoroDescription", description);
   };
 
-  const handleDragOver = (e: React.DragEvent, index: number) => {
-    e.preventDefault();
-    setDropTarget(index);
+  const handleDelete = (id: string) => {
+    if (selectedId === id) {
+      setSelectedId("");
+      localStorage.removeItem("selectedPomodoroId");
+      localStorage.removeItem("selectedPomodoroDescription");
+    }
   };
 
-  const handleDragLeave = () => {
-    setDropTarget(null);
-  };
+  const categories = useMemo(() => {
+    if (!sequences) return ["all"];
+    const unique = Array.from(new Set(sequences.map((s) => s.category)));
+    return ["all", ...unique];
+  }, [sequences]);
 
-  const handleDragEnd = () => {
-    setDraggedIndex(null);
-    setDropTarget(null);
-  };
-
-  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
-    e.preventDefault();
-    const dragIndex = parseInt(e.dataTransfer.getData("text/plain"));
-    const newCards = [...cards];
-    const draggedCard = newCards[dragIndex];
-
-    newCards.splice(dragIndex, 1);
-    newCards.splice(dropIndex, 0, draggedCard);
-
-    setCards(newCards);
-    setDraggedIndex(null);
-    setDropTarget(null);
-  };
+  const filteredSequences = useMemo(() => {
+    if (!sequences) return [];
+    if (selectedCategory === "all") return sequences;
+    return sequences.filter((s) => s.category === selectedCategory);
+  }, [sequences, selectedCategory]);
 
   return (
     <div className="w-10 flex justify-center items-center">
@@ -86,29 +93,56 @@ const ShowPomodoroList = () => {
             <DialogDescription className="text-sm md:text-base">
               Check Your List Here!
             </DialogDescription>
-            <DialogClose asChild>
-              <AddNewPomodoro />
-            </DialogClose>
-          </DialogHeader>
-          <div className="h-40 md:h-55 lg:h-64 overflow-y-scroll">
-            {cards.map((card, index) => (
-              <div
-                key={card.id}
-                draggable
-                onDragStart={(e) => handleDragStart(e, index)}
-                onDragOver={(e) => handleDragOver(e, index)}
-                onDragLeave={handleDragLeave}
-                onDragEnd={handleDragEnd}
-                onDrop={(e) => handleDrop(e, index)}
-                className={`
-                  cursor-move transition-all duration-200
-                  ${draggedIndex === index ? "opacity-50 scale-95" : ""}
-                  ${dropTarget === index ? "border rounded-2xl  border-primary translate-y-2" : ""}
-                `}
+            <div className="flex justify-between items-center gap-2">
+              <Select
+                value={selectedCategory}
+                onValueChange={setSelectedCategory}
               >
-                <PomodoroCard id={card.id} content={card.content} />
-              </div>
-            ))}
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem key={category} value={category || ""}>
+                      {category === "all" ? "All Categories" : category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <DialogClose asChild>
+                <AddNewPomodoro />
+              </DialogClose>
+            </div>
+          </DialogHeader>
+
+          <div className="h-40 md:h-55 lg:h-64 overflow-y-scroll">
+            {filteredSequences.length > 0 ? (
+              filteredSequences.map((sequence) => (
+                <div
+                  key={sequence.id}
+                  onClick={() =>
+                    handlePomodoroSelect(
+                      sequence.id,
+                      sequence.description || "",
+                    )
+                  }
+                  className={`cursor-pointer transition-all duration-200 hover:bg-gray-100/10 ${
+                    selectedId === sequence.id
+                      ? "bg-primary/20 rounded-2xl"
+                      : ""
+                  }`}
+                >
+                  <PomodoroCard
+                    id={sequence.id}
+                    category={sequence.category || ""}
+                    description={sequence.description || ""}
+                    onDelete={handleDelete}
+                  />
+                </div>
+              ))
+            ) : (
+              <p>Oh no! There is no Sequences. Create one first!</p>
+            )}
           </div>
         </DialogContent>
       </Dialog>
