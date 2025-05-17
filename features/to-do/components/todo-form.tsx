@@ -151,7 +151,7 @@ export const TodoForm = ({ isEdit, todo, setOpen }: TodoFormProps) => {
                           !field.value && "text-muted-foreground",
                         )}
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="mr-2 h-4 w-4 text-blue-700" />
                         {field.value.toLocaleDateString()}
                       </Button>
                     </FormControl>
@@ -174,7 +174,10 @@ export const TodoForm = ({ isEdit, todo, setOpen }: TodoFormProps) => {
         <Button
           type="submit"
           disabled={status === "executing"}
-          className={cn("w-full", status === "executing" && "animate-pulse")}
+          className={cn(
+            "w-full bg-blue-700 hover:bg-blue-500 text-white",
+            status === "executing" && "animate-pulse",
+          )}
         >
           {isEdit ? "Update Task" : "Create Task"}
         </Button>
