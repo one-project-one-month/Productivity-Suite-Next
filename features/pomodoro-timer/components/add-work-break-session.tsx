@@ -87,10 +87,16 @@ const AddWorkBreakSession = ({
                 variant="destructive"
                 size="icon"
                 onClick={() => {
-                  const removeIndices = [pairIndex * 2, pairIndex * 2 + 1];
-                  setSteps((prev) =>
-                    prev.filter((_, i) => !removeIndices.includes(i)),
-                  );
+                  setSteps((prev) => {
+                    if (prev.length <= 2) return prev;
+
+                    // Delete current break + next work step
+                    const removeIndices = [pairIndex, pairIndex + 1];
+                    // Filter out steps by index
+                    return prev.filter(
+                      (_, index) => !removeIndices.includes(index),
+                    );
+                  });
                 }}
                 title="Remove step pair"
                 className="self-end"
