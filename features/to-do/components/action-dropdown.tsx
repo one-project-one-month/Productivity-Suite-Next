@@ -12,6 +12,7 @@ import { useAction } from "next-safe-action/hooks";
 import { deleteTodo } from "../actions/todo-action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 type todoActionProp = {
   todo: TodoSchema;
 };
@@ -44,19 +45,20 @@ export const ActionDropdown = (todo: todoActionProp) => {
       <DropdownMenuTrigger className="px-2 py-1 border rounded">
         <MoreHorizontal className="h-4 w-4" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="space-y-2">
+      <DropdownMenuContent className="space-y-1">
         <DropdownMenuItem asChild>
           <EditDialogForm todo={todoData} />
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <DropdownMenuItem asChild>
-            <button
+            <Button
               type="button"
+              size={"sm"}
               onClick={handleDelete}
               className="w-full px-2 py-1 bg-red-400 hover:!bg-red-700 text-white hover:!text-white rounded cursor-pointer flex justify-center items-center gap-2"
             >
               <Trash className="w-5 h-5 text-white" /> Delete
-            </button>
+            </Button>
           </DropdownMenuItem>
         </DropdownMenuItem>
       </DropdownMenuContent>

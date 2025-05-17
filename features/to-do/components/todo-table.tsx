@@ -21,7 +21,7 @@ const TodoTable = ({ todos, page }: TodoTableProps) => {
     <div className="rounded-md border">
       <Table>
         <TableHeader>
-          <TableRow className="font-bold">
+          <TableRow className="font-bold text-blue-700">
             <TableCell className="py-4">ID</TableCell>
             <TableCell>Title</TableCell>
             <TableCell>Description</TableCell>
@@ -29,7 +29,7 @@ const TodoTable = ({ todos, page }: TodoTableProps) => {
             <TableCell>DueAt</TableCell>
             <TableCell>Priority</TableCell>
             <TableCell>Status</TableCell>
-            <TableCell>StatusAction</TableCell>
+            <TableCell>StatusActions</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHeader>

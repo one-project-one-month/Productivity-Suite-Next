@@ -45,18 +45,18 @@ export const StatusDropdown = ({ id }: StatusDropdownProp) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="underline text-blue-500">
-        changeStatus
+      <DropdownMenuTrigger className="underline text-blue-700">
+        Change Status
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className="space-y-1">
         <DropdownMenuItem
-          className="cursor-pointer text-yellow-500 font-medium hover:!bg-yellow-500 hover:!text-white"
+          className="cursor-pointer  bg-yellow-500 text-white font-medium hover:!bg-yellow-400 hover:!text-white"
           onClick={handlePending}
         >
           PENDING
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="cursor-pointer text-green-500 font-medium hover:!bg-green-500 hover:!text-white"
+          className="cursor-pointer bg-green-500 text-white font-medium hover:!bg-green-400 hover:!text-white"
           onClick={handleComplete}
         >
           COMPLETE
