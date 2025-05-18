@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/dialog";
 import HelpContents from "./help-contents";
 
-export default function Help({ md }: { md: boolean }) {
+export default function Help() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="absolute right-1" style={{ top: md ? "50px" : "5px" }}>
+        <div className="absolute top-13 right-1">
           <Button
             size="sm"
             variant="outline"
@@ -24,9 +24,9 @@ export default function Help({ md }: { md: boolean }) {
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="min-h-[calc(100dvh-200px)] overflow-auto max-h-[120px] max-w-6xl! w-[calc(100%-50px)]">
+      <DialogContent className="min-h-[calc(100dvh-200px)] max-h-[120px] max-w-6xl! w-[calc(100%-50px)]">
         <DialogHeader>
-          <DialogTitle>Markdown Scripts</DialogTitle>
+          <DialogTitle>Commands and shortcuts</DialogTitle>
           <DialogDescription asChild>
             <HelpContents />
           </DialogDescription>

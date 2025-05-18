@@ -13,7 +13,6 @@ import TableRow from "@tiptap/extension-table-row";
 import Link from "@tiptap/extension-link";
 import ListItem from "@tiptap/extension-list-item";
 import { setUpCodeBlock } from "../components/code-block";
-import { NOTE_CHARS_LIMIT } from "@/constants";
 
 export const useCustomEditor = (body: string) => {
   const lowlight = setUpCodeBlock();
@@ -44,7 +43,7 @@ export const useCustomEditor = (body: string) => {
       TableRow,
       Link,
       CharacterCount.configure({
-        limit: NOTE_CHARS_LIMIT,
+        limit: 2048,
       }),
       Markdown.configure({
         html: false,
@@ -61,7 +60,6 @@ export const useCustomEditor = (body: string) => {
     editorProps: {
       attributes: {
         class: "bg-muted w-full min-h-[calc(100dvh-180px)] p-2 block ",
-        placeholder: "Start taking notes here",
       },
     },
   });
