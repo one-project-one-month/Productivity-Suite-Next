@@ -38,24 +38,29 @@ export const usePomodoro = (): UsePomodoroReturn => {
     setMounted(true);
   }, []);
 
+  // Save state when timer changes
   const saveTimerState = useCallback(() => {
-    setTime((prevTime) => {
-      localStorage.setItem(
-        "pomodoro-state",
-        JSON.stringify({
-          currentTime: prevTime,
-          currentType: timerState,
-          durations: {
-            work: workTime,
-            shortBreak: shortBreakTime,
-            longBreak: longBreakTime,
-          },
-          count: pomodoroCount,
-        }),
-      );
-      return prevTime;
-    });
-  }, [timerState, workTime, shortBreakTime, longBreakTime, pomodoroCount]);
+    localStorage.setItem(
+      "pomodoro-state",
+      JSON.stringify({
+        currentTime: time,
+        currentType: timerState,
+        durations: {
+          work: workTime,
+          shortBreak: shortBreakTime,
+          longBreak: longBreakTime,
+        },
+        count: pomodoroCount,
+      }),
+    );
+  }, [
+    time,
+    timerState,
+    workTime,
+    shortBreakTime,
+    longBreakTime,
+    pomodoroCount,
+  ]);
 
   // Load saved state on mount
   useEffect(() => {
@@ -71,18 +76,15 @@ export const usePomodoro = (): UsePomodoroReturn => {
     }
   }, []);
 
-  // Save state every 5 seconds when active
+  // Save state periodically when active
   useEffect(() => {
-    if (!mounted || !isActive) return;
+    if (!isActive) return;
 
-    const interval = setInterval(() => {
-      saveTimerState();
-    }, 5000); // Save every 5 seconds
+    const saveInterval = setInterval(saveTimerState, 1000);
+    return () => clearInterval(saveInterval);
+  }, [isActive, saveTimerState]);
 
-    return () => clearInterval(interval); // Cleanup
-  }, [mounted, isActive, saveTimerState]);
-
-  // timer functions to save state
+  // Modified timer functions to save state
   const startTimer = useCallback(() => {
     setIsActive(true);
     if (timerState === "idle") {
@@ -116,7 +118,6 @@ export const usePomodoro = (): UsePomodoroReturn => {
     localStorage.removeItem("pomodoro-state");
   }, [timerState, workTime, shortBreakTime, longBreakTime, saveTimerState]);
 
-  //switch to break every work is done and make it long break every 4
   const switchToBreak = useCallback(() => {
     const isLongBreak = pomodoroCount > 0 && (pomodoroCount + 1) % 4 === 0;
     const newState = isLongBreak ? "longBreak" : "shortBreak";
@@ -135,6 +136,7 @@ export const usePomodoro = (): UsePomodoroReturn => {
     if (isActive && time > 0) {
       interval = setInterval(() => {
         setTime((prevTime) => prevTime - 1);
+        console.log(time);
       }, 1000);
     } else if (time === 0 && isActive) {
       if (timerState === "work") {
