@@ -40,7 +40,7 @@ const TodoTable = ({ todos, page }: TodoTableProps) => {
                 <TableCell
                   className={cn(
                     "px-2 py-1 rounded font-medium",
-                    todo.status === "COMPLETED" && "strike line-through",
+                    todo.status === "COMPLETE" && "strike line-through",
                     todo.status === "OVERDUE" && "text-destructive",
                   )}
                 >
@@ -60,14 +60,14 @@ const TodoTable = ({ todos, page }: TodoTableProps) => {
                   className={cn(
                     "px-2 py-1 rounded font-medium",
                     todo.status === "PENDING" && "text-yellow-500",
-                    todo.status === "COMPLETED" && "text-green-500",
+                    todo.status === "COMPLETE" && "text-green-500",
                     todo.status === "OVERDUE" && "text-red-500",
                   )}
                 >
                   {todo.status!.charAt(0).toUpperCase() + todo.status!.slice(1)}
                 </TableCell>
                 <TableCell>
-                  <StatusDropdown id={todo.id} currentStatus={todo.status} />
+                  <StatusDropdown id={todo.id} />
                 </TableCell>
                 <TableCell>
                   <ActionDropdown todo={todo} />
