@@ -5,17 +5,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+// import { useAction } from "next-safe-action/hooks";
+// import { useRouter } from "next/navigation";
+// import { toast } from "sonner";
 
-export const StatusDropdown = ({
-  id,
-  currentStatus,
-}: {
-  id: number;
-  currentStatus: string;
-}) => {
+type StatusDropdownProp = {
+  id?: string;
+  currentStatus?: string;
+};
+export const StatusDropdown = ({}: StatusDropdownProp) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="underline">

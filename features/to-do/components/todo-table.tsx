@@ -2,7 +2,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
@@ -14,9 +13,10 @@ import { TodoSchema } from "../types/todo-schema";
 
 type TodoTableProps = {
   todos: TodoSchema[];
+  page: number;
 };
 
-const TodoTable = ({ todos }: TodoTableProps) => {
+const TodoTable = ({ todos, page }: TodoTableProps) => {
   return (
     <div className="rounded-md border">
       <Table>
@@ -34,9 +34,9 @@ const TodoTable = ({ todos }: TodoTableProps) => {
         </TableHeader>
         <TableBody>
           {todos.length > 0 ? (
-            todos.map((todo: any) => (
+            todos.map((todo: TodoSchema, index) => (
               <TableRow key={todo.id}>
-                <TableCell className="py-4">{todo.id}</TableCell>
+                <TableCell className="py-4">{page * 5 + index + 1}</TableCell>
                 <TableCell
                   className={cn(
                     "px-2 py-1 rounded font-medium",
@@ -64,7 +64,7 @@ const TodoTable = ({ todos }: TodoTableProps) => {
                     todo.status === "OVERDUE" && "text-red-500",
                   )}
                 >
-                  {todo.status.charAt(0).toUpperCase() + todo.status.slice(1)}
+                  {todo.status!.charAt(0).toUpperCase() + todo.status!.slice(1)}
                 </TableCell>
                 <TableCell>
                   <StatusDropdown id={todo.id} currentStatus={todo.status} />

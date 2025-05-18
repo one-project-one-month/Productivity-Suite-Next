@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 type DescriptionDialogProps = {
   title: string;
-  description: string;
+  description?: string;
 };
 
 export const DescriptionDialog = ({

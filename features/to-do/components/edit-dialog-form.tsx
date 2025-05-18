@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
@@ -8,13 +10,16 @@ import {
 import { Pencil } from "lucide-react";
 import { TodoForm } from "./todo-form";
 import { TodoSchema } from "../types/todo-schema";
+import { useState } from "react";
 type todoProp = {
   todo: TodoSchema;
 };
 const EditDialogForm = (todo: todoProp) => {
   const todoData = todo.todo;
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div className="w-full px-2 py-1 bg-blue-400 hover:bg-blue-700 text-white rounded cursor-pointer flex justify-center items-center gap-2">
           <Pencil className="w-5 h-5 text-white" /> Edit
@@ -24,7 +29,11 @@ const EditDialogForm = (todo: todoProp) => {
         <DialogHeader>
           <DialogTitle>Edit Task</DialogTitle>
         </DialogHeader>
-        <TodoForm isEdit={true} todo={todoData} />
+        <TodoForm
+          isEdit={true}
+          todo={todoData}
+          setOpen={() => setOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );
