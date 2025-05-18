@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Info } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,20 +8,20 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import HelpContents from "./help-contents";
+import { Info } from "lucide-react";
 
-export default function Help({ md }: { md: boolean }) {
+export default function Help() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="absolute right-1" style={{ top: md ? "50px" : "5px" }}>
           <Button
             size="sm"
-            variant="outline"
-            className="size-7 rounded-full hover:shadow-md cursor-pointer"
+            variant="ghost"
+            className="cursor-pointer justify-start w-full"
           >
-            <Info />
+            <Info  />
+            Show Md scripts
           </Button>
-        </div>
       </DialogTrigger>
       <DialogContent className="min-h-[calc(100dvh-200px)] overflow-auto max-h-[120px] max-w-6xl! w-[calc(100%-50px)]">
         <DialogHeader>
