@@ -1,4 +1,3 @@
-import { RECENT_EXPENSES_PLACEHOLDER } from "@/constants";
 import Expense from "@/features/budget-tracker/components/expense";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

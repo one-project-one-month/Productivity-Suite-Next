@@ -23,34 +23,6 @@ export default function BudgetOverviewChart({
 }: {
   data: BudgetOverviewChartData[];
 }) {
-  const chartData = [
-    {
-      name: "Groceries",
-      budget: 600,
-      spent: 320,
-    },
-    {
-      name: "Entertainment",
-      budget: 200,
-      spent: 150,
-    },
-    {
-      name: "Utilities",
-      budget: 350,
-      spent: 350,
-    },
-    {
-      name: "Dining Out",
-      budget: 400,
-      spent: 275.5,
-    },
-    {
-      name: "Transport",
-      budget: 300,
-      spent: 250,
-    },
-  ];
-
   return (
     <ChartContainer
       config={{
@@ -73,7 +45,7 @@ export default function BudgetOverviewChart({
         className={"max-w-[300px] md:max-w-full"}
       >
         <BarChart
-          data={chartData}
+          data={data}
           margin={{ top: 10, right: 10, left: 0, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
