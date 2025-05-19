@@ -1,7 +1,7 @@
 import { Faker, en } from "@faker-js/faker";
 import { db } from "@/database/drizzle";
 import { budget, category, transactions } from "./schema";
-import { addDays } from "date-fns";
+import { addDays, subDays } from "date-fns";
 
 const categories = ["food", "leisure", "transport", "academic", "other"];
 const faker = new Faker({ locale: [en] });
@@ -66,7 +66,7 @@ try {
         ...item,
         userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
         currency: "USD",
-        durationFrom: new Date(),
+        durationFrom: subDays(Date.now(), 30),
         durationTo: new Date(addDays(Date.now(), 30)),
       })
       .returning();
@@ -85,6 +85,10 @@ try {
           amount: amount,
           budgetId: item.id,
           title: faker.lorem.words(5),
+          createdAt: faker.date.between({
+            from: subDays(Date.now(), 30),
+            to: Date.now(),
+          }),
         })
         .returning();
     });

@@ -13,59 +13,11 @@ import {
 
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 
-export default function MonthlySpendingChart() {
-  const data = [
-    {
-      name: "Dec",
-      food: 450,
-      housing: 350,
-      transport: 200,
-      leisure: 180,
-      other: 120,
-    },
-    {
-      name: "Jan",
-      food: 470,
-      housing: 350,
-      transport: 220,
-      leisure: 150,
-      other: 100,
-    },
-    {
-      name: "Feb",
-      food: 540,
-      housing: 360,
-      transport: 180,
-      leisure: 200,
-      other: 90,
-    },
-    {
-      name: "Mar",
-      food: 510,
-      housing: 350,
-      transport: 210,
-      leisure: 170,
-      other: 110,
-    },
-    {
-      name: "Apr",
-      food: 490,
-      housing: 370,
-      transport: 230,
-      leisure: 190,
-      other: 130,
-    },
-    {
-      name: "May",
-      food: 520,
-      housing: 350,
-      transport: 250,
-      leisure: 150,
-      other: 100,
-    },
-  ];
+interface ChartData {
+  [key: string]: string | number;
+}
 
-  // Custom legend renderer to match the app's styling
+export default function MonthlySpendingChart({ data }: { data: ChartData[] }) {
   const renderLegend = (props: any) => {
     const { payload } = props;
 
