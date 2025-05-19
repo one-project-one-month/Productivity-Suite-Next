@@ -6,30 +6,60 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { updateStatus } from "../actions/todo-action";
+import { useRouter } from "next/navigation";
 
-export const StatusDropdown = ({
-  id,
-  currentStatus,
-}: {
-  id: number;
-  currentStatus: string;
-}) => {
+type StatusDropdownProp = {
+  id?: string;
+};
+export const StatusDropdown = ({ id }: StatusDropdownProp) => {
+  const router = useRouter();
+  const { execute } = useAction(updateStatus, {
+    onSuccess: ({ data }) => {
+      if (data?.error) {
+        toast.error(data?.error);
+      }
+      if (data?.success) {
+        toast.success(data?.success);
+        router.push("/to-do");
+      }
+    },
+  });
+
+  const handlePending = () => {
+    if (!id) {
+      toast.error("Missing ID for update status");
+      return;
+    }
+    execute({ id, status: "PENDING" });
+  };
+
+  const handleComplete = () => {
+    if (!id) {
+      toast.error("Missing ID for update status");
+      return;
+    }
+    execute({ id, status: "COMPLETE" });
+  };
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="underline">
-        changeStatus
+      <DropdownMenuTrigger className="underline text-blue-700">
+        Change Status
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem className="cursor-pointer text-yellow-500 font-medium">
+      <DropdownMenuContent className="space-y-1">
+        <DropdownMenuItem
+          className="cursor-pointer  bg-yellow-500 text-white font-medium hover:!bg-yellow-400 hover:!text-white"
+          onClick={handlePending}
+        >
           PENDING
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer text-green-500 font-medium">
-          COMPLETED
-        </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer text-red-500 font-medium">
-          OVERDUE
+        <DropdownMenuItem
+          className="cursor-pointer bg-green-500 text-white font-medium hover:!bg-green-400 hover:!text-white"
+          onClick={handleComplete}
+        >
+          COMPLETE
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
