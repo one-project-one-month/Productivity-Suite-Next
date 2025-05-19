@@ -3,10 +3,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 type RecentExpenseProps = {
   title: string;
-  budgetTitle: string;
+  budgetTitle: string | null;
   createdAt: Date;
   amount: number;
-  category: string;
+  category: string | null;
 };
 const Expense = ({
   title,

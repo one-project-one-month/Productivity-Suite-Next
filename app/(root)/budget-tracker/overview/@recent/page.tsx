@@ -1,9 +1,14 @@
-import { RECENT_EXPENSES_PLACEHOLDER } from "@/constants";
 import Expense from "@/features/budget-tracker/components/expense";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getRecentExpenses } from "@/features/budget-tracker/actions/get-recent-expenses";
+import { notFound } from "next/navigation";
 
 const RecentTransactionPage = async () => {
+  const data = await getRecentExpenses();
+  if (!data) {
+    return notFound();
+  }
   return (
     <div className={"md:col-span-2 p-6  border rounded-xl shadow-md"}>
       <h2 className={"font-bold text-2xl"}>Budget Overview</h2>
@@ -11,7 +16,7 @@ const RecentTransactionPage = async () => {
         Your budget plan and spending for the current month
       </p>
       <div className={"lg:max-h-[300px] overflow-y-scroll lg:px-4"}>
-        {RECENT_EXPENSES_PLACEHOLDER.map((item, idx) => (
+        {data.map((item, idx) => (
           <Expense {...item} key={idx} />
         ))}
       </div>
