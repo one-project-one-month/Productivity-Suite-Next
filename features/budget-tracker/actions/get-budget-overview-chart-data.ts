@@ -1,9 +1,9 @@
 "use server";
 
 import { db } from "@/database/drizzle";
-import { budget, category, transactions } from "@/database/schema";
+import { budget, transactions } from "@/database/schema";
 import { getUserSession } from "@/lib/server-util";
-import { desc, eq, isNotNull, sql, sum } from "drizzle-orm";
+import { eq, sum } from "drizzle-orm";
 
 export const getBudgetOverviewChartData = async () => {
   try {
