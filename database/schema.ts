@@ -97,6 +97,7 @@ export const budget = pgTable("budget", {
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   amount: integer("amount").notNull(),
+  title: text("title").notNull(),
   categoryId: uuid("category_id")
     .references(() => category.id)
     .notNull(),
@@ -115,6 +116,7 @@ export const transactions = pgTable("transaction", {
     .references(() => budget.id)
     .notNull(),
   amount: integer("amount").notNull(),
+  title: text("title").notNull(),
   description: text("description"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()

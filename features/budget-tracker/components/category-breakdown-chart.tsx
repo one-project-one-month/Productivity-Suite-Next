@@ -11,15 +11,16 @@ import {
 
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 
-export default function CategoryBreakdownChart() {
-  const data = [
-    { name: "Food", value: 595.5 },
-    { name: "Housing", value: 350 },
-    { name: "Transport", value: 250 },
-    { name: "Leisure", value: 150 },
-    { name: "Other", value: 100 },
-  ];
+interface ChartData {
+  name: string | null;
+  value: number;
+}
 
+export default function CategoryBreakdownChart({
+  data,
+}: {
+  data: ChartData[];
+}) {
   // Calculate total for percentages
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
@@ -42,7 +43,7 @@ export default function CategoryBreakdownChart() {
                 className="h-3 w-3 rounded-full"
                 style={{ backgroundColor: entry.color }}
               />
-              <span className="font-medium">{entry.value}</span>
+              <span className="font-medium capitalize">{entry.value}</span>
             </div>
             <div>
               <span className="tabular-nums">${enhancedData[index].value}</span>
@@ -65,23 +66,23 @@ export default function CategoryBreakdownChart() {
   return (
     <ChartContainer
       config={{
-        Food: {
+        food: {
           label: "Food",
           color: "#2a9d90",
         },
-        Housing: {
-          label: "Housing",
+        academic: {
+          label: "Academic",
           color: "#e76e50",
         },
-        Transport: {
+        transport: {
           label: "Transport",
           color: "#247754",
         },
-        Leisure: {
+        leisure: {
           label: "Leisure",
           color: "#e8c468",
         },
-        Other: {
+        other: {
           label: "Other",
           color: "#f4a462",
         },
