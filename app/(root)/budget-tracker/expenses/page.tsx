@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { RECENT_EXPENSES_PLACEHOLDER } from "@/constants";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import Expense from "@/features/budget-tracker/components/expense";

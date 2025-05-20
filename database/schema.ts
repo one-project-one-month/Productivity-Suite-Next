@@ -98,6 +98,7 @@ export const budget = pgTable("budget", {
     .notNull(),
   amount: integer("amount").notNull(),
   title: text("title").notNull(),
+  description: text("description"),
   categoryId: uuid("category_id")
     .references(() => category.id)
     .notNull(),

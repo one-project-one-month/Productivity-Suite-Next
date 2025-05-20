@@ -1,18 +1,27 @@
-import { BUDGET_PLAN_PLACEHOLDER } from "@/constants";
 import BudgetPlan from "@/features/budget-tracker/components/budget-plan";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
+import { getAllBudgets } from "@/features/budget-tracker/actions/get-all-budgets";
+import { notFound } from "next/navigation";
 
-const BudgetsPage = () => {
+const BudgetsPage = async () => {
+  const data = await getAllBudgets();
+  if (!data) {
+    return notFound();
+  }
   return (
     <div className={"mt-4 md:mt-6 p-6  border-1 border-black/40 rounded-xl "}>
       <h2 className={"font-bold text-2xl"}>Your Budget Plans</h2>
       <p className={"mb-4 text-gray-500 "}>
         Manage your existing budget plans or create new one.
       </p>
-      <div>
-        {BUDGET_PLAN_PLACEHOLDER.map((budget, idx) => (
+      <div
+        className={
+          "max-h-[50vh] md:max-h-[65vh] lg:max-h-[50vh] overflow-y-scroll pr-4"
+        }
+      >
+        {data.map((budget, idx) => (
           <BudgetPlan data={budget} key={idx} />
         ))}
       </div>
