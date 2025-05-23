@@ -102,10 +102,11 @@ export const budget = pgTable("budget", {
   categoryId: uuid("category_id")
     .references(() => category.id)
     .notNull(),
-  amountSpent: integer("amountSpent").notNull().default(0),
-  durationFrom: timestamp("duration_from", { withTimezone: true }).notNull(),
+  durationFrom: timestamp("duration_from", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
   durationTo: timestamp("duration_to", { withTimezone: true }).notNull(),
-  currency: CurrencyType("currency").notNull().default("MMK"),
+  currency: CurrencyType("currency").default("USD").notNull(),
 });
 
 export const transactions = pgTable("transaction", {

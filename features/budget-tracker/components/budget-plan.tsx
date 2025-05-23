@@ -28,7 +28,7 @@ const BudgetPlan = ({ data }: BudgetPlanProps) => {
       </div>
       <p className={"flex flex-col gap-y-1.5 text-right"}>
         <span className={"text-lg font-bold md:text-xl"}>
-          ${data.spent}/${data.amount}
+          ${data.spent ?? 0}/${data.amount}
         </span>
         <span className={"text-sm text-gray-500 md:text-base"}>
           {percentSpent}% Used

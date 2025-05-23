@@ -9,14 +9,12 @@ const BudgetTrackerLayout = async ({ children }: { children: ReactNode }) => {
     return redirect("/auth/sign-in");
   }
   return (
-    <main>
-      <div className={"px-4 py-6 md:px-6 lg:px-20"}>
-        <section>
-          <BudgetTrackerNav />
-          {children}
-        </section>
-      </div>
-    </main>
+    <div className={"px-4 py-6 md:px-6 lg:px-20"}>
+      <section>
+        <BudgetTrackerNav />
+        {children}
+      </section>
+    </div>
   );
 };
 

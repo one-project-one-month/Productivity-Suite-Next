@@ -17,3 +17,4 @@ export const CurrencyType = pgEnum("currency_type_enum", [
 
 export type TimerType = (typeof TimerType.enumValues)[number];
 export type TodoStatus = (typeof TodoStatus.enumValues)[number];
+export type CurrencyType = (typeof CurrencyType.enumValues)[number];
