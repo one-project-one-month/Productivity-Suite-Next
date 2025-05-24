@@ -1,9 +1,15 @@
 import { Faker, en } from "@faker-js/faker";
 import { db } from "@/database/drizzle";
-import { budget, category, transactions } from "./schema";
+import { budget, category, transactions, userCategory } from "./schema";
 import { addDays, subDays } from "date-fns";
 
-const categories = ["food", "leisure", "transport", "academic", "other"];
+const categories = [
+  { name: "food", color: "#2a9d90" },
+  { name: "leisure", color: "#e8c468" },
+  { name: "transport", color: "#247754" },
+  { name: "academic", color: "#e76e50" },
+  { name: "other", color: "#f4a462" },
+];
 const faker = new Faker({ locale: [en] });
 export const BUDGET_PLANS = [
   {
@@ -53,10 +59,24 @@ try {
   await cleanUp();
   console.log("Clean up finished...");
   const categoryPromises = categories.map(async (item) => {
-    const data = await db.insert(category).values({ name: item }).returning();
+    const data = await db
+      .insert(category)
+      .values({ name: item.name, color: item.color })
+      .returning();
     return data[0];
   });
   const generatedCategories = await Promise.all(categoryPromises);
+  const userCategoryPromise = generatedCategories.map(async (item) => {
+    const data = await db
+      .insert(userCategory)
+      .values({
+        userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
+        categoryId: item.id,
+      })
+      .returning();
+    return data[0];
+  });
+  await Promise.all(userCategoryPromise);
   const budgetPlanPromises = BUDGET_PLANS.map(async (item, idx) => {
     const categoryId = generatedCategories[idx].id;
     const data = await db

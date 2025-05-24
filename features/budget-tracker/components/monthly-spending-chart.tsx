@@ -18,7 +18,13 @@ interface ChartData {
   [key: string]: string | number;
 }
 
-export default function MonthlySpendingChart({ data }: { data: ChartData[] }) {
+export default function MonthlySpendingChart({
+  data,
+  categories,
+}: {
+  data: ChartData[];
+  categories: Record<string, Record<string, string>>;
+}) {
   const renderLegend = (props: any) => {
     const { payload } = props;
 
@@ -42,26 +48,7 @@ export default function MonthlySpendingChart({ data }: { data: ChartData[] }) {
   return (
     <ChartContainer
       config={{
-        Food: {
-          label: "Food",
-          color: "#2a9d90",
-        },
-        Housing: {
-          label: "Housing",
-          color: "#e76e50",
-        },
-        Transport: {
-          label: "Transport",
-          color: "#247754",
-        },
-        Leisure: {
-          label: "Leisure",
-          color: "#e8c468",
-        },
-        Other: {
-          label: "Other",
-          color: "#f4a462",
-        },
+        categories,
       }}
       className="h-[300px] max-w-[300px] md:max-w-[95%] md:mx-auto "
     >
