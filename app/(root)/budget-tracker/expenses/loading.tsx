@@ -5,9 +5,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 const ExpensesLoading = () => {
   return (
     <div className={"mt-4 md:mt-6 p-6  border-1 border-black/40 rounded-xl "}>
-      <h2 className={"font-bold text-2xl"}>Your Budget Plans</h2>
+      <h2 className={"font-bold text-2xl"}>All Expenses</h2>
       <p className={"mb-4 text-gray-500 "}>
-        Manage your existing budget plans or create new one.
+        View and manage all your recorded expenses.
       </p>
       <div
         className={
