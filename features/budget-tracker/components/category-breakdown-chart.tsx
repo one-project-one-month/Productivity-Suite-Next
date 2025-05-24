@@ -10,6 +10,7 @@ import {
 } from "recharts";
 
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+import { compactFormatter, numFormatter } from "@/lib/utils";
 
 interface ChartData {
   name: string | null;
@@ -46,7 +47,9 @@ export default function CategoryBreakdownChart({
               <span className="font-medium capitalize">{entry.value}</span>
             </div>
             <div>
-              <span className="tabular-nums">${enhancedData[index].value}</span>
+              <span className="tabular-nums">
+                {numFormatter.format(enhancedData[index].value as number)} MMK
+              </span>
               <span className="text-xs text-muted-foreground tabular-nums">
                 ({enhancedData[index].percentage}%)
               </span>
@@ -60,7 +63,10 @@ export default function CategoryBreakdownChart({
   // Custom tooltip formatter to show percentage
   const tooltipFormatter = (value: number) => {
     const percentage = ((value / total) * 100).toFixed(1);
-    return [`$${value} (${percentage}%)`, "Total Budget"];
+    return [
+      `${compactFormatter.format(value)} MMK (${percentage}%)`,
+      "Total Budget",
+    ];
   };
 
   return (
@@ -87,7 +93,7 @@ export default function CategoryBreakdownChart({
           color: "#f4a462",
         },
       }}
-      className="h-[400px]  md:h-[350px] lg:h-[300px] max-w-[300px] md:max-w-full "
+      className="h-[400px]  md:h-[350px] max-w-[300px] md:max-w-full "
     >
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>

@@ -1,18 +1,27 @@
 import { Button } from "@/components/ui/button";
-import { RECENT_EXPENSES_PLACEHOLDER } from "@/constants";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import Expense from "@/features/budget-tracker/components/expense";
+import { getAllExpenses } from "@/features/budget-tracker/actions/get-all-expenses";
+import { notFound } from "next/navigation";
 
-const ExpensesPage = () => {
+const ExpensesPage = async () => {
+  const data = await getAllExpenses();
+  if (!data) {
+    return notFound();
+  }
   return (
     <div className={"mt-4 md:mt-6 p-6  border-1 border-black/40 rounded-xl "}>
-      <h2 className={"font-bold text-2xl"}>Your Budget Plans</h2>
+      <h2 className={"font-bold text-2xl"}>All Expenses</h2>
       <p className={"mb-4 text-gray-500 "}>
-        Manage your existing budget plans or create new one.
+        View and manage all your recorded expenses.
       </p>
-      <div>
-        {RECENT_EXPENSES_PLACEHOLDER.map((expense, idx) => (
+      <div
+        className={
+          "max-h-[50vh] md:max-h-[65vh] lg:max-h-[50vh] overflow-y-scroll pr-4"
+        }
+      >
+        {data.map((expense, idx) => (
           <Expense {...expense} key={idx} />
         ))}
       </div>

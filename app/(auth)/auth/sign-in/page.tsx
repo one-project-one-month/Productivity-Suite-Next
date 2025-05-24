@@ -2,14 +2,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { House } from "lucide-react";
 import SignInForm from "@/features/auth/components/sign-in-form";
-import { getUserSession } from "@/lib/server-util";
-import { redirect } from "next/navigation";
 
 const SignInPage = async () => {
-  const session = await getUserSession();
-  if (session) {
-    redirect("/");
-  }
   return (
     <section
       className={"w-full max-w-[520px] p-6 bg-white shadow-md rounded-lg"}
