@@ -88,7 +88,21 @@ export const notes = pgTable("note", {
 export const category = pgTable("category", {
   id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
   name: varchar("category", { length: 255 }).notNull().unique(),
+  color: varchar({ length: 7 }).notNull(),
 });
+
+export const userCategory = pgTable(
+  "user_category",
+  {
+    userId: text("user_id")
+      .references(() => user.id, { onDelete: "cascade" })
+      .notNull(),
+    categoryId: uuid("category_id")
+      .references(() => category.id, { onDelete: "cascade" })
+      .notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.categoryId, table.userId] })],
+);
 
 export const budget = pgTable("budget", {
   id: uuid("id").notNull().primaryKey().defaultRandom().unique(),

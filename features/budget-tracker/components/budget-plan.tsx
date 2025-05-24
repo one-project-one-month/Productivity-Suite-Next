@@ -29,7 +29,7 @@ const BudgetPlan = ({ data }: BudgetPlanProps) => {
         </p>
       </div>
       <p className={"flex flex-col gap-y-1.5 text-right"}>
-        <span className={"text-lg font-bold md:text-xl"}>
+        <span className={"text-lg font-bold "}>
           {numFormatter.format(data.spent ?? 0)} MMK &nbsp;/&nbsp;
           {numFormatter.format(data.amount)} MMK
         </span>

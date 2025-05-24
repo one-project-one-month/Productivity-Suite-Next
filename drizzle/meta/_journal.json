@@ -57,6 +57,27 @@
       "when": 1748060123812,
       "tag": "0007_long_randall",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1748095779607,
+      "tag": "0008_salty_scalphunter",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1748095804619,
+      "tag": "0009_free_dark_phoenix",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1748101090201,
+      "tag": "0010_married_thaddeus_ross",
+      "breakpoints": true
     }
   ]
 }

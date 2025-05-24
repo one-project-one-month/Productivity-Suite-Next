@@ -1,10 +1,17 @@
 import MonthlySpendingChart from "@/features/budget-tracker/components/monthly-spending-chart";
 import { getPastSpending } from "@/features/budget-tracker/actions/get-past-spending";
 import { notFound } from "next/navigation";
+import { getAllCategories } from "@/features/budget-tracker/actions/get-all-categories";
+import { transformCategoryIntoChartLabel } from "@/lib/utils";
 
 const BudgetAnalyticsPage = async () => {
-  const data = await getPastSpending();
-  if (!data) {
+  const pastSpendingPromise = getPastSpending();
+  const categoriesPromise = getAllCategories();
+  const [pastSpending, categories] = await Promise.all([
+    pastSpendingPromise,
+    categoriesPromise,
+  ]);
+  if (!pastSpending || !categories) {
     return notFound();
   }
   return (
@@ -13,7 +20,10 @@ const BudgetAnalyticsPage = async () => {
       <p className={"mb-4 text-gray-400 font-semibold"}>
         Your spending trends over the past 6 months
       </p>
-      <MonthlySpendingChart data={data} />
+      <MonthlySpendingChart
+        data={pastSpending}
+        categories={transformCategoryIntoChartLabel(categories)}
+      />
     </div>
   );
 };
