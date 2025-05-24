@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
+import { Category } from "@/database/interfaces.types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -27,3 +28,18 @@ export const compactFormatter = new Intl.NumberFormat("en-US", {
   compactDisplay: "short",
   maximumFractionDigits: 1,
 });
+
+export const transformCategoryIntoChartLabel = (data: Category[]) => {
+  return data.reduce(
+    (acc, curr) => {
+      const temp = {
+        [curr.name]: {
+          label: curr.name,
+          color: curr.color,
+        },
+      };
+      return { ...acc, ...temp };
+    },
+    {} as Record<string, Record<string, string>>,
+  );
+};

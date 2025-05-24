@@ -1,0 +1,1 @@
+ALTER TABLE "category" ALTER COLUMN "color" SET NOT NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE "category" ADD COLUMN "color" varchar(7);

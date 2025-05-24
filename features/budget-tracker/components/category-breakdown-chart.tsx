@@ -19,8 +19,10 @@ interface ChartData {
 
 export default function CategoryBreakdownChart({
   data,
+  categories,
 }: {
   data: ChartData[];
+  categories: Record<string, Record<string, string>>;
 }) {
   // Calculate total for percentages
   const total = data.reduce((sum, item) => sum + item.value, 0);
@@ -72,26 +74,7 @@ export default function CategoryBreakdownChart({
   return (
     <ChartContainer
       config={{
-        food: {
-          label: "Food",
-          color: "#2a9d90",
-        },
-        academic: {
-          label: "Academic",
-          color: "#e76e50",
-        },
-        transport: {
-          label: "Transport",
-          color: "#247754",
-        },
-        leisure: {
-          label: "Leisure",
-          color: "#e8c468",
-        },
-        other: {
-          label: "Other",
-          color: "#f4a462",
-        },
+        ...categories,
       }}
       className="h-[400px]  md:h-[350px] max-w-[300px] md:max-w-full "
     >
