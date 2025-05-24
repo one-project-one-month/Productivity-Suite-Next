@@ -10,6 +10,10 @@ export const formatDate = (date: Date | string) => {
   return format(date, "MMM d, yyyy");
 };
 
+export const formatHeatmapDate = (date: Date | string) => {
+  return format(date, "yyyy-MM-dd");
+};
+
 export const sleep = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
