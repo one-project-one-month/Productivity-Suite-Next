@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 // Word animation generator
 const wordAnimation = (delay: number) => ({
@@ -36,7 +37,7 @@ const AnimatedWords = ({
           key={i}
           custom={i}
           variants={wordAnimation(delay)}
-          className="inline-block text-4xl md:text-8xl font-bold tracking-wider mt-2"
+          className="inline-block text-4xl md:text-8xl font-bold tracking-wide mt-2"
         >
           {word}
         </motion.span>
@@ -47,7 +48,7 @@ const AnimatedWords = ({
 
 export default function HeroSection() {
   return (
-    <div className="flex flex-row justify-center items-center md:h-[600px] h-48 mt-10 ">
+    <div className="flex flex-row justify-center items-center md:h-[600px] h-64 mt-10 relative">
       <div className="flex flex-col justify-center items-center text-center">
         <AnimatedWords text="Organize Your Mind &" delay={0.3} />
         <AnimatedWords text="Manage Your  Grind " delay={1.4} />
@@ -60,9 +61,11 @@ export default function HeroSection() {
           className="flex gap-4 md:mt-20"
         >
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:justify-center sm:items-center mt-8 px-4">
-            <Button className="w-full sm:w-auto border border-gray-300 bg-transparent px-4 py-4 text-white hover:bg-transparent cursor-pointer hover:text-white text-center">
-              Check Productivity Tools
-            </Button>
+            <Link href="/#tools">
+              <Button className="w-full sm:w-auto border border-gray-300 bg-transparent px-4 py-4 text-foreground hover:bg-transparent cursor-pointer hover:text-muted-foreground text-center">
+                Check Productivity Tools
+              </Button>
+            </Link>
 
             <Button className="w-full sm:w-auto relative items-center justify-center inline-flex px-5 py-4 overflow-hidden font-medium cursor-pointer text-indigo-600 rounded-lg shadow-2xl group">
               <span className="absolute top-0 left-0 w-40 h-40 -mt-10 -ml-3 transition-all duration-700 bg-red-500 rounded-full blur-md ease"></span>
@@ -76,6 +79,11 @@ export default function HeroSection() {
             </Button>
           </div>
         </motion.div>
+      </div>
+
+      {/* bg gradient blob */}
+      <div className="absolute inset-0 z-[-1] blur-3xl opacity-10">
+        <div className="blob bg-foreground w-full h-full" />
       </div>
     </div>
   );

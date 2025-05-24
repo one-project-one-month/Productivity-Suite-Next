@@ -56,7 +56,8 @@ const CardSection = () => {
 
   return (
     <section
-      className={`w-full min-h-screen mb-36 md:mb-0 md:mt-14 flex flex-col items-center justify-center px-6 py-16 transition-all duration-500 bg-black bg-cover bg-center`}
+      id="tools"
+      className={`w-full min-h-dvh mb-36 md:mb-0 md:mt-14 flex flex-col items-center justify-center px-6 py-10 transition-all duration-500 !bg-muted bg-cover bg-center`}
       style={{
         backgroundImage: backgroundImage
           ? `url(${backgroundImage})`
@@ -66,7 +67,7 @@ const CardSection = () => {
       }}
     >
       {/* mobile card :3 */}
-      <div className="grid grid-cols-1 md:hidden items-center justify-center gap-6 w-full max-w-7xl">
+      <div className="grid p-4 grid-cols-1 md:hidden place-items-center gap-6 w-full max-w-7xl">
         {cards.map((card, index) => (
           <div key={index} className="relative">
             <CardDataMobile
@@ -80,7 +81,7 @@ const CardSection = () => {
       </div>
 
       {/* desktop card :3 */}
-      <div className="hidden md:grid md:grid-cols-4 items-center justify-center gap-6 h-full w-full max-w-7xl">
+      <div className="hidden md:grid md:grid-cols-4 items-center justify-center gap-6 w-full max-w-7xl">
         {cards.map((card, index) => (
           <div key={index} className="relative">
             <CardData
@@ -97,14 +98,16 @@ const CardSection = () => {
               <div
                 className={`md:absolute top-0 transition-all duration-500 ease-in-out delay-200 
                 ${index === 0 || index === 1 ? "left-full" : "right-full mr-10"} 
-                w-max min-h-80  text-white p-6 rounded-xl
+                min-h-full w-sm lg:w-xl text-foreground p-6 rounded-xl
                 flex items-center justify-center md:opacity-100 opacity-0`}
               >
-                <div className="text-center backdrop-blur-md bg-white/10 border border-white/30 rounded-xl p-4">
-                  <h3 className="text-2xl font-bold mb-3 text-white">
+                <div className="text-center backdrop-blur-md bg-foreground/10 border border-foreground/30 rounded-xl p-4">
+                  <h3 className="text-2xl font-bold mb-3 text-foreground">
                     {card.title}
                   </h3>
-                  <p className="text-base text-white">{card.description}</p>
+                  <p className="text-base text-foreground">
+                    {card.description}
+                  </p>
                 </div>
               </div>
             )}

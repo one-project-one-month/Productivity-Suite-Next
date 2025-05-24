@@ -1,9 +1,17 @@
-import { getNoteContentById, getNoteTitle, updateNote } from "@/features/notes/actions";
+import {
+  getNoteContentById,
+  getNoteTitle,
+  updateNote,
+} from "@/features/notes/actions";
 import NoteEditor from "@/features/notes/components/note-editor";
 import { INoteType } from "@/features/notes/components/note-types";
 // import { getUserSession } from "@/lib/server-util";
 
-export async function generateMetadata({params}: {params: Promise<{id:string}>}) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const id = (await params).id;
   const res = await getNoteTitle(id);
   return {
@@ -28,7 +36,7 @@ export default async function NotePage({
 
   return (
     <section className="max-w-7xl mx-auto">
-      <NoteEditor />
+      <NoteEditor data={data} mutate={mutateNote} />
     </section>
   );
 }

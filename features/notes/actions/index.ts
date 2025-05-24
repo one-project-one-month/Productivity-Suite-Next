@@ -30,13 +30,21 @@ export async function getNotesByUserId(userId: string) {
   return res;
 }
 
-export async function searchNotesByUserId(q:string) {
-  const res = await db.select({id:notes.id}).from(notes).where(or (ilike(notes.body,`%${q}%`), ilike(notes.title, `%${notes.title}%`)));
+export async function searchNotesByUserId(q: string) {
+  const res = await db
+    .select({ id: notes.id })
+    .from(notes)
+    .where(
+      or(ilike(notes.body, `%${q}%`), ilike(notes.title, `%${notes.title}%`)),
+    );
   return res;
 }
 
 export async function getNoteTitle(noteId: string) {
-  const res = await db.select({title: notes.title}).from(notes).where(eq(notes.id, noteId));
+  const res = await db
+    .select({ title: notes.title })
+    .from(notes)
+    .where(eq(notes.id, noteId));
   return res;
 }
 

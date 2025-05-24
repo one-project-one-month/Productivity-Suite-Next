@@ -98,6 +98,7 @@ export const usePomodoro = (): UsePomodoroReturn => {
   }, [saveTimerState]);
 
   const resetTimer = useCallback(() => {
+    setTimerState("idle");
     setIsActive(false);
     switch (timerState) {
       case "work":

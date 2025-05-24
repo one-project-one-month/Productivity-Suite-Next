@@ -2,7 +2,7 @@
 
 import { EditorContent } from "@tiptap/react";
 import MenuBar from "./menu";
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Edit2, Save } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,25 +20,42 @@ import MoreActions from "./more-actions";
 // import { getNoteContentById } from "../actions";
 
 export default function Editor({
-  title,
-  body,
-  createdAt,
-  updatedAt,
+  data,
+  mutate,
 }: {
-  title: string;
-  body: string;
-  updatedAt: Date;
-  createdAt: Date;
+  data: TNoteType;
+  mutate: (data: INoteType) => Promise<void>;
 }) {
+  const { id, title, body, createdAt, updatedAt } = data;
+
   const [toggleMd, setToggleMd] = useState(true);
   const [saved, setSaved] = useState(true);
   const [markdownText, setMarkdownText] = useState(body);
+  const [titleText, setTitleText] = useState(title);
 
-  const editor = useCustomEditor(body);
+  const editor = useCustomEditor(body || "");
 
-  function handleSave() {
-    setSaved(true);
+  // console.log(markdownText);
+
+  useBeforeUnload(!saved);
+
+  async function handleSave(data: TNoteType) {
+    await mutate({
+      ...data,
+      title: titleText,
+      body: markdownText,
+      userId: "",
+      updatedAt: new Date(),
+    }).then(() => {
+      setSaved(true);
+      toast.success("Saved!");
+    });
   }
+
+  const [state, formAction, isPending] = useActionState(
+    () => handleSave(data),
+    null,
+  );
 
   function handleCancel() {
     editor?.commands.setContent(body);
@@ -51,6 +68,7 @@ export default function Editor({
     const initialMarkdown = body;
     const handleUpdate = () => {
       const currentMarkdown = editor.storage.markdown.getMarkdown();
+      setMarkdownText(currentMarkdown);
       setSaved(currentMarkdown === initialMarkdown);
     };
 
@@ -61,14 +79,14 @@ export default function Editor({
     };
   }, [editor, body]);
 
-  useEffect(() => {
-    if (!editor) return;
+  // useEffect(() => {
+  //   if (!editor) return;
 
-    if (!toggleMd) {
-      const md = editor.storage.markdown.getMarkdown();
-      setMarkdownText(md);
-    }
-  }, [toggleMd, editor]);
+  //   if (!toggleMd) {
+  //     const md = editor.storage.markdown.getMarkdown();
+  //     setMarkdownText(md);
+  //   }
+  // }, [toggleMd, editor]);
 
   function handleToggle() {
     if (!editor) return;
@@ -76,16 +94,16 @@ export default function Editor({
     if (!toggleMd) {
       editor.commands.setContent(markdownText);
     }
-
     setToggleMd((prev) => !prev);
   }
 
+  const maxLimit =
+    NOTE_CHARS_LIMIT - Number(editor?.storage.characterCount.characters());
   return (
     <section
       className="w-full p-1 min-h-[calc(100dvh-80px)]"
       title={state || ""}
     >
-
       <div className="">
         <div className="w-full flex justify-between px-2 gap-2">
           <div title={id}>
@@ -129,11 +147,10 @@ export default function Editor({
               </form>
             )}
 
-            {!saved && <CancelBtn handleCancel={handleCancel} />} 
+            {!saved && <CancelBtn handleCancel={handleCancel} />}
 
             <MoreActions editor={editor} title={titleText} />
           </div>
-
         </div>
 
         <div>
@@ -158,8 +175,11 @@ export default function Editor({
               <EditorContent editor={editor} />
             ) : (
               <Textarea
-                value={markdownText}
-                onChange={(e) => setMarkdownText(e.target.value)}
+                value={markdownText || ""}
+                onChange={(e) => {
+                  setMarkdownText(e.target.value);
+                  setSaved(false);
+                }}
                 className=" w-full bg-muted font-mono text-sm min-h-[calc(100dvh-180px)]"
               />
             )}
@@ -167,14 +187,14 @@ export default function Editor({
           </div>
           <div className="w-full max-w-7xl bg-background text-foreground left-1/2 -translate-x-1/2 fixed bottom-0 z-10 text-right text-sm">
             <span className="">
-              {editor?.storage.characterCount.characters()} characters
+              {editor?.storage.characterCount.characters().toLocaleString()}{" "}
+              characters
             </span>
             <span className="mx-3">
-              {editor?.storage.characterCount.words()} words
+              {editor?.storage.characterCount.words().toLocaleString()} words
             </span>
-            <span className="mx-3">
-              {2048 - Number(editor?.storage.characterCount.characters()) || 0}{" "}
-              remaining
+            <span className={`mx-3 ${!!!maxLimit && "text-destructive"}`}>
+              {maxLimit.toLocaleString()} remaining
             </span>
           </div>
         </TypoStyle>

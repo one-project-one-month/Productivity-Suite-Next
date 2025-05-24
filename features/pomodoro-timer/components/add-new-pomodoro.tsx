@@ -22,7 +22,12 @@ import {
 } from "@/components/ui/select";
 import AddWorkBreakSession from "./add-work-break-session";
 import { getUserSession } from "@/lib/server-util";
-import { useAddTimerSequence } from "../hooks/use-add-timer-sequence";
+import {
+  useAddTimer,
+  useAddTimerSequence,
+  useAddTimerSequenceToDb,
+} from "../hooks/use-add-timer-sequence";
+import { Plus } from "lucide-react";
 
 // Step now holds either work or break, not both
 type Step = { type: "work" | "break"; duration: number | null };
@@ -36,6 +41,8 @@ interface PomodoroTask {
 
 const AddNewPomodoro = () => {
   const { mutateAsync } = useAddTimerSequence();
+  const { mutateAsync: addTimerToDb } = useAddTimer();
+  const { mutateAsync: addTimerSequenceToDb } = useAddTimerSequenceToDb();
 
   const [task, setTask] = useState<PomodoroTask>({
     category: "",
@@ -47,6 +54,7 @@ const AddNewPomodoro = () => {
 
   // Start with a work step
   const [steps, setSteps] = useState<Step[]>([{ type: "work", duration: 25 }]);
+  // console.log("STEPS: ", steps);
 
   // Add new step, alternating between work and break
   const addStep = () => {
@@ -120,7 +128,7 @@ const AddNewPomodoro = () => {
       ];
     });
 
-    requestIdleCallback(() => {
+    requestIdleCallback(async () => {
       console.log("Sequence:", sequence);
       console.log("Timer Sequence:", timerSequence);
     });
@@ -134,7 +142,21 @@ const AddNewPomodoro = () => {
     };
 
     try {
-      await mutateAsync(payload);
+      const seq = await mutateAsync(payload);
+
+      timerSequence.forEach(async ({ timer }, idx) => {
+        const res = await addTimerToDb({
+          ...timer,
+          type: timer.type == "work" ? "FOCUS" : "BREAK",
+        });
+        const timerSeq = await addTimerSequenceToDb({
+          timerId: res[0].id,
+          sequenceId: seq.id,
+          step: timerSequence[idx].step,
+        });
+        console.log("RES >>", res);
+        console.log("TIMER SEQ >>", timerSeq);
+      });
 
       // Reset steps to initial state
       setSteps([{ type: "work", duration: 25 }]);
@@ -155,22 +177,8 @@ const AddNewPomodoro = () => {
   return (
     <div className="w-full bg-primary/10 hover:bg-primary/20 rounded-lg flex items-center justify-between transition-all duration-200">
       <Dialog>
-        <DialogTrigger className="w-full h-full bg-transparent text-lg outline-none text-primary/80 hover:text-primary cursor-pointer px-4 py-2 flex items-center gap-2">
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 15 15"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5"
-          >
-            <path
-              d="M8 2.75C8 2.47386 7.77614 2.25 7.5 2.25C7.22386 2.25 7 2.47386 7 2.75V7H2.75C2.47386 7 2.25 7.22386 2.25 7.5C2.25 7.77614 2.47386 8 2.75 8H7V12.25C7 12.5261 7.22386 12.75 7.5 12.75C7.77614 12.75 8 12.5261 8 12.25V8H12.25C12.5261 8 12.75 7.77614 12.75 7.5C12.75 7.22386 12.5261 7 12.25 7H8V2.75Z"
-              fill="currentColor"
-              fillRule="evenodd"
-              clipRule="evenodd"
-            />
-          </svg>
+        <DialogTrigger className="w-full h-full bg-transparent outline-none text-primary/80 hover:text-primary cursor-pointer px-4 py-1.5 flex items-center gap-2">
+          <Plus size={18} />
           Add New Pomodoro
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] md:max-w-[500px] h-[600px] overflow-y-auto">

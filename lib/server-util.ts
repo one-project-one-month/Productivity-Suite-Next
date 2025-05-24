@@ -10,6 +10,8 @@ export const getUserSession = async () => {
   });
 };
 
+export type Session = Awaited<ReturnType<typeof getUserSession>> | null;
+
 export const checkSessionAndRedirect = async (type: "PROTECTED" | "AUTH") => {
   const session = await getUserSession();
   if (type === "PROTECTED" && !session) {
