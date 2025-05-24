@@ -3,7 +3,7 @@
 import { db } from "@/database/drizzle";
 import { budget, transactions } from "@/database/schema";
 import { getUserSession } from "@/lib/server-util";
-import { eq, sum } from "drizzle-orm";
+import { eq, isNotNull, sql, sum } from "drizzle-orm";
 
 export const getBudgetOverviewChartData = async () => {
   try {
@@ -13,7 +13,13 @@ export const getBudgetOverviewChartData = async () => {
     }
     const sq = db
       .select({
-        spent: sum(transactions.amount).mapWith(Number).as("spent"),
+        spent: sql`COALESCE(SUM(
+        ${transactions.amount}
+        ),
+        0
+        )`
+          .mapWith(Number)
+          .as("spent"),
         budgetId: transactions.budgetId,
       })
       .from(transactions)
@@ -23,7 +29,8 @@ export const getBudgetOverviewChartData = async () => {
     const data = await db
       .select({ name: budget.title, spent: sq.spent, budget: budget.amount })
       .from(budget)
-      .leftJoin(sq, eq(budget.id, sq.budgetId));
+      .leftJoin(sq, eq(budget.id, sq.budgetId))
+      .where(isNotNull(sq.spent));
     return data;
   } catch (error) {
     console.log(error);

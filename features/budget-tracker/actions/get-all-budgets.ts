@@ -1,31 +1,25 @@
 "use server";
 
+import { getUserSession } from "@/lib/server-util";
 import { db } from "@/database/drizzle";
-import { budget, category, transactions } from "@/database/schema";
-import { eq, sum } from "drizzle-orm";
+import { budget } from "@/database/schema";
+import { eq } from "drizzle-orm";
 
 export const getAllBudgets = async () => {
   try {
-    const sq = db
-      .select({
-        budgetId: transactions.budgetId,
-        spent: sum(transactions.amount).mapWith(Number).as("spent"),
-      })
-      .from(transactions)
-      .groupBy(transactions.budgetId)
-      .as("sq");
+    const session = await getUserSession();
+    if (!session) {
+      return null;
+    }
+
     const data = await db
       .select({
         id: budget.id,
         title: budget.title,
-        description: budget.description,
-        amount: budget.amount,
-        spent: sq.spent,
-        category: category.name,
+        currency: budget.currency,
       })
       .from(budget)
-      .leftJoin(sq, eq(budget.id, sq.budgetId))
-      .leftJoin(category, eq(budget.categoryId, category.id));
+      .where(eq(budget.userId, session.user.id));
     return data;
   } catch (error) {
     console.log(error);

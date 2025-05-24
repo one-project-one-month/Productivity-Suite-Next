@@ -15,7 +15,7 @@ type CategorySelectProps = {
   categories: Category[];
 };
 
-const CategorySelect = ({
+const CategoryPicker = ({
   value,
   onChange,
   categories,
@@ -47,4 +47,4 @@ const CategorySelect = ({
   );
 };
 
-export default CategorySelect;
+export default CategoryPicker;

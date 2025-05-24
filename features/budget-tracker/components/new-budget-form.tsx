@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays } from "date-fns";
 import { Category } from "@/database/interfaces.types";
 import { Textarea } from "@/components/ui/textarea";
-import CategorySelect from "@/features/budget-tracker/components/category-select";
+import CategoryPicker from "@/features/budget-tracker/components/category-picker";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import DurationPicker from "@/features/budget-tracker/components/duration-picker";
@@ -124,7 +124,7 @@ const NewBudgetForm = ({ categories }: { categories: Category[] }) => {
             <FormItem>
               <FormLabel>Budget Amount</FormLabel>
               <FormControl>
-                <CategorySelect
+                <CategoryPicker
                   value={field.value}
                   onChange={field.onChange}
                   categories={categories}

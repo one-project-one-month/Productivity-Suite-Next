@@ -2,11 +2,11 @@ import BudgetPlan from "@/features/budget-tracker/components/budget-plan";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
-import { getAllBudgets } from "@/features/budget-tracker/actions/get-all-budgets";
+import { getAllBudgetWithDetails } from "@/features/budget-tracker/actions/get-all-budget-with-details";
 import { notFound } from "next/navigation";
 
 const BudgetsPage = async () => {
-  const data = await getAllBudgets();
+  const data = await getAllBudgetWithDetails();
   if (!data) {
     return notFound();
   }
