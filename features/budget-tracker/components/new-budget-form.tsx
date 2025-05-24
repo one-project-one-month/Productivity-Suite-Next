@@ -18,7 +18,6 @@ import CategoryPicker from "@/features/budget-tracker/components/category-picker
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import DurationPicker from "@/features/budget-tracker/components/duration-picker";
-import CurrencyPicker from "@/features/budget-tracker/components/currency-picker";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createNewBudget } from "@/features/budget-tracker/actions/create-new-budget";
@@ -34,7 +33,6 @@ const NewBudgetForm = ({ categories }: { categories: Category[] }) => {
       categoryId: "",
       durationFrom: new Date(),
       durationTo: addDays(new Date(), 15),
-      currency: "USD",
     },
   });
 
@@ -82,40 +80,25 @@ const NewBudgetForm = ({ categories }: { categories: Category[] }) => {
           )}
         />
 
-        <div className={"grid grid-cols-2 gap-x-4"}>
-          <FormField
-            control={form.control}
-            name={"amount"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Budget Amount</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={"0.00"}
-                    value={field.value}
-                    type={"number"}
-                    onChange={(evt) =>
-                      field.onChange(Number.parseInt(evt.target.value))
-                    }
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name={"currency"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Currency</FormLabel>
-                <FormControl>
-                  {/*@ts-expect-error value cannot be null*/}
-                  <CurrencyPicker {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name={"amount"}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Budget Amount</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={"0.00"}
+                  value={field.value}
+                  type={"number"}
+                  onChange={(evt) =>
+                    field.onChange(Number.parseInt(evt.target.value))
+                  }
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}

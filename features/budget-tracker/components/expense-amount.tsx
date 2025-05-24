@@ -1,27 +1,10 @@
 import { Input } from "@/components/ui/input";
-import { Control, useWatch } from "react-hook-form";
-import { TNewExpenseSchema } from "@/database/validators";
-import { BudgetAndCurrency } from "@/features/budget-tracker/components/new-expense-form";
 
 type ExpenseAmountProps = {
   value: number;
   onChange: (value: number) => void;
-  control: Control<TNewExpenseSchema>;
-  budgets: BudgetAndCurrency[];
 };
-const ExpenseAmount = ({
-  value,
-  onChange,
-  control,
-  budgets,
-}: ExpenseAmountProps) => {
-  const activeBudget = useWatch({
-    control,
-    name: "budgetId",
-  });
-  const activeCurrency = budgets.filter(
-    (budget) => budget.id === activeBudget,
-  )[0].currency;
+const ExpenseAmount = ({ value, onChange }: ExpenseAmountProps) => {
   return (
     <div className={"flex justify-center items-baseline gap-x-4"}>
       <Input
@@ -30,7 +13,7 @@ const ExpenseAmount = ({
         type={"number"}
         onChange={(evt) => onChange(Number.parseInt(evt.target.value))}
       />
-      <Input disabled={true} value={activeCurrency} className={"w-[80px]"} />
+      <Input disabled={true} value={"MMK"} className={"w-[80px]"} />
     </div>
   );
 };

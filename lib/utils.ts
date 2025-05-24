@@ -13,3 +13,13 @@ export const formatDate = (date: Date | string) => {
 export const sleep = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
+
+export const numFormatter = new Intl.NumberFormat("en-US", {
+  maximumSignificantDigits: 3,
+});
+
+export const compactFormatter = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  compactDisplay: "short",
+  maximumFractionDigits: 1,
+});

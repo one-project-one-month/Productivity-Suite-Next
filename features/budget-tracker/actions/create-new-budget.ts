@@ -3,7 +3,6 @@
 import { TNewBudgetSchema } from "@/database/validators";
 import { db } from "@/database/drizzle";
 import { budget } from "@/database/schema";
-import { type CurrencyType } from "@/database/enums";
 import { getUserSession } from "@/lib/server-util";
 
 export const createNewBudget = async (payload: TNewBudgetSchema) => {
@@ -19,7 +18,6 @@ export const createNewBudget = async (payload: TNewBudgetSchema) => {
       .insert(budget)
       .values({
         ...payload,
-        currency: payload.currency as CurrencyType,
         userId: session.user.id,
       })
       .returning();

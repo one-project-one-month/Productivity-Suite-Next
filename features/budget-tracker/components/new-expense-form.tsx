@@ -21,13 +21,12 @@ import { createNewExpense } from "@/features/budget-tracker/actions/create-new-e
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-export interface BudgetAndCurrency {
+interface Budget {
   id: string;
   title: string;
-  currency: string;
 }
 
-const NewExpenseForm = ({ budgets }: { budgets: BudgetAndCurrency[] }) => {
+const NewExpenseForm = ({ budgets }: { budgets: Budget[] }) => {
   const form = useForm<TNewExpenseSchema>({
     resolver: zodResolver(NewExpenseSchema),
     defaultValues: {
@@ -103,11 +102,7 @@ const NewExpenseForm = ({ budgets }: { budgets: BudgetAndCurrency[] }) => {
             <FormItem className={"w-full"}>
               <FormLabel>Budget Amount</FormLabel>
               <FormControl>
-                <ExpenseAmount
-                  control={form.control}
-                  {...field}
-                  budgets={budgets}
-                />
+                <ExpenseAmount {...field} />
               </FormControl>
             </FormItem>
           )}

@@ -16,7 +16,6 @@ export const getAllBudgets = async () => {
       .select({
         id: budget.id,
         title: budget.title,
-        currency: budget.currency,
       })
       .from(budget)
       .where(eq(budget.userId, session.user.id));

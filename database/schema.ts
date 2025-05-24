@@ -1,7 +1,3 @@
-/*
- * Pomodoro Related Tables
- * */
-
 import {
   integer,
   pgTable,
@@ -11,9 +7,12 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import { CurrencyType, TimerType, TodoStatus } from "@/database/enums";
 import { user } from "@/database/auth-schema";
+import { TimerType, TodoStatus } from "@/database/enums";
 
+/*
+ * Pomodoro Related Tables
+ * */
 export const timers = pgTable("timer", {
   id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
   duration: integer("duration").notNull(),
@@ -106,7 +105,6 @@ export const budget = pgTable("budget", {
     .defaultNow()
     .notNull(),
   durationTo: timestamp("duration_to", { withTimezone: true }).notNull(),
-  currency: CurrencyType("currency").default("USD").notNull(),
 });
 
 export const transactions = pgTable("transaction", {

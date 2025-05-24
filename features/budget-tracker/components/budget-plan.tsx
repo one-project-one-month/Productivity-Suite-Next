@@ -1,3 +1,5 @@
+import { numFormatter } from "@/lib/utils";
+
 type BudgetPlanProps = {
   data: {
     title: string;
@@ -28,7 +30,8 @@ const BudgetPlan = ({ data }: BudgetPlanProps) => {
       </div>
       <p className={"flex flex-col gap-y-1.5 text-right"}>
         <span className={"text-lg font-bold md:text-xl"}>
-          ${data.spent ?? 0}/${data.amount}
+          {numFormatter.format(data.spent ?? 0)} MMK &nbsp;/&nbsp;
+          {numFormatter.format(data.amount)} MMK
         </span>
         <span className={"text-sm text-gray-500 md:text-base"}>
           {percentSpent}% Used

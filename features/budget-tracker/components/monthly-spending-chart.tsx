@@ -12,6 +12,7 @@ import {
 } from "recharts";
 
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+import { compactFormatter } from "@/lib/utils";
 
 interface ChartData {
   [key: string]: string | number;
@@ -29,7 +30,9 @@ export default function MonthlySpendingChart({ data }: { data: ChartData[] }) {
               className="h-3 w-3 rounded-full"
               style={{ backgroundColor: entry.color }}
             />
-            <span className="text-muted-foreground">{entry.value}</span>
+            <span className="text-muted-foreground capitalize">
+              {entry.value}
+            </span>
           </div>
         ))}
       </div>
@@ -60,7 +63,7 @@ export default function MonthlySpendingChart({ data }: { data: ChartData[] }) {
           color: "#f4a462",
         },
       }}
-      className="h-[300px] max-w-[300px] md:max-w-full "
+      className="h-[300px] max-w-[300px] md:max-w-[95%] md:mx-auto "
     >
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
@@ -81,10 +84,10 @@ export default function MonthlySpendingChart({ data }: { data: ChartData[] }) {
             tickMargin={8}
             axisLine={false}
             tickLine={false}
-            tickFormatter={(value) => `$${value}`}
+            tickFormatter={(value) => `${compactFormatter.format(value)}`}
           />
           <Tooltip content={<ChartTooltipContent />} />
-          <Legend content={renderLegend} />
+          <Legend content={renderLegend} className={"capitalize"} />
           <Line
             type="monotone"
             dataKey="food"

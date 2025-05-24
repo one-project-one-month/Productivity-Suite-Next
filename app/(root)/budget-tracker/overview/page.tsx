@@ -1,6 +1,7 @@
 import SummaryCard from "@/features/budget-tracker/components/summary-card";
 import { getBudgetsOverview } from "@/features/budget-tracker/actions/get-budgets-overview";
 import { notFound } from "next/navigation";
+import { numFormatter } from "@/lib/utils";
 
 const BudgetTrackerOverviewPage = async () => {
   const data = await getBudgetsOverview();
@@ -11,17 +12,17 @@ const BudgetTrackerOverviewPage = async () => {
     <>
       <SummaryCard
         title={"Total Budget"}
-        data={`$${data.totalBudget}`}
+        data={`${numFormatter.format(data.totalBudget)} MMK`}
         description={"Across all category"}
       />
       <SummaryCard
         title={"Total Spent"}
-        data={`$${data.amountSpent}`}
+        data={`${numFormatter.format(data.amountSpent)} MMK`}
         description={`${percentSpent}% of all Total Budget`}
       />
       <SummaryCard
         title={"Remaining"}
-        data={`$${data.totalBudget - data.amountSpent}`}
+        data={`${numFormatter.format(data.totalBudget - data.amountSpent)} MMK`}
         description={`${100 - percentSpent}% of all Total Budget`}
       />
       <SummaryCard

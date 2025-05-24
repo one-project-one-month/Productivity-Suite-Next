@@ -7,10 +7,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BudgetAndCurrency } from "./new-expense-form";
 
 type BudgetPickerProps = {
-  budgets: BudgetAndCurrency[];
+  budgets: { id: string; title: string }[];
   value: string;
   onChange: (value: string) => void;
 };
