@@ -130,7 +130,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground scroll-smooth;
   }
 
   code::before,
@@ -190,5 +190,74 @@
 
   .hljs-strong {
     font-weight: 700;
+  }
+
+  .blob {
+    clip-path: polygon(
+      84% 32%,
+      15% 23%,
+      48% 89%,
+      75% 82%,
+      4% 36%,
+      75% 54%,
+      10% 84%,
+      100% 72%,
+      61% 65%,
+      12% 42%,
+      45% 13%,
+      7% 34%,
+      34% 49%,
+      4% 13%,
+      53% 36%,
+      38% 34%,
+      82% 60%,
+      60% 52%,
+      23% 29%,
+      47% 3%,
+      78% 95%,
+      77% 12%,
+      100% 41%,
+      14% 95%,
+      7% 20%,
+      21% 6%,
+      51% 23%,
+      92% 94%,
+      17% 23%,
+      69% 52%,
+      45% 29%,
+      5% 8%,
+      66% 25%,
+      30% 8%,
+      86% 69%,
+      75% 63%,
+      51% 18%,
+      28% 79%,
+      69% 19%,
+      34% 30%,
+      98% 98%,
+      39% 83%,
+      25% 16%,
+      39% 26%,
+      19% 66%,
+      32% 12%,
+      84% 87%,
+      43% 51%
+    );
+  }
+
+  /* Priority Styles */
+  .priority {
+    @apply text-xs px-3 py-0.5 border rounded-full;
+  }
+  .very_low,
+  .low {
+    @apply bg-red-500/10 text-red-500 border-red-300;
+  }
+  .medium {
+    @apply bg-amber-500/10 text-amber-500 border-amber-300;
+  }
+  .high,
+  .very_high {
+    @apply bg-green-500/10 text-green-500 border-green-300;
   }
 }

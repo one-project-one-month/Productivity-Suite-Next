@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { X } from "lucide-react";
 
 interface AddWorkBreakSessionProps {
   steps: { type: "work" | "break"; duration: number | null }[];
@@ -29,7 +30,7 @@ const AddWorkBreakSession = ({
           const breakStep = steps[pairIndex * 2 + 1];
 
           return (
-            <div key={pairIndex} className="flex gap-4">
+            <div key={pairIndex} className="flex gap-2 items-center">
               {/* Work Step */}
               {workStep && (
                 <div className="space-y-1">
@@ -99,10 +100,10 @@ const AddWorkBreakSession = ({
                   });
                 }}
                 title="Remove step pair"
-                className="self-end"
+                className="self-end mb-1"
                 disabled={steps.length <= 2}
               >
-                ✕
+                <X />
               </Button>
             </div>
           );
