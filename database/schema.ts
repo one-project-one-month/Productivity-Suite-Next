@@ -1,7 +1,3 @@
-/*
- * Pomodoro Related Tables
- * */
-
 import {
   integer,
   pgTable,
@@ -11,9 +7,12 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import { CurrencyType, TimerType, TodoStatus } from "@/database/enums";
 import { user } from "@/database/auth-schema";
+import { TimerType, TodoStatus } from "@/database/enums";
 
+/*
+ * Pomodoro Related Tables
+ * */
 export const timers = pgTable("timer", {
   id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
   duration: integer("duration").notNull(),
@@ -97,13 +96,15 @@ export const budget = pgTable("budget", {
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   amount: integer("amount").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
   categoryId: uuid("category_id")
     .references(() => category.id)
     .notNull(),
-  amountSpent: integer("amountSpent").notNull().default(0),
-  durationFrom: timestamp("duration_from", { withTimezone: true }).notNull(),
+  durationFrom: timestamp("duration_from", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
   durationTo: timestamp("duration_to", { withTimezone: true }).notNull(),
-  currency: CurrencyType("currency").notNull().default("MMK"),
 });
 
 export const transactions = pgTable("transaction", {
@@ -115,6 +116,7 @@ export const transactions = pgTable("transaction", {
     .references(() => budget.id)
     .notNull(),
   amount: integer("amount").notNull(),
+  title: text("title").notNull(),
   description: text("description"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()

@@ -28,7 +28,7 @@ export default async function NotePage({
 
   return (
     <section className="max-w-7xl mx-auto">
-      <NoteEditor data={data} mutate={mutateNote} />
+      <NoteEditor />
     </section>
   );
 }

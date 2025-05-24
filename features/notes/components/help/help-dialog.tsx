@@ -11,6 +11,7 @@ import HelpContents from "./help-contents";
 import { Info } from "lucide-react";
 
 export default function Help() {
+export default function Help() {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -23,9 +24,9 @@ export default function Help() {
             Show Md scripts
           </Button>
       </DialogTrigger>
-      <DialogContent className="min-h-[calc(100dvh-200px)] overflow-auto max-h-[120px] max-w-6xl! w-[calc(100%-50px)]">
+      <DialogContent className="min-h-[calc(100dvh-200px)] max-h-[120px] max-w-6xl! w-[calc(100%-50px)]">
         <DialogHeader>
-          <DialogTitle>Markdown Scripts</DialogTitle>
+          <DialogTitle>Commands and shortcuts</DialogTitle>
           <DialogDescription asChild>
             <HelpContents />
           </DialogDescription>

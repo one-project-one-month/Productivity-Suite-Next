@@ -8,8 +8,8 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogDescription,
-  DialogClose,
 } from "@/components/ui/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export default function CancelBtn({
   handleCancel,

@@ -10,16 +10,18 @@ import {
 } from "recharts";
 
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+import { compactFormatter, numFormatter } from "@/lib/utils";
 
-export default function CategoryBreakdownChart() {
-  const data = [
-    { name: "Food", value: 595.5 },
-    { name: "Housing", value: 350 },
-    { name: "Transport", value: 250 },
-    { name: "Leisure", value: 150 },
-    { name: "Other", value: 100 },
-  ];
+interface ChartData {
+  name: string | null;
+  value: number;
+}
 
+export default function CategoryBreakdownChart({
+  data,
+}: {
+  data: ChartData[];
+}) {
   // Calculate total for percentages
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
@@ -42,10 +44,12 @@ export default function CategoryBreakdownChart() {
                 className="h-3 w-3 rounded-full"
                 style={{ backgroundColor: entry.color }}
               />
-              <span className="font-medium">{entry.value}</span>
+              <span className="font-medium capitalize">{entry.value}</span>
             </div>
             <div>
-              <span className="tabular-nums">${enhancedData[index].value}</span>
+              <span className="tabular-nums">
+                {numFormatter.format(enhancedData[index].value as number)} MMK
+              </span>
               <span className="text-xs text-muted-foreground tabular-nums">
                 ({enhancedData[index].percentage}%)
               </span>
@@ -59,34 +63,37 @@ export default function CategoryBreakdownChart() {
   // Custom tooltip formatter to show percentage
   const tooltipFormatter = (value: number) => {
     const percentage = ((value / total) * 100).toFixed(1);
-    return [`$${value} (${percentage}%)`, "Total Budget"];
+    return [
+      `${compactFormatter.format(value)} MMK (${percentage}%)`,
+      "Total Budget",
+    ];
   };
 
   return (
     <ChartContainer
       config={{
-        Food: {
+        food: {
           label: "Food",
           color: "#2a9d90",
         },
-        Housing: {
-          label: "Housing",
+        academic: {
+          label: "Academic",
           color: "#e76e50",
         },
-        Transport: {
+        transport: {
           label: "Transport",
           color: "#247754",
         },
-        Leisure: {
+        leisure: {
           label: "Leisure",
           color: "#e8c468",
         },
-        Other: {
+        other: {
           label: "Other",
           color: "#f4a462",
         },
       }}
-      className="h-[400px]  md:h-[350px] lg:h-[300px] max-w-[300px] md:max-w-full "
+      className="h-[400px]  md:h-[350px] max-w-[300px] md:max-w-full "
     >
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
