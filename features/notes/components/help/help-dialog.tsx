@@ -10,7 +10,7 @@ import {
 import HelpContents from "./help-contents";
 import { Info } from "lucide-react";
 
-export default function Help({ md }: { md: boolean }) {
+export default function Help() {
   return (
     <Dialog>
       <DialogTrigger asChild>
