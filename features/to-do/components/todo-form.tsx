@@ -81,7 +81,7 @@ export const TodoForm = ({ isEdit, todo, setOpen }: TodoFormProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 bg-white p-6 rounded-xl shadow-xl w-full max-w-md"
+        className="space-y-4 bg-white dark:bg-gray-900 p-6 rounded-xl shadow-xl w-full max-w-md"
       >
         <FormField
           name="title"
@@ -90,7 +90,11 @@ export const TodoForm = ({ isEdit, todo, setOpen }: TodoFormProps) => {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Task title" {...field} />
+                <Input
+                  placeholder="Task title"
+                  {...field}
+                  className="bg-white dark:bg-gray-800 text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -104,7 +108,11 @@ export const TodoForm = ({ isEdit, todo, setOpen }: TodoFormProps) => {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Optional task description" {...field} />
+                <Textarea
+                  placeholder="Optional task description"
+                  {...field}
+                  className="bg-white dark:bg-gray-800 text-black dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -125,9 +133,9 @@ export const TodoForm = ({ isEdit, todo, setOpen }: TodoFormProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1">1</SelectItem>
-                    <SelectItem value="2">2</SelectItem>
-                    <SelectItem value="3">3</SelectItem>
+                    <SelectItem value="1">High</SelectItem>
+                    <SelectItem value="2">Medium</SelectItem>
+                    <SelectItem value="3">Low</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
