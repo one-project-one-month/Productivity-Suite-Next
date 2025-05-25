@@ -18,6 +18,7 @@ export const getRecentExpenses = async () => {
       .select({
         id: transactions.id,
         amount: transactions.amount,
+        description: transactions.description,
         createdAt: transactions.createdAt,
         categoryId: category.id,
         category: category.name,

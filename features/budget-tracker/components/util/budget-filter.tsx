@@ -12,20 +12,27 @@ import {
 
 type BudgetFilterProps = {
   onChange: (value: string) => void;
+  varient?: "list" | "table";
 };
-const BudgetFilter = ({ onChange }: BudgetFilterProps) => {
+const BudgetFilter = ({ onChange, varient = "list" }: BudgetFilterProps) => {
   const { data, isLoading } = useAllBudgets();
   if (isLoading) {
     return <Skeleton className={"w-[150px]  h-10"} />;
   }
   return (
-    <Select disabled={isLoading} defaultValue={"all"} onValueChange={onChange}>
+    <Select
+      disabled={isLoading}
+      defaultValue={varient === "list" ? "all" : undefined}
+      onValueChange={onChange}
+    >
       <SelectTrigger className={"max-w-[200px] capitalize py-5"}>
         <SelectValue placeholder={"Filter By Budget"} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectItem value={"all"}>All Budgets</SelectItem>
+          {varient === "list" && (
+            <SelectItem value={"all"}>All Budgets</SelectItem>
+          )}
           {data &&
             data.map((item) => (
               <SelectItem

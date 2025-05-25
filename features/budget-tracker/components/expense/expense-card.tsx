@@ -7,6 +7,7 @@ import Link from "next/link";
 export interface IExpenseDetail {
   title: string;
   budgetTitle: string | null;
+  description: string | null;
   createdAt: Date;
   amount: number;
   category: string | null;
@@ -23,6 +24,7 @@ const ExpenseCard = ({
   createdAt,
   categoryColor,
   budgetId,
+  description,
 }: IExpenseDetail) => {
   return (
     <article
@@ -30,7 +32,7 @@ const ExpenseCard = ({
     >
       <div>
         <div className={"md:flex items-center gap-x-4"}>
-          <h1 className={"md:text-lg font-bold"}>{title}</h1>
+          <h2 className={"md:text-lg font-bold"}>{title}</h2>
           <Badge
             className={"rounded-lg max-sm:mt-2"}
             style={{
@@ -40,7 +42,7 @@ const ExpenseCard = ({
             {category}
           </Badge>
         </div>
-
+        <p className={"text-sm font-semibold text-gray-400"}>{description}</p>
         <p
           className={
             "mt-2 md:flex items-center gap-x-2 font-medium text-gray-500"
