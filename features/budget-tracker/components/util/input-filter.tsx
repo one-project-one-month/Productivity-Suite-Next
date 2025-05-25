@@ -2,8 +2,9 @@ import { Search } from "lucide-react";
 
 type ExpenseFilterProps = {
   onChange: (filter: string) => void;
+  placeholder: string;
 };
-const ExpenseFilter = ({ onChange }: ExpenseFilterProps) => {
+const InputFilter = ({ onChange, placeholder }: ExpenseFilterProps) => {
   return (
     <div
       className={
@@ -19,10 +20,10 @@ const ExpenseFilter = ({ onChange }: ExpenseFilterProps) => {
         }
         id={"search"}
         onChange={(evt) => onChange(evt.target.value)}
-        placeholder={"Search Expenses..."}
+        placeholder={placeholder}
       />
     </div>
   );
 };
 
-export default ExpenseFilter;
+export default InputFilter;

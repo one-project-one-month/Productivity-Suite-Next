@@ -5,18 +5,21 @@ import { Progress } from "@/components/ui/progress";
 import { isBefore } from "date-fns";
 import Link from "next/link";
 
+export interface IBudgetDetail {
+  id: string;
+  title: string;
+  category: string | null;
+  categoryId: string | null;
+  description: string | null;
+  amount: number;
+  spent: number;
+  durationFrom: Date;
+  durationTo: Date;
+  color: string | null;
+}
+
 type BudgetPlanProps = {
-  data: {
-    id: string;
-    title: string;
-    category: string | null;
-    description: string | null;
-    amount: number;
-    spent: number;
-    durationFrom: Date;
-    durationTo: Date;
-    color: string | null;
-  };
+  data: IBudgetDetail;
 };
 const BudgetPlan = ({ data }: BudgetPlanProps) => {
   const percentSpent = Math.round((data.spent / data.amount) * 100);

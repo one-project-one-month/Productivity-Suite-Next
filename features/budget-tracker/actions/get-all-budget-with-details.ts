@@ -30,6 +30,7 @@ export const getAllBudgetWithDetails = async () => {
         durationFrom: budget.durationFrom,
         durationTo: budget.durationTo,
         color: category.color,
+        categoryId: category.id,
       })
       .from(budget)
       .leftJoin(sq, eq(budget.id, sq.budgetId))

@@ -1,9 +1,9 @@
-import BudgetPlan from "@/features/budget-tracker/components/budget/budget-plan";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
 import { getAllBudgetWithDetails } from "@/features/budget-tracker/actions/get-all-budget-with-details";
 import { notFound } from "next/navigation";
+import Budgets from "@/features/budget-tracker/components/budget/budgets";
 
 const BudgetsPage = async () => {
   const data = await getAllBudgetWithDetails();
@@ -16,15 +16,7 @@ const BudgetsPage = async () => {
       <p className={"mb-4 text-gray-500 "}>
         Manage your existing budget plans or create new one.
       </p>
-      <div
-        className={
-          "max-h-[50vh] md:max-h-[65vh] lg:max-h-[50vh] overflow-y-scroll pr-4"
-        }
-      >
-        {data.map((budget, idx) => (
-          <BudgetPlan data={budget} key={idx} />
-        ))}
-      </div>
+      <Budgets data={data} />
       <Button asChild={true} className={"mt-6"}>
         <Link href={"/budget-tracker/add-budget"}>
           <PlusCircle className="mr-2 h-4 w-4" />

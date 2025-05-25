@@ -11,7 +11,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { expenseColumns } from "@/features/budget-tracker/tables/expense-columns";
+import { expenseColumns } from "@/features/budget-tracker/components/tables/expense-columns";
 import {
   Table,
   TableBody,
@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import CategoryFilter from "@/features/budget-tracker/components/util/category-filter";
 import BudgetFilter from "@/features/budget-tracker/components/util/budget-filter";
-import ExpenseFilter from "../components/util/expense-filter";
+import InputFilter from "../util/input-filter";
 
 const ExpenseTable = ({ data }: { data: IExpenseDetail[] }) => {
   const [pagination, setPagination] = useState({
@@ -56,7 +56,7 @@ const ExpenseTable = ({ data }: { data: IExpenseDetail[] }) => {
       <div className={"mb-4 md:flex justify-between items-center"}>
         <ExpenseLayoutToggle />
         <div className={"flex items-center gap-x-2"}>
-          <ExpenseFilter
+          <InputFilter
             /*@ts-expect-error this function is so right*/
             onChange={table.getColumn("title")?.setFilterValue}
           />

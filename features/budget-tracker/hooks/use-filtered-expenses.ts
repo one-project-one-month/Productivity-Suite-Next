@@ -4,16 +4,17 @@ import { useExpenseFilterStore } from "@/features/budget-tracker/hooks/use-expen
 export const useFilteredExpenses = (payload: IExpenseDetail[]) => {
   let data = payload;
   const { searchString, category, budget } = useExpenseFilterStore();
+
   if (searchString && searchString !== "") {
     data = data.filter((item) =>
       item.title.toLowerCase().includes(searchString.toLowerCase()),
     );
   }
-  if (category !== "all") {
+  if (category && category !== "all") {
     data = data.filter((item) => item.categoryId === category);
   }
 
-  if (budget !== "all") {
+  if (budget && budget !== "all") {
     data = data.filter((item) => item.budgetId === budget);
   }
 
