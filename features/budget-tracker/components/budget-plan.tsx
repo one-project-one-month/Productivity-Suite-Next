@@ -52,14 +52,18 @@ const BudgetPlan = ({ data }: BudgetPlanProps) => {
           {numFormatter.format(data.spent ?? 0)} MMK &nbsp;/&nbsp;
           {numFormatter.format(data.amount)} MMK
         </span>
-        {data.spent > data.amount ? (
-          <Progress value={100} className={"*:bg-red-400"} />
-        ) : (
-          <Progress value={percentSpent} />
-        )}
-        <span className={"text-sm text-gray-500 md:text-base"}>
-          {percentSpent}% Used
-        </span>
+        <div className={"flex items-center gap-x-4"}>
+          {data.spent > data.amount ? (
+            <Progress value={100} className={"*:bg-red-400 max-w-[100px]"} />
+          ) : (
+            <Progress value={percentSpent} />
+          )}
+          <span
+            className={"text-sm min-w-fit text-gray-500 md:text-base block"}
+          >
+            {percentSpent}% Used
+          </span>
+        </div>
       </div>
     </article>
   );

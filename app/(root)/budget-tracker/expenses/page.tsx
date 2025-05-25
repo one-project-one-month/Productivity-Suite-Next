@@ -22,7 +22,11 @@ const ExpensesPage = async () => {
         }
       >
         {data.map((expense, idx) => (
-          <Expense {...expense} key={idx} />
+          <Expense
+            {...expense}
+            budgetId={expense.budgetId as string}
+            key={idx}
+          />
         ))}
       </div>
       <Button asChild={true} className={"mt-6"} variant={"outline"}>

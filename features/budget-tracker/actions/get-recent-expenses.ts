@@ -4,7 +4,7 @@ import { getUserSession } from "@/lib/server-util";
 import { db } from "@/database/drizzle";
 import { budget, category, transactions } from "@/database/schema";
 import { and, desc, eq, gte } from "drizzle-orm";
-import { addMonths, setDate, subDays } from "date-fns";
+import { setDate } from "date-fns";
 
 export const getRecentExpenses = async () => {
   try {
@@ -20,7 +20,9 @@ export const getRecentExpenses = async () => {
         amount: transactions.amount,
         createdAt: transactions.createdAt,
         category: category.name,
+        categoryColor: category.color,
         budgetTitle: budget.title,
+        budgetId: budget.id,
         title: transactions.title,
       })
       .from(transactions)

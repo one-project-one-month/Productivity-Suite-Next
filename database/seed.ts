@@ -103,7 +103,7 @@ try {
           userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
           amount: amount,
           budgetId: item.id,
-          title: faker.lorem.words(5),
+          title: faker.lorem.words(3),
           createdAt: faker.date.between({
             from: subDays(Date.now(), 30),
             to: Date.now(),

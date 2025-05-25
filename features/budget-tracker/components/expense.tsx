@@ -1,5 +1,8 @@
 import { formatDate, numFormatter } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, Dot } from "lucide-react";
+import Link from "next/link";
 
 type RecentExpenseProps = {
   title: string;
@@ -7,6 +10,8 @@ type RecentExpenseProps = {
   createdAt: Date;
   amount: number;
   category: string | null;
+  categoryColor: string | null;
+  budgetId: string;
 };
 const Expense = ({
   title,
@@ -14,22 +19,45 @@ const Expense = ({
   amount,
   category,
   createdAt,
+  categoryColor,
+  budgetId,
 }: RecentExpenseProps) => {
   return (
     <article
       className={"py-4 flex items-start justify-between capitalize border-b-1"}
     >
       <div>
-        <h1 className={"text-lg font-bold"}>{title}</h1>
-        <p className={"font-medium text-gray-500"}>
-          <span>{formatDate(createdAt)}</span>
-          <span className={"ml-4"}>{budgetTitle}</span>
+        <div className={"flex items-center gap-x-4"}>
+          <h1 className={"md:text-lg font-bold"}>{title}</h1>
+          <Badge
+            className={"rounded-lg"}
+            style={{
+              background: categoryColor || "black",
+            }}
+          >
+            {category}
+          </Badge>
+        </div>
+
+        <p
+          className={"mt-2 flex items-center gap-x-2 font-medium text-gray-500"}
+        >
+          <span className={"flex items-center gap-x-2"}>
+            <Calendar className={"size-4"} />
+            <span>{formatDate(createdAt)}</span>
+          </span>
+          <Dot />
+          <Link
+            href={`/budget-tracker/budgets/${budgetId}`}
+            className={
+              "cursor-pointer border-b-1 border-b-transparent hover:border-b-black transition-colors duration-300"
+            }
+          >
+            <span>{budgetTitle}</span>
+          </Link>
         </p>
       </div>
-      <div className={"text-right"}>
-        <p className={"text-lg font-bold"}>{numFormatter.format(amount)} MMK</p>
-        <p className={"font-medium text-gray-500"}>{category}</p>
-      </div>
+      <p className={"text-lg font-bold"}>{numFormatter.format(amount)} MMK</p>
     </article>
   );
 };
