@@ -1,4 +1,4 @@
-import CategoryBreakdownChart from "@/features/budget-tracker/components/category-breakdown-chart";
+import CategoryBreakdownChart from "@/features/budget-tracker/components/chart/category-breakdown-chart";
 import { getCategoryBreakdown } from "@/features/budget-tracker/actions/get-category-breakdown";
 import { notFound } from "next/navigation";
 import { getAllCategories } from "@/features/budget-tracker/actions/get-all-categories";

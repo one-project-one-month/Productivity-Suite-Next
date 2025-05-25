@@ -1,11 +1,13 @@
 import { numFormatter } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import BudgetStatus from "@/features/budget-tracker/components/budget-status";
+import BudgetStatus from "@/features/budget-tracker/components/budget/budget-status";
 import { Progress } from "@/components/ui/progress";
 import { isBefore } from "date-fns";
+import Link from "next/link";
 
 type BudgetPlanProps = {
   data: {
+    id: string;
     title: string;
     category: string | null;
     description: string | null;
@@ -26,7 +28,16 @@ const BudgetPlan = ({ data }: BudgetPlanProps) => {
     >
       <div className={"max-sm:max-w-[55%]"}>
         <div className={"md:flex items-center gap-x-3"}>
-          <h2 className={" text-lg font-semibold"}>{data.title}</h2>
+          <h2 className={" text-lg font-semibold"}>
+            <Link
+              href={`/budget-tracker/budgets/${data.id}`}
+              className={
+                "cursor-pointer border-b-1 border-b-transparent hover:border-b-black transition-colors duration-300"
+              }
+            >
+              {data.title}
+            </Link>
+          </h2>
           <BudgetStatus
             durationTo={data.durationTo}
             amount={data.amount}

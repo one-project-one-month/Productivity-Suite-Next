@@ -12,6 +12,7 @@ export const getAllExpenses = async () => {
         amount: transactions.amount,
         createdAt: transactions.createdAt,
         category: category.name,
+        categoryId: category.id,
         categoryColor: category.color,
         budgetTitle: budget.title,
         title: transactions.title,

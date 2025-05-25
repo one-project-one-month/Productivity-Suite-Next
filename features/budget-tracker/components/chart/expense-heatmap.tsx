@@ -2,7 +2,7 @@
 import { ResponsiveCalendar } from "@nivo/calendar";
 import { formatHeatmapDate } from "@/lib/utils";
 import { addYears, set, subDays } from "date-fns";
-import ExpenseHeatmapTooltip from "@/features/budget-tracker/components/expense-heatmap-tooltip";
+import ExpenseHeatmapTooltip from "@/features/budget-tracker/components/chart/expense-heatmap-tooltip";
 
 interface ChartData {
   day: string;

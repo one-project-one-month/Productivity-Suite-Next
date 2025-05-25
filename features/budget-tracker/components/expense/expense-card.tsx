@@ -10,6 +10,7 @@ export interface IExpenseDetail {
   createdAt: Date;
   amount: number;
   category: string | null;
+  categoryId: string | null;
   categoryColor: string | null;
   budgetId: string;
 }

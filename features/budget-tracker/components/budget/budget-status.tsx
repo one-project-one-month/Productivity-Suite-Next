@@ -13,6 +13,7 @@ type BudgetStatusProps = {
   durationFrom: Date;
   amount: number;
   spent: number;
+  className?: string;
 };
 
 const BudgetStatus = ({
@@ -20,12 +21,13 @@ const BudgetStatus = ({
   amount,
   spent,
   durationFrom,
+  className,
 }: BudgetStatusProps) => {
   return (
     <>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger>
+          <TooltipTrigger className={className}>
             {isBefore(new Date(), durationTo) ? (
               <Badge className={"rounded-lg"}>Active</Badge>
             ) : (

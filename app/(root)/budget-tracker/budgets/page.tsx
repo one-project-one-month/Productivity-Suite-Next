@@ -1,4 +1,4 @@
-import BudgetPlan from "@/features/budget-tracker/components/budget-plan";
+import BudgetPlan from "@/features/budget-tracker/components/budget/budget-plan";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";

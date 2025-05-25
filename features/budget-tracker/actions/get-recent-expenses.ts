@@ -19,6 +19,7 @@ export const getRecentExpenses = async () => {
         id: transactions.id,
         amount: transactions.amount,
         createdAt: transactions.createdAt,
+        categoryId: category.id,
         category: category.name,
         categoryColor: category.color,
         budgetTitle: budget.title,
