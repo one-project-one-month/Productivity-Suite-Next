@@ -2,6 +2,7 @@ import { numFormatter } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import BudgetStatus from "@/features/budget-tracker/components/budget-status";
 import { Progress } from "@/components/ui/progress";
+import { isBefore } from "date-fns";
 
 type BudgetPlanProps = {
   data: {
@@ -24,16 +25,17 @@ const BudgetPlan = ({ data }: BudgetPlanProps) => {
       }
     >
       <div className={"max-sm:max-w-[55%]"}>
-        <div className={"flex items-center gap-x-3"}>
+        <div className={"md:flex items-center gap-x-3"}>
           <h2 className={" text-lg font-semibold"}>{data.title}</h2>
           <BudgetStatus
             durationTo={data.durationTo}
             amount={data.amount}
             spent={data.spent}
             durationFrom={data.durationFrom}
+            className={"max-sm:hidden"}
           />
         </div>
-        <p className={"mt-1 flex flex-col gap-y-0.5"}>
+        <p className={"mt-1 flex flex-col gap-y-1"}>
           <span className={"text-sm text-gray-500 md:text-base"}>
             {data.description}
           </span>
@@ -45,6 +47,15 @@ const BudgetPlan = ({ data }: BudgetPlanProps) => {
           >
             {data.category}
           </Badge>
+          <span className={"md:hidden"}>
+            {isBefore(new Date(), data.durationTo) ? (
+              <Badge className={"rounded-lg"}>Active</Badge>
+            ) : (
+              <Badge className={"rounded-lg"} variant={"destructive"}>
+                De-Activated
+              </Badge>
+            )}
+          </span>
         </p>
       </div>
       <div className={"flex flex-col gap-y-1.5 text-right"}>
@@ -52,14 +63,19 @@ const BudgetPlan = ({ data }: BudgetPlanProps) => {
           {numFormatter.format(data.spent ?? 0)} MMK &nbsp;/&nbsp;
           {numFormatter.format(data.amount)} MMK
         </span>
-        <div className={"flex items-center gap-x-4"}>
+        <div className={"md:flex items-center gap-x-4"}>
           {data.spent > data.amount ? (
-            <Progress value={100} className={"*:bg-red-400 max-w-[100px]"} />
+            <Progress
+              value={100}
+              className={"*:bg-red-400  max-w-[80px] md:max-w-[100px]"}
+            />
           ) : (
             <Progress value={percentSpent} />
           )}
           <span
-            className={"text-sm min-w-fit text-gray-500 md:text-base block"}
+            className={
+              "max-sm:mt-2 text-sm min-w-fit text-gray-500 md:text-base block"
+            }
           >
             {percentSpent}% Used
           </span>

@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Dot } from "lucide-react";
 import Link from "next/link";
 
-type RecentExpenseProps = {
+export interface IExpenseDetail {
   title: string;
   budgetTitle: string | null;
   createdAt: Date;
@@ -12,8 +12,9 @@ type RecentExpenseProps = {
   category: string | null;
   categoryColor: string | null;
   budgetId: string;
-};
-const Expense = ({
+}
+
+const ExpenseCard = ({
   title,
   budgetTitle,
   amount,
@@ -21,16 +22,16 @@ const Expense = ({
   createdAt,
   categoryColor,
   budgetId,
-}: RecentExpenseProps) => {
+}: IExpenseDetail) => {
   return (
     <article
       className={"py-4 flex items-start justify-between capitalize border-b-1"}
     >
       <div>
-        <div className={"flex items-center gap-x-4"}>
+        <div className={"md:flex items-center gap-x-4"}>
           <h1 className={"md:text-lg font-bold"}>{title}</h1>
           <Badge
-            className={"rounded-lg"}
+            className={"rounded-lg max-sm:mt-2"}
             style={{
               background: categoryColor || "black",
             }}
@@ -40,13 +41,15 @@ const Expense = ({
         </div>
 
         <p
-          className={"mt-2 flex items-center gap-x-2 font-medium text-gray-500"}
+          className={
+            "mt-2 md:flex items-center gap-x-2 font-medium text-gray-500"
+          }
         >
           <span className={"flex items-center gap-x-2"}>
             <Calendar className={"size-4"} />
             <span>{formatDate(createdAt)}</span>
           </span>
-          <Dot />
+          <Dot className={"max-sm:hidden"} />
           <Link
             href={`/budget-tracker/budgets/${budgetId}`}
             className={
@@ -57,12 +60,14 @@ const Expense = ({
           </Link>
         </p>
       </div>
-      <p className={"text-lg font-bold"}>{numFormatter.format(amount)} MMK</p>
+      <p className={"md:text-lg font-bold"}>
+        {numFormatter.format(amount)} MMK
+      </p>
     </article>
   );
 };
 
-Expense.Skeleton = function ExpenseSkeleton() {
+ExpenseCard.Skeleton = function ExpenseSkeleton() {
   return (
     <article
       className={
@@ -84,4 +89,4 @@ Expense.Skeleton = function ExpenseSkeleton() {
   );
 };
 
-export default Expense;
+export default ExpenseCard;
