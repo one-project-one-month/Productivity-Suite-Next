@@ -25,13 +25,13 @@ export const DescriptionDialog = ({
         </DialogTitle>
       </DialogHeader>
       {description ? (
-        <div className="flex items-center">
-          <p className="font-bold text-lg mr-1">Desctiption</p> -
-          <p className=" ml-1">{description}</p>
+        <div className="flex flex-col items-start">
+          <p className="font-bold text-lg mr-1">Desctiption</p>
+          <p className="ml-1 text-sm text-justify"> - {description}</p>
         </div>
       ) : (
         <p className="italic text-red-300">
-          There is no description for this task
+          There is no description for this todo
         </p>
       )}
     </DialogContent>

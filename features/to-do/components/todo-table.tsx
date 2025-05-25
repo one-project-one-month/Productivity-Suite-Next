@@ -21,7 +21,7 @@ const TodoTable = ({ todos, page }: TodoTableProps) => {
     <div className="rounded-md border">
       <Table>
         <TableHeader>
-          <TableRow className="font-bold text-blue-700">
+          <TableRow className="font-bold text-black">
             <TableCell className="py-4">ID</TableCell>
             <TableCell>Title</TableCell>
             <TableCell>Description</TableCell>
@@ -59,7 +59,13 @@ const TodoTable = ({ todos, page }: TodoTableProps) => {
                 <TableCell className="text-red-600">
                   {new Date(todo.dueAt).toLocaleDateString()}
                 </TableCell>
-                <TableCell className="text-center">{todo.priority}</TableCell>
+                <TableCell className="text-center">
+                  {todo.priority == "1"
+                    ? "High"
+                    : todo.priority == "2"
+                      ? "Medium"
+                      : "Low"}
+                </TableCell>
                 <TableCell
                   className={cn(
                     "px-2 py-1 rounded font-medium",
@@ -81,7 +87,7 @@ const TodoTable = ({ todos, page }: TodoTableProps) => {
           ) : (
             <TableRow>
               <TableCell colSpan={6} className="h-24 text-center text-red-400">
-                There is no task yet!.
+                There is no task yet! Add a new Todo!.
               </TableCell>
             </TableRow>
           )}

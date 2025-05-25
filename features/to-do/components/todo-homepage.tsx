@@ -62,10 +62,10 @@ const TodoHomePage = ({ todos }: todoProps) => {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-2xl font-bold text-blue-700">
+            <CardTitle className="text-2xl font-bold text-black">
               TODOLISTS
             </CardTitle>
-            <CardDescription>View your All tasks</CardDescription>
+            <CardDescription>View your All todos</CardDescription>
           </div>
           <CreateDialogForm />
         </div>
@@ -92,12 +92,12 @@ const TodoHomePage = ({ todos }: todoProps) => {
       <CardFooter className="flex justify-center items-center">
         {filteredTodos.length === 0 ? (
           <span className="text-muted-foreground flex items-center gap-2">
-            <span className="flex items-center">
+            <span className="flex items-center text-sm">
               <ChevronLeft className="w-4 h-4" />
               Pre
             </span>
             <span className="px-3 py-1 text-sm border rounded">0</span>
-            <span className="flex items-center">
+            <span className="flex items-center text-sm">
               Next
               <ChevronRight className="w-4 h-4" />
             </span>

@@ -125,9 +125,9 @@ export const TodoForm = ({ isEdit, todo, setOpen }: TodoFormProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1">1</SelectItem>
-                    <SelectItem value="2">2</SelectItem>
-                    <SelectItem value="3">3</SelectItem>
+                    <SelectItem value="1">High</SelectItem>
+                    <SelectItem value="2">Medium</SelectItem>
+                    <SelectItem value="3">Low</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
