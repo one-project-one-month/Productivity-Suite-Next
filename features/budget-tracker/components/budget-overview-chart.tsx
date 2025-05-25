@@ -12,35 +12,13 @@ import {
 
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 
-export default function BudgetOverviewChart() {
-  const data = [
-    {
-      name: "Groceries",
-      budget: 600,
-      spent: 320,
-    },
-    {
-      name: "Entertainment",
-      budget: 200,
-      spent: 150,
-    },
-    {
-      name: "Utilities",
-      budget: 350,
-      spent: 350,
-    },
-    {
-      name: "Dining Out",
-      budget: 400,
-      spent: 275.5,
-    },
-    {
-      name: "Transport",
-      budget: 300,
-      spent: 250,
-    },
-  ];
+interface ChartData {
+  name: string;
+  budget: number;
+  spent: number;
+}
 
+export default function BudgetOverviewChart({ data }: { data: ChartData[] }) {
   return (
     <ChartContainer
       config={{

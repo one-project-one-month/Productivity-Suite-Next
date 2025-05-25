@@ -12,60 +12,19 @@ import {
 } from "recharts";
 
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+import { compactFormatter } from "@/lib/utils";
 
-export default function MonthlySpendingChart() {
-  const data = [
-    {
-      name: "Dec",
-      food: 450,
-      housing: 350,
-      transport: 200,
-      leisure: 180,
-      other: 120,
-    },
-    {
-      name: "Jan",
-      food: 470,
-      housing: 350,
-      transport: 220,
-      leisure: 150,
-      other: 100,
-    },
-    {
-      name: "Feb",
-      food: 540,
-      housing: 360,
-      transport: 180,
-      leisure: 200,
-      other: 90,
-    },
-    {
-      name: "Mar",
-      food: 510,
-      housing: 350,
-      transport: 210,
-      leisure: 170,
-      other: 110,
-    },
-    {
-      name: "Apr",
-      food: 490,
-      housing: 370,
-      transport: 230,
-      leisure: 190,
-      other: 130,
-    },
-    {
-      name: "May",
-      food: 520,
-      housing: 350,
-      transport: 250,
-      leisure: 150,
-      other: 100,
-    },
-  ];
+interface ChartData {
+  [key: string]: string | number;
+}
 
-  // Custom legend renderer to match the app's styling
+export default function MonthlySpendingChart({
+  data,
+  categories,
+}: {
+  data: ChartData[];
+  categories: Record<string, Record<string, string>>;
+}) {
   const renderLegend = (props: any) => {
     const { payload } = props;
 
@@ -77,7 +36,9 @@ export default function MonthlySpendingChart() {
               className="h-3 w-3 rounded-full"
               style={{ backgroundColor: entry.color }}
             />
-            <span className="text-muted-foreground">{entry.value}</span>
+            <span className="text-muted-foreground capitalize">
+              {entry.value}
+            </span>
           </div>
         ))}
       </div>
@@ -87,28 +48,9 @@ export default function MonthlySpendingChart() {
   return (
     <ChartContainer
       config={{
-        Food: {
-          label: "Food",
-          color: "#2a9d90",
-        },
-        Housing: {
-          label: "Housing",
-          color: "#e76e50",
-        },
-        Transport: {
-          label: "Transport",
-          color: "#247754",
-        },
-        Leisure: {
-          label: "Leisure",
-          color: "#e8c468",
-        },
-        Other: {
-          label: "Other",
-          color: "#f4a462",
-        },
+        categories,
       }}
-      className="h-[300px] max-w-[300px] md:max-w-full "
+      className="h-[300px] max-w-[300px] md:max-w-[95%] md:mx-auto "
     >
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
@@ -129,10 +71,10 @@ export default function MonthlySpendingChart() {
             tickMargin={8}
             axisLine={false}
             tickLine={false}
-            tickFormatter={(value) => `$${value}`}
+            tickFormatter={(value) => `${compactFormatter.format(value)}`}
           />
           <Tooltip content={<ChartTooltipContent />} />
-          <Legend content={renderLegend} />
+          <Legend content={renderLegend} className={"capitalize"} />
           <Line
             type="monotone"
             dataKey="food"

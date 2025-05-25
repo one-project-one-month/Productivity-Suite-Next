@@ -1,6 +1,12 @@
 import { ReactNode } from "react";
+import { getUserSession } from "@/lib/server-util";
+import { redirect } from "next/navigation";
 
 const AuthLayout = async ({ children }: { children: ReactNode }) => {
+  const session = await getUserSession();
+  if (session) {
+    redirect("/");
+  }
   return (
     <main
       className={

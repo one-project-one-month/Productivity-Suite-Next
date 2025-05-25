@@ -3,7 +3,7 @@
 import "server-only";
 import { db } from "@/database/drizzle";
 import { notes } from "@/database/schema";
-import { eq, sql } from "drizzle-orm";
+import { eq, ilike, or, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 //#region CREATE
@@ -27,6 +27,24 @@ export async function getNotesByUserId(userId: string) {
     })
     .from(notes)
     .where(eq(notes.userId, userId));
+  return res;
+}
+
+export async function searchNotesByUserId(q: string) {
+  const res = await db
+    .select({ id: notes.id })
+    .from(notes)
+    .where(
+      or(ilike(notes.body, `%${q}%`), ilike(notes.title, `%${notes.title}%`)),
+    );
+  return res;
+}
+
+export async function getNoteTitle(noteId: string) {
+  const res = await db
+    .select({ title: notes.title })
+    .from(notes)
+    .where(eq(notes.id, noteId));
   return res;
 }
 

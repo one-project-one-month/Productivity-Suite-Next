@@ -1,12 +1,12 @@
-import { formatDate } from "@/lib/utils";
+import { formatDate, numFormatter } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type RecentExpenseProps = {
   title: string;
-  budgetTitle: string;
+  budgetTitle: string | null;
   createdAt: Date;
   amount: number;
-  category: string;
+  category: string | null;
 };
 const Expense = ({
   title,
@@ -27,7 +27,7 @@ const Expense = ({
         </p>
       </div>
       <div className={"text-right"}>
-        <p className={"text-lg font-bold"}>${amount}</p>
+        <p className={"text-lg font-bold"}>{numFormatter.format(amount)} MMK</p>
         <p className={"font-medium text-gray-500"}>{category}</p>
       </div>
     </article>

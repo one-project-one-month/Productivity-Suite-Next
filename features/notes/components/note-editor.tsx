@@ -1,8 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { INoteType } from "./note-types";
-import { TNoteType } from "./note-types";
+import { INoteType, TNoteType } from "./note-types";
 const Editor = dynamic(() => import("@/features/notes/components/Editor"), {
   ssr: false,
 });

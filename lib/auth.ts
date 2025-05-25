@@ -4,12 +4,14 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import * as schema from "@/database/auth-schema";
 import { resend } from "@/lib/resend";
 import SingUpVerificationTemplate from "@/components/resend/sing-up-verification-template";
+import { env } from "process";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
   }),
+  trustedOrigins: ["http://localhost:3000", env.ALLOWED_ORIGIN || ""],
   // auth setup email and password
   emailAndPassword: {
     enabled: true,

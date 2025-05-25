@@ -29,7 +29,6 @@ import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { todoSchema, TodoSchema } from "../types/todo-schema";
-import { useEffect } from "react";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { createOrUpdateTodo } from "../actions/todo-action";
@@ -38,36 +37,26 @@ import { useRouter } from "next/navigation";
 type TodoFormProps = {
   isEdit: boolean;
   todo?: Partial<TodoSchema> & { id?: string | number };
+  setOpen?: () => void;
 };
 
-export const TodoForm = ({ isEdit, todo }: TodoFormProps) => {
+export const TodoForm = ({ isEdit, todo, setOpen }: TodoFormProps) => {
   const router = useRouter();
+
+  const defaultValues: TodoSchema = {
+    id: todo?.id,
+    title: todo?.title || "",
+    description: todo?.description || "",
+    priority: todo?.priority?.toString() ?? "1",
+    dueAt: todo?.dueAt ? new Date(todo.dueAt) : new Date(),
+  };
 
   const form = useForm<TodoSchema>({
     resolver: zodResolver(todoSchema),
-    defaultValues: {
-      id: undefined,
-      title: "",
-      description: "",
-      priority: "1",
-      dueAt: new Date(),
-    },
+    defaultValues,
   });
 
-  useEffect(() => {
-    console.log("Resetting form with todo:", todo);
-    if (isEdit && todo) {
-      form.reset({
-        id: todo.id,
-        title: todo.title || "",
-        description: todo.description || "",
-        priority: todo.priority?.toString() ?? "1",
-        dueAt: todo.dueAt ? new Date(todo.dueAt) : new Date(),
-      });
-    }
-  }, [todo, isEdit]);
-
-  const { execute, status, result } = useAction(createOrUpdateTodo, {
+  const { execute, status } = useAction(createOrUpdateTodo, {
     onSuccess({ data }) {
       if (data?.error) {
         toast.error(data?.error);
@@ -75,7 +64,10 @@ export const TodoForm = ({ isEdit, todo }: TodoFormProps) => {
       if (data?.success) {
         toast.success(data?.success);
         form.reset();
-        router.push("/to-do");
+        if (setOpen) setOpen();
+        setTimeout(() => {
+          router.push("/to-do");
+        }, 100);
       }
     },
   });
@@ -83,8 +75,6 @@ export const TodoForm = ({ isEdit, todo }: TodoFormProps) => {
   const onSubmit = (data: TodoSchema) => {
     const { id, title, description, priority, dueAt } = data;
     execute({ id, title, description, priority, dueAt });
-    console.log("Data are", data);
-    // Data are {title: 'Go to School', description: '9am on the morning', priority: '1', dueAt: Sun May 11 2025 15:26:19 GMT+0630 (Myanmar Time)}
   };
 
   return (
@@ -128,16 +118,18 @@ export const TodoForm = ({ isEdit, todo }: TodoFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Priority</FormLabel>
-                <FormControl>
-                  <select
-                    {...field}
-                    className="w-full border border-gray-300 rounded-md p-2"
-                  >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                  </select>
-                </FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select priority" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="1">1</SelectItem>
+                    <SelectItem value="2">2</SelectItem>
+                    <SelectItem value="3">3</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -159,7 +151,7 @@ export const TodoForm = ({ isEdit, todo }: TodoFormProps) => {
                           !field.value && "text-muted-foreground",
                         )}
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="mr-2 h-4 w-4 text-blue-700" />
                         {field.value.toLocaleDateString()}
                       </Button>
                     </FormControl>
@@ -182,7 +174,10 @@ export const TodoForm = ({ isEdit, todo }: TodoFormProps) => {
         <Button
           type="submit"
           disabled={status === "executing"}
-          className={cn("w-full", status === "executing" && "animate-pulse")}
+          className={cn(
+            "w-full bg-blue-700 hover:bg-blue-500 text-white",
+            status === "executing" && "animate-pulse",
+          )}
         >
           {isEdit ? "Update Task" : "Create Task"}
         </Button>

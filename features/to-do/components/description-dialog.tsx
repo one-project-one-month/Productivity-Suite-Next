@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 type DescriptionDialogProps = {
   title: string;
-  description: string;
+  description?: string;
 };
 
 export const DescriptionDialog = ({
@@ -20,12 +20,15 @@ export const DescriptionDialog = ({
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>
-          Description for <p className="text-blue-400 inline">{title}</p>
+        <DialogTitle className="text-xl font-bold">
+          Title - <p className="text-lg text-blue-400 inline">{title}</p>
         </DialogTitle>
       </DialogHeader>
       {description ? (
-        <p> - {description}</p>
+        <div className="flex items-center">
+          <p className="font-bold text-lg mr-1">Desctiption</p> -
+          <p className=" ml-1">{description}</p>
+        </div>
       ) : (
         <p className="italic text-red-300">
           There is no description for this task

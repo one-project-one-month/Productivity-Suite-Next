@@ -8,28 +8,58 @@ import {
 import { MoreHorizontal, Trash } from "lucide-react";
 import EditDialogForm from "./edit-dialog-form";
 import { TodoSchema } from "../types/todo-schema";
+import { useAction } from "next-safe-action/hooks";
+import { deleteTodo } from "../actions/todo-action";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 type todoActionProp = {
   todo: TodoSchema;
 };
 export const ActionDropdown = (todo: todoActionProp) => {
   const todoData = todo.todo;
+  const router = useRouter();
+
+  const { execute } = useAction(deleteTodo, {
+    onSuccess: ({ data }) => {
+      if (data?.error) {
+        toast.error(data?.error);
+      }
+      if (data?.success) {
+        toast.success(data?.success);
+        router.push("/to-do");
+      }
+    },
+  });
+
+  const handleDelete = () => {
+    if (!todoData.id) {
+      toast.error("Missing ID for deletion");
+      return;
+    }
+    execute({ id: todoData.id });
+  };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="px-2 py-1 border rounded">
         <MoreHorizontal className="h-4 w-4" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+      <DropdownMenuContent className="space-y-1">
+        <DropdownMenuItem asChild>
           <EditDialogForm todo={todoData} />
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <div
-            className="w-full px-2 py-1 bg-red-400 hover:bg-red-700 text-white rounded cursor-pointer flex justify-center items-center gap-2"
-            onClick={() => alert(`Delete ${todoData.title}`)}
-          >
-            <Trash className="w-5 h-5 text-white" /> Delete
-          </div>
+        <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild>
+            <Button
+              type="button"
+              size={"sm"}
+              onClick={handleDelete}
+              className="w-full px-2 py-1 bg-red-400 hover:!bg-red-700 text-white hover:!text-white rounded cursor-pointer flex justify-center items-center gap-2"
+            >
+              <Trash className="w-5 h-5 text-white" /> Delete
+            </Button>
+          </DropdownMenuItem>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
