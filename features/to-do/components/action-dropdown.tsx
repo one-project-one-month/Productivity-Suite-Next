@@ -42,10 +42,10 @@ export const ActionDropdown = (todo: todoActionProp) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="px-2 py-1 border rounded">
+      <DropdownMenuTrigger className="px-2 py-1 border rounded bg-white dark:bg-gray-800 dark:border-gray-700 text-foreground dark:text-white">
         <MoreHorizontal className="h-4 w-4" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="space-y-1">
+      <DropdownMenuContent className="space-y-1 bg-white dark:bg-gray-900 dark:text-white border dark:border-gray-700">
         <DropdownMenuItem asChild>
           <EditDialogForm todo={todoData} />
         </DropdownMenuItem>
@@ -55,7 +55,7 @@ export const ActionDropdown = (todo: todoActionProp) => {
               type="button"
               size={"sm"}
               onClick={handleDelete}
-              className="w-full px-2 py-1 bg-red-400 hover:!bg-red-700 text-white hover:!text-white rounded cursor-pointer flex justify-center items-center gap-2"
+              className="w-full px-2 py-1 bg-red-400 dark:bg-red-500 hover:bg-red-700 dark:hover:bg-red-700 text-white rounded cursor-pointer flex justify-center items-center gap-2"
             >
               <Trash className="w-5 h-5 text-white" /> Delete
             </Button>

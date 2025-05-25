@@ -62,7 +62,7 @@ const TodoHomePage = ({ todos }: todoProps) => {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-2xl font-bold text-black">
+            <CardTitle className="text-2xl font-bold text-foreground dark:text-white">
               TODOLISTS
             </CardTitle>
             <CardDescription>View your All todos</CardDescription>

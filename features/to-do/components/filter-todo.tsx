@@ -16,7 +16,7 @@ type FilterTodoProps = {
 const FilterTodo = ({ onChange, value }: FilterTodoProps) => {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="flex items-center justify-center gap-3 text-black border-blue-700  font-bold">
+      <SelectTrigger className="flex items-center justify-center gap-3 border-blue-700   font-bold bg-white dark:bg-gray-800 dark:border-blue-700 text-foreground dark:text-white">
         <ArrowDown01 className="w-6 h-6 text-blue-700" />
         <SelectValue placeholder="Filter by priority" />
       </SelectTrigger>
