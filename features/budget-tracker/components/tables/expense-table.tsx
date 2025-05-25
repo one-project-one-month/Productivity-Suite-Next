@@ -1,7 +1,6 @@
 "use client";
 import { IExpenseDetail } from "@/features/budget-tracker/components/expense/expense-card";
 import {
-  ColumnFilter,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
@@ -55,7 +54,7 @@ const ExpenseTable = ({ data }: { data: IExpenseDetail[] }) => {
     <div>
       <div className={"mb-4 md:flex justify-between items-center"}>
         <ExpenseLayoutToggle />
-        <div className={"flex items-center gap-x-2"}>
+        <div className={"max-sm:mt-4 flex items-center gap-2 flex-wrap"}>
           <InputFilter
             /*@ts-expect-error this function is so right*/
             onChange={table.getColumn("title")?.setFilterValue}

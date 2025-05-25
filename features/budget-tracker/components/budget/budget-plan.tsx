@@ -10,12 +10,14 @@ export interface IBudgetDetail {
   title: string;
   category: string | null;
   categoryId: string | null;
+  categoryColor: string | null;
   description: string | null;
   amount: number;
   spent: number;
   durationFrom: Date;
   durationTo: Date;
   color: string | null;
+  createdAt: Date;
 }
 
 type BudgetPlanProps = {

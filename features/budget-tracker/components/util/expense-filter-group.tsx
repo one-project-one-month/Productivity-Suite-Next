@@ -10,7 +10,7 @@ const ExpenseFilterGroup = () => {
   const setCategory = useExpenseFilterStore((state) => state.setCategory);
   const setBudget = useExpenseFilterStore((state) => state.setBudget);
   return (
-    <div className={"max-sm:mt-4 flex items-center gap-x-4"}>
+    <div className={"max-sm:mt-4 flex items-center gap-2 flex-wrap md:gap-4"}>
       <InputFilter
         onChange={setSearchString}
         placeholder={"Search Expense..."}

@@ -5,7 +5,7 @@ import BudgetTable from "@/features/budget-tracker/components/tables/budget-tabl
 import { useLayoutStore } from "../../hooks/use-layout-store";
 
 const Budgets = ({ data }: { data: IBudgetDetail[] }) => {
-  const layout = useLayoutStore((state) => state.expenseLayout);
+  const layout = useLayoutStore((state) => state.budgetLayout);
   return layout === "LIST" ? (
     <BudgetList data={data} />
   ) : (
