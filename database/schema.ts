@@ -115,6 +115,9 @@ export const budget = pgTable("budget", {
   categoryId: uuid("category_id")
     .references(() => category.id)
     .notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
   durationFrom: timestamp("duration_from", { withTimezone: true })
     .defaultNow()
     .notNull(),

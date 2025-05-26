@@ -78,6 +78,20 @@
       "when": 1748101090201,
       "tag": "0010_married_thaddeus_ross",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1748187250190,
+      "tag": "0011_slimy_warbound",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1748187271370,
+      "tag": "0012_milky_vulcan",
+      "breakpoints": true
     }
   ]
 }

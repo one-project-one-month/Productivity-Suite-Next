@@ -1,4 +1,4 @@
-import ExpenseHeatmap from "@/features/budget-tracker/components/expense-heatmap";
+import ExpenseHeatmap from "@/features/budget-tracker/components/chart/expense-heatmap";
 import { getExpensesByDay } from "@/features/budget-tracker/actions/get-expenses-by-day";
 import { notFound } from "next/navigation";
 import { HEAT_MAP_COLORS } from "@/constants";

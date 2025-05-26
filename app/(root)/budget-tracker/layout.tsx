@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import BudgetTrackerNav from "@/features/budget-tracker/components/budget-tracker-nav";
+import BudgetTrackerNav from "@/features/budget-tracker/components/budget/budget-tracker-nav";
 import { getUserSession } from "@/lib/server-util";
 import { redirect } from "next/navigation";
 

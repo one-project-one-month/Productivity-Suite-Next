@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { getAllCategories } from "@/features/budget-tracker/actions/get-all-categories";
-import NewBudgetForm from "@/features/budget-tracker/components/new-budget-form";
+import NewBudgetForm from "@/features/budget-tracker/components/form/new-budget-form";
 import { notFound } from "next/navigation";
 
 const AddBudgetPage = async () => {

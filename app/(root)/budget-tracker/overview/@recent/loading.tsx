@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import Expense from "@/features/budget-tracker/components/expense";
+import ExpenseCard from "@/features/budget-tracker/components/expense/expense-card";
 
 const BudgetOverviewRecentLoading = () => {
   return (
@@ -10,7 +10,7 @@ const BudgetOverviewRecentLoading = () => {
       </p>
       <div className={"lg:max-h-[300px] overflow-y-scroll lg:px-4"}>
         {Array.from({ length: 4 }).map((_, idx) => (
-          <Expense.Skeleton key={idx} />
+          <ExpenseCard.Skeleton key={idx} />
         ))}
       </div>
       <Button

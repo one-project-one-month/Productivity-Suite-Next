@@ -11,9 +11,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { NewExpenseSchema, TNewExpenseSchema } from "@/database/validators";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import BudgetPicker from "@/features/budget-tracker/components/budget-picker";
-import ExpenseAmount from "@/features/budget-tracker/components/expense-amount";
-import DurationPicker from "@/features/budget-tracker/components/duration-picker";
+import BudgetPicker from "@/features/budget-tracker/components/budget/budget-picker";
+import ExpenseAmount from "@/features/budget-tracker/components/expense/expense-amount";
+import DurationPicker from "@/features/budget-tracker/components/util/duration-picker";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
@@ -64,7 +64,7 @@ const NewExpenseForm = ({ budgets }: { budgets: Budget[] }) => {
             <FormItem>
               <FormLabel>Expense Title</FormLabel>
               <FormControl>
-                <Input placeholder={"Eg: Expense Title"} {...field} />
+                <Input placeholder={"Eg: ExpenseCard Title"} {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -78,7 +78,10 @@ const NewExpenseForm = ({ budgets }: { budgets: Budget[] }) => {
               <FormLabel>Expense Description</FormLabel>
               <FormControl>
                 {/*//@ts-expect-error description can't be null since i give it a default empty string*/}
-                <Textarea placeholder={"Eg: Expense Description"} {...field} />
+                <Textarea
+                  placeholder={"Eg: ExpenseCard Description"}
+                  {...field}
+                />
               </FormControl>
             </FormItem>
           )}

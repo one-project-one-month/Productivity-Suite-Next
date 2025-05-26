@@ -1,4 +1,4 @@
-import BudgetOverviewChart from "@/features/budget-tracker/components/budget-overview-chart";
+import BudgetOverviewChart from "@/features/budget-tracker/components/chart/budget-overview-chart";
 import { getBudgetOverviewChartData } from "@/features/budget-tracker/actions/get-budget-overview-chart-data";
 import { notFound } from "next/navigation";
 

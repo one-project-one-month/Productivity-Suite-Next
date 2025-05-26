@@ -1,4 +1,4 @@
-import SummaryCard from "@/features/budget-tracker/components/summary-card";
+import SummaryCard from "@/features/budget-tracker/components/util/summary-card";
 
 const BudgetOverviewLoading = () => {
   return (

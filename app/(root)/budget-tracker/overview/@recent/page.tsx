@@ -1,4 +1,4 @@
-import Expense from "@/features/budget-tracker/components/expense";
+import ExpenseCard from "@/features/budget-tracker/components/expense/expense-card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getRecentExpenses } from "@/features/budget-tracker/actions/get-recent-expenses";
@@ -17,7 +17,7 @@ const RecentTransactionPage = async () => {
       </p>
       <div className={"lg:max-h-[300px] overflow-y-scroll lg:px-4"}>
         {data.map((item, idx) => (
-          <Expense {...item} key={idx} />
+          <ExpenseCard {...item} budgetId={item.budgetId as string} key={idx} />
         ))}
       </div>
       <Button asChild={true} variant={"outline"} className={"mt-4"}>

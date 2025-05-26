@@ -1,4 +1,4 @@
-import MonthlySpendingChart from "@/features/budget-tracker/components/monthly-spending-chart";
+import MonthlySpendingChart from "@/features/budget-tracker/components/chart/monthly-spending-chart";
 import { getPastSpending } from "@/features/budget-tracker/actions/get-past-spending";
 import { notFound } from "next/navigation";
 import { getAllCategories } from "@/features/budget-tracker/actions/get-all-categories";

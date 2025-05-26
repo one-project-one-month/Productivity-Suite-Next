@@ -12,8 +12,12 @@ export const getAllExpenses = async () => {
         amount: transactions.amount,
         createdAt: transactions.createdAt,
         category: category.name,
+        categoryId: category.id,
+        description: transactions.description,
+        categoryColor: category.color,
         budgetTitle: budget.title,
         title: transactions.title,
+        budgetId: budget.id,
       })
       .from(transactions)
       .leftJoin(budget, eq(transactions.budgetId, budget.id))

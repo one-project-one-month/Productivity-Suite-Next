@@ -1,4 +1,4 @@
-import SummaryCard from "@/features/budget-tracker/components/summary-card";
+import SummaryCard from "@/features/budget-tracker/components/util/summary-card";
 import { getBudgetsOverview } from "@/features/budget-tracker/actions/get-budgets-overview";
 import { notFound } from "next/navigation";
 import { numFormatter } from "@/lib/utils";
