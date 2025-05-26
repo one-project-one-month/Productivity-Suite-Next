@@ -10,7 +10,6 @@ import { ThemeBtn } from "./theme-btn";
 import { Session } from "@/lib/server-util";
 import ProfileDropdown from "@/features/profile/components/profile-dropdown";
 import LogoutBtn from "./logout-btn";
-import Image from "next/image";
 
 export default function NavBar({ session }: { session: Session }) {
   const path = usePathname();
@@ -18,17 +17,13 @@ export default function NavBar({ session }: { session: Session }) {
 
   return (
     <>
-      <nav className="w-full bg-muted text-foreground py-3 px-6 shadow-md">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <nav className="max-w-7xl bg-muted text-foreground py-3 px-6 mx-auto">
+        <div className="mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Link href={"/"} className="font-bold text-lg cursor-pointer">
-              <Image
-                src="/logo.png"
-                width={100}
-                height={80}
-                alt="logo"
-                className="object-cover"
-              />
+              <h1 className="font-black text-2xl bg-gradient-to-r from-blue-600 dark:from-blue-400 via-purple-500 to-blue-500 inline-block text-transparent bg-clip-text">
+                FlowHub
+              </h1>
             </Link>
           </div>
 
