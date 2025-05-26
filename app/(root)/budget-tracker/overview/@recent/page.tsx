@@ -14,7 +14,7 @@ const RecentTransactionPage = async () => {
   return (
     <div
       className={cn(
-        "md:col-span-2 p-6  border rounded-xl shadow-md",
+        "md:col-span-2 p-6  border rounded-xl shadow-md bg-card text-card-foreground",
         !data.length && "border-[1.5px] shadow-xs border-dashed",
       )}
     >

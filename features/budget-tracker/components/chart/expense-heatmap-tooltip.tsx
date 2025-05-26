@@ -3,7 +3,7 @@ import { formatDate, numFormatter } from "@/lib/utils";
 
 const ExpenseHeatmapTooltip = ({ day, value }: CalendarTooltipProps) => {
   return (
-    <div className="min-w-[150px] rounded bg-white p-2 text-sm shadow">
+    <div className="min-w-[150px] rounded bg-card text-card-foreground dark:bg-gray-500 p-2 text-sm shadow ">
       <div>
         <strong>{formatDate(day)}</strong>
       </div>
