@@ -4,7 +4,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const BudgetsLoading = () => {
   return (
-    <div className={"mt-4 md:mt-6 p-6  border-1 border-black/40 rounded-xl "}>
+    <div
+      className={
+        "mt-4 md:mt-6 p-6  border-1 border-black/40 rounded-xl bg-card text-card-foreground"
+      }
+    >
       <h2 className={"font-bold text-2xl"}>Your Budget Plans</h2>
       <p className={"mb-4 text-gray-500 "}>
         Manage your existing budget plans or create new one.

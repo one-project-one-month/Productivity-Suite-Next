@@ -26,11 +26,7 @@ type BudgetPlanProps = {
 const BudgetPlan = ({ data }: BudgetPlanProps) => {
   const percentSpent = Math.round((data.spent / data.amount) * 100);
   return (
-    <article
-      className={
-        "py-4 flex justify-between items-start border-b-1 border-b-black/20"
-      }
-    >
+    <article className={"py-4 flex justify-between items-start border-b-1"}>
       <div className={"max-sm:max-w-[55%]"}>
         <div className={"md:flex items-center gap-x-3"}>
           <h2 className={" text-lg font-semibold"}>

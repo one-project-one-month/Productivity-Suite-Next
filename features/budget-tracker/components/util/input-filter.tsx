@@ -8,11 +8,11 @@ const InputFilter = ({ onChange, placeholder }: ExpenseFilterProps) => {
   return (
     <div
       className={
-        "max-w-[240px] flex items-center gap-x-2 px-2 py-1 border border-black/20 rounded-lg"
+        "max-w-[240px] flex items-center gap-x-2 px-2 py-1 border  rounded-lg"
       }
     >
       <label htmlFor={"search"}>
-        <Search className={"text-black/50 size-4"} />
+        <Search className={"text-black/50 size-4 dark:text-white"} />
       </label>
       <input
         className={

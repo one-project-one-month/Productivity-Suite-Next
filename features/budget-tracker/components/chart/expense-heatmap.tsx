@@ -3,6 +3,7 @@ import { ResponsiveCalendar } from "@nivo/calendar";
 import { formatHeatmapDate } from "@/lib/utils";
 import { addYears, set, subDays } from "date-fns";
 import ExpenseHeatmapTooltip from "@/features/budget-tracker/components/chart/expense-heatmap-tooltip";
+import { useTheme } from "next-themes";
 
 interface ChartData {
   day: string;
@@ -10,6 +11,11 @@ interface ChartData {
 }
 
 const ExpenseHeatmap = ({ data }: { data: ChartData[] }) => {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  const lightColors = ["#d6e685", "#8cc665", "#44a340", "#1e6823"];
+  const darkColors = ["#3e4c2b", "#4f6934", "#6b9943", "#a8cc7a"];
   const from = formatHeatmapDate(
     set(new Date(), {
       date: 1,
@@ -26,14 +32,14 @@ const ExpenseHeatmap = ({ data }: { data: ChartData[] }) => {
         data={data}
         from={from}
         to={to}
-        emptyColor="#eeeeee"
+        emptyColor={isDark ? "#2d2d2d" : "#eeeeee"}
+        colors={isDark ? darkColors : lightColors}
         tooltip={(data) => <ExpenseHeatmapTooltip {...data} />}
-        colors={["#d6e685", "#8cc665", "#44a340", "#1e6823"]}
         margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
         yearSpacing={40}
-        monthBorderColor="#ffffff"
+        monthBorderColor={isDark ? "#444" : "#ffffff"}
         dayBorderWidth={2}
-        dayBorderColor="#ffffff"
+        dayBorderColor={isDark ? "#444" : "#ffffff"}
       />
     </div>
   );

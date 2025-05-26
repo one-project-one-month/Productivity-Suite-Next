@@ -6,7 +6,7 @@ const HeatmapLoading = () => {
   return (
     <div
       className={
-        "p-6  border rounded-xl shadow-md md:col-span-2 overflow-x-scroll"
+        "p-6  border rounded-xl shadow-md md:col-span-2 overflow-x-scroll bg-card text-card-foreground"
       }
     >
       <h2 className={"font-bold text-2xl"}>Activity Heatmap</h2>
