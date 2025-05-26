@@ -13,22 +13,36 @@ const BudgetTrackerOverviewPage = async () => {
       <SummaryCard
         title={"Total Budget"}
         data={`${numFormatter.format(data.totalBudget)} MMK`}
-        description={"Across all category"}
+        description={
+          data.totalBudget ? "Across all category" : "No budget Created Yet."
+        }
       />
       <SummaryCard
         title={"Total Spent"}
         data={`${numFormatter.format(data.amountSpent)} MMK`}
-        description={`${percentSpent}% of all Total Budget`}
+        description={
+          percentSpent
+            ? `${percentSpent}% of all Total Budget`
+            : "No Expenses Recorded"
+        }
       />
       <SummaryCard
         title={"Remaining"}
         data={`${numFormatter.format(data.totalBudget - data.amountSpent)} MMK`}
-        description={`${100 - percentSpent}% of all Total Budget`}
+        description={
+          percentSpent
+            ? `${100 - percentSpent}% of all Total Budget`
+            : "Create a budget to start."
+        }
       />
       <SummaryCard
         title={"Active Budget"}
         data={data.activeBudget.toString()}
-        description={`Across ${data.activeCategory} categories`}
+        description={
+          data.activeBudget
+            ? `Across ${data.activeCategory} categories`
+            : "No Active Budget"
+        }
       />
     </>
   );

@@ -20,10 +20,17 @@ const BudgetAnalyticsBreakdownPage = async () => {
       <p className={"mb-4 text-gray-400 font-semibold"}>
         Spending by category for the current month
       </p>
-      <CategoryBreakdownChart
-        data={data}
-        categories={transformCategoryIntoChartLabel(categories)}
-      />
+      {data.length > 0 && categories.length > 0 ? (
+        <CategoryBreakdownChart
+          data={data}
+          categories={transformCategoryIntoChartLabel(categories)}
+        />
+      ) : (
+        <div className={"py-26  text-gray-500 text-center"}>
+          <p className={"font-semibold"}>No category data available</p>
+          <p>Record expenses to see category breakdown</p>
+        </div>
+      )}
     </div>
   );
 };

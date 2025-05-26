@@ -20,10 +20,17 @@ const BudgetAnalyticsPage = async () => {
       <p className={"mb-4 text-gray-400 font-semibold"}>
         Your spending trends over the past 6 months
       </p>
-      <MonthlySpendingChart
-        data={pastSpending}
-        categories={transformCategoryIntoChartLabel(categories)}
-      />
+      {pastSpending.length > 0 && categories.length > 0 ? (
+        <MonthlySpendingChart
+          data={pastSpending}
+          categories={transformCategoryIntoChartLabel(categories)}
+        />
+      ) : (
+        <div className={"py-26  text-gray-500 text-center"}>
+          <p className={"font-semibold"}>No spending data available</p>
+          <p>Add expenses to see your spending trends over time</p>
+        </div>
+      )}
     </div>
   );
 };
