@@ -4,9 +4,11 @@ import { getUserSession } from "@/features/auth/actions/get-user-session";
 import { db } from "@/database/drizzle";
 import { budget, category, transactions } from "@/database/schema";
 import { and, avg, count, eq, max, sum } from "drizzle-orm";
+import { sleep } from "@/lib/utils";
 
 export const getBudgetDetailsOverview = async (id: string) => {
   try {
+    await sleep(3500);
     const session = await getUserSession();
     if (!session) {
       return null;

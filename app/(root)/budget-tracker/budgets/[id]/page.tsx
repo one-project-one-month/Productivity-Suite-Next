@@ -20,12 +20,14 @@ const BudgetDetailPage = async ({
   const percentSpent = Math.round((data.amountSpent / data.totalBudget!) * 100);
   return (
     <div>
+      {/*Back Link*/}
       <Button asChild={true} className={"mb-4"}>
         <Link href={"/budget-tracker/budgets"}>
           <ArrowLeft />
           Back to Budgets
         </Link>
       </Button>
+
       {/*Header*/}
       <header className={"md:flex justify-between items-start"}>
         <div>
@@ -59,17 +61,17 @@ const BudgetDetailPage = async ({
       >
         <SummaryCard
           title={"Total Budget"}
-          data={numFormatter.format(data.totalBudget!)}
+          data={`${numFormatter.format(data.totalBudget!)} MMK`}
           description={"Monthly Allocation"}
         />
         <SummaryCard
           title={"Amount Spent"}
-          data={numFormatter.format(data.amountSpent!)}
+          data={`${numFormatter.format(data.amountSpent!)} MMK`}
           description={`${percentSpent}% of Budget`}
         />
         <SummaryCard
           title={"Remaining"}
-          data={numFormatter.format(data.totalBudget! - data.amountSpent!)}
+          data={`${numFormatter.format(data.totalBudget! - data.amountSpent!)} MMK`}
           description={"Available to spend"}
         />
         <SummaryCard
@@ -99,7 +101,7 @@ const BudgetDetailPage = async ({
           <hr />
           <div
             className={
-              "pt-4 flex items-center justify-center gap-x-4 md:gap-x-8 lg:gap-x-56"
+              "pt-4 flex items-center justify-center text-center gap-x-4 md:gap-x-32 lg:gap-x-56"
             }
           >
             <p className={"flex flex-col gap-y-1"}>
