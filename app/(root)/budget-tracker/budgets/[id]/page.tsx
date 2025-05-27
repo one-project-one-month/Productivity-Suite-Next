@@ -18,6 +18,7 @@ const BudgetDetailPage = async ({
   const data = await getBudgetDetailsOverview(id);
   if (!data) return notFound();
   const percentSpent = Math.round((data.amountSpent / data.totalBudget!) * 100);
+
   return (
     <div>
       {/*Back Link*/}
@@ -76,7 +77,7 @@ const BudgetDetailPage = async ({
         />
         <SummaryCard
           title={"Transactions"}
-          data={numFormatter.format(data.numOfTransactions!)}
+          data={numFormatter.format(data.transactionThisMonth!)}
           description={"This month"}
         />
       </div>

@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { format } from "date-fns";
+import { addMonths, format, set, subDays } from "date-fns";
 import { Category } from "@/database/interfaces.types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -47,4 +47,10 @@ export const transformCategoryIntoChartLabel = (data: Category[]) => {
     },
     {} as Record<string, Record<string, string>>,
   );
+};
+
+export const getThisMonth = () => {
+  const start = set(new Date(), { date: 1 });
+  const end = subDays(addMonths(start, 1), 1);
+  return { start, end };
 };
