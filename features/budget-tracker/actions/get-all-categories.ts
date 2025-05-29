@@ -1,9 +1,9 @@
 "use server";
 
 import { db } from "@/database/drizzle";
-import { category, userCategory } from "@/database/schema";
+import { category } from "@/database/schema";
 import { getUserSession } from "@/lib/server-util";
-import { eq } from "drizzle-orm";
+import { or, eq, isNull } from "drizzle-orm";
 import { Category } from "@/database/interfaces.types";
 
 export const getAllCategories = async () => {
@@ -18,9 +18,8 @@ export const getAllCategories = async () => {
         name: category.name,
         color: category.color,
       })
-      .from(userCategory)
-      .leftJoin(category, eq(userCategory.categoryId, category.id))
-      .where(eq(userCategory.userId, session.user.id));
+      .from(category)
+      .where(or(eq(category.userId, session.user.id), isNull(category.userId)));
     return data as Category[];
   } catch (error) {
     console.log(error);

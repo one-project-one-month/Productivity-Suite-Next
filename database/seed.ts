@@ -1,6 +1,6 @@
 import { Faker, en } from "@faker-js/faker";
 import { db } from "@/database/drizzle";
-import { budget, category, transactions, userCategory } from "./schema";
+import { budget, category, transactions } from "./schema";
 import { addDays, subDays } from "date-fns";
 
 const categories = [
@@ -66,17 +66,6 @@ try {
     return data[0];
   });
   const generatedCategories = await Promise.all(categoryPromises);
-  const userCategoryPromise = generatedCategories.map(async (item) => {
-    const data = await db
-      .insert(userCategory)
-      .values({
-        userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
-        categoryId: item.id,
-      })
-      .returning();
-    return data[0];
-  });
-  await Promise.all(userCategoryPromise);
   const budgetPlanPromises = BUDGET_PLANS.map(async (item, idx) => {
     const categoryId = generatedCategories[idx].id;
     const data = await db
