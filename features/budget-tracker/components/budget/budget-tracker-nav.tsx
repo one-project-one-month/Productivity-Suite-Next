@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { PlusCircle } from "lucide-react";
+import { ChartPie, PlusCircle } from "lucide-react";
 
 const ALLOWED_ROUTES = ["overview", "analytics", "budgets", "expenses"];
 
@@ -46,6 +46,12 @@ const BudgetTrackerNav = () => {
           <Link href={"/budget-tracker/add-budget"}>
             <PlusCircle className="mr-2 h-4 w-4" />
             New Budget Plan
+          </Link>
+        </Button>
+
+        <Button asChild={true} className={"ml-4"}>
+          <Link href={"/categories"}>
+            <ChartPie className="mr-2 h-4 w-4" /> Categories
           </Link>
         </Button>
       </div>
