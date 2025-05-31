@@ -1,10 +1,10 @@
 "use server";
 
 import { db } from "@/database/drizzle";
+import { Category } from "@/database/interfaces.types";
 import { category } from "@/database/schema";
 import { getUserSession } from "@/features/auth/actions/get-user-session";
 import { eq, isNull, or } from "drizzle-orm";
-import { GlobalCategoryInfo } from "@/components/category/predefined-category-list";
 
 export const getAllCategories = async () => {
   try {
@@ -32,20 +32,17 @@ export const getAllCategories = async () => {
         }
         return {
           ...acc,
-          userId: [...acc.userDefined, curr],
+          userDefined: [...acc.userDefined, curr],
         };
       },
       {
         preDefined: [],
         userDefined: [],
       } as {
-        preDefined: GlobalCategoryInfo[];
-        userDefined: GlobalCategoryInfo[];
+        preDefined: Category[];
+        userDefined: Category[];
       },
-    ) as unknown as {
-      preDefined: GlobalCategoryInfo[];
-      userDefined: GlobalCategoryInfo[];
-    };
+    );
   } catch (error) {
     console.log(error);
   }

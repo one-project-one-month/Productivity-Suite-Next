@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChartPie, PlusCircle } from "lucide-react";
+import { ArrowLeft, ChartPie } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { getAllCategories } from "@/lib/category-action";
 import { notFound } from "next/navigation";
-import PredefinedCategoryList from "@/components/category/predefined-category-list";
-import UserDefinedCategoryList from "@/components/category/user-defined-category-list";
+import PredefinedCategoryList from "@/features/category/components/predefined-category-list";
+import UserDefinedCategoryList from "@/features/category/components/user-defined-category-list";
+import CreateCategoryDialog from "@/features/category/components/create-category-dialog";
 
 const CategoriesPage = async () => {
   const data = await getAllCategories();
@@ -31,10 +32,7 @@ const CategoriesPage = async () => {
             Create and customize your budget categories with personalized
             colors.
           </p>
-          <Button>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Add New Categories
-          </Button>
+          <CreateCategoryDialog />
         </CardHeader>
         <CardContent>
           <PredefinedCategoryList data={data.preDefined} />

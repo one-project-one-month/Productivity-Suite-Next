@@ -1,10 +1,6 @@
-export type GlobalCategoryInfo = {
-  id: string;
-  name: string;
-  color: string;
-  userId: string | undefined | null;
-};
-const PredefinedCategoryList = ({ data }: { data: GlobalCategoryInfo[] }) => {
+import { Category } from "@/database/interfaces.types";
+
+const PredefinedCategoryList = ({ data }: { data: Category[] }) => {
   return (
     <div>
       <h3 className={"mb-4 text-gray-400 font-semibold"}>

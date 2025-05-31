@@ -1,6 +1,7 @@
-import { GlobalCategoryInfo } from "@/components/category/predefined-category-list";
+import UpdateCategoryDialog from "@/features/category/components/update-category-dialog";
+import { Category } from "@/database/interfaces.types";
 
-const UserDefinedCategoryList = ({ data }: { data: GlobalCategoryInfo[] }) => {
+const UserDefinedCategoryList = ({ data }: { data: Category[] }) => {
   return (
     <div className={"mt-6"}>
       <h3 className={"mb-4 text-gray-400 font-semibold"}>
@@ -26,6 +27,10 @@ const UserDefinedCategoryList = ({ data }: { data: GlobalCategoryInfo[] }) => {
               <span className={"font-semibold text-lg md:xl capitalize"}>
                 {category.name}
               </span>
+              <UpdateCategoryDialog
+                defaultValues={category}
+                className={"ml-auto"}
+              />
             </li>
           ))}
         {data.length === 0 && (
