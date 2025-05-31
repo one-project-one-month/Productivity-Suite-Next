@@ -65,7 +65,7 @@ const ShowPomodoroList = ({ userId }: PomodoroProps) => {
   //   }
   // };
 
-  // const categories = useMemo(() => {
+  // const category = useMemo(() => {
   //   if (!sequences) return ["all"];
   //   const unique = Array.from(new Set(sequences.map((s) => s.category)));
   //   return ["all", ...unique];
