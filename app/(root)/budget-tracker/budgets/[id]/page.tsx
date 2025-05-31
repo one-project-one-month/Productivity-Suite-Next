@@ -8,6 +8,9 @@ import { ArrowLeft, Calendar, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import UpdateBudgetDialog from "@/features/budget-tracker/components/budget/update-budget-dialog";
+import { getAllCategories } from "@/features/budget-tracker/actions/get-all-categories";
+import { getBudgetDetailsById } from "@/features/budget-tracker/actions/get-budget-details-by-id";
 
 const BudgetDetailPage = async ({
   params,
@@ -16,6 +19,8 @@ const BudgetDetailPage = async ({
 }) => {
   const { id } = await params;
   const data = await getBudgetDetailsOverview(id);
+  const categoriesPromise = getAllCategories();
+  const budgetDataPromise = getBudgetDetailsById(id);
   if (!data) return notFound();
   const percentSpent = Math.round((data.amountSpent / data.totalBudget!) * 100);
 
@@ -30,8 +35,8 @@ const BudgetDetailPage = async ({
       </Button>
 
       {/*Header*/}
-      <header className={"md:flex justify-between items-start"}>
-        <div>
+      <header className={"md:flex justify-end items-start gap-x-4"}>
+        <div className={"mr-auto"}>
           <h2 className={"font-bold text-2xl"}>{data.title}</h2>
           <p className={"mb-4 text-gray-500 "}>{data.description}</p>
           <p className={" mb-4 flex items-center gap-x-2 text-gray-500 "}>
@@ -52,6 +57,10 @@ const BudgetDetailPage = async ({
             Add Expense
           </Link>
         </Button>
+        <UpdateBudgetDialog
+          categories={categoriesPromise}
+          budgetDetail={budgetDataPromise}
+        />
       </header>
 
       {/* Budget Summary Overview */}
