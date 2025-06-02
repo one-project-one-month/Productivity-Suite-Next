@@ -118,7 +118,7 @@ export const transactions = pgTable("transaction", {
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   budgetId: uuid("budget_id")
-    .references(() => budget.id)
+    .references(() => budget.id, { onDelete: "cascade" })
     .notNull(),
   amount: integer("amount").notNull(),
   title: text("title").notNull(),

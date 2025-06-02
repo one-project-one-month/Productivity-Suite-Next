@@ -22,6 +22,7 @@ import { Form } from "@/components/ui/form";
 import { updateBudget } from "../../actions/update-budget";
 import { toast } from "sonner";
 import { useConfirm } from "@/hooks/use-confirm";
+import DeleteBudgetBtn from "@/features/budget-tracker/components/budget/delete-budget-btn";
 
 type UpdateBudgetDialogProps = {
   categories: Promise<Category[] | null | undefined>;
@@ -90,8 +91,11 @@ const UpdateBudgetDialog = ({
             <BudgetFormBody control={form.control} categories={categoryData} />
             <DialogFooter className={"mt-4"}>
               <DialogClose asChild={true}>
-                <Button variant={"outline"}>Cancel</Button>
+                <Button variant={"outline"} className={"mr-auto"}>
+                  Cancel
+                </Button>
               </DialogClose>
+              <DeleteBudgetBtn id={budgetData.id} />
               <Button
                 type={"submit"}
                 disabled={
