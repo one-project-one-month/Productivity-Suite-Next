@@ -3,7 +3,7 @@
 import { db } from "@/database/drizzle";
 import { budget, transactions } from "@/database/schema";
 import { getUserSession } from "@/lib/server-util";
-import { eq, isNotNull, sql, sum } from "drizzle-orm";
+import { eq, isNotNull, sql } from "drizzle-orm";
 
 export const getBudgetOverviewChartData = async () => {
   try {

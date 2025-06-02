@@ -5,6 +5,7 @@ import Link from "next/link";
 import { formatDate, numFormatter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
+import ExpenseActions from "../expense/expense-actions";
 
 const columnHelper = createColumnHelper<IExpenseDetail>();
 
@@ -62,5 +63,9 @@ export const expenseColumns = [
       </Button>
     ),
     cell: ({ getValue }) => <p>{numFormatter.format(getValue())} MMK</p>,
+  }),
+  columnHelper.display({
+    id: "actions",
+    cell: ({ row }) => <ExpenseActions id={row.original.id} />,
   }),
 ];

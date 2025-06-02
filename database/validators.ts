@@ -2,7 +2,6 @@ import { createInsertSchema } from "drizzle-zod";
 import { user } from "@/database/auth-schema";
 import { z } from "zod";
 import { budget, category, transactions } from "./schema";
-import { integer } from "drizzle-orm/pg-core";
 import { addDays, set } from "date-fns";
 
 const password = z
@@ -51,12 +50,11 @@ export const NewBudgetSchema = createInsertSchema(budget, {
   title: (schema) =>
     schema.min(6, { message: "Title must be at least 6 character" }),
   amount: (schema) => schema.positive().min(100),
-  durationFrom: (schema) =>
-    schema.min(set(new Date(), { hours: 0, minutes: 0, seconds: 0 })),
   durationTo: (schema) => schema.min(addDays(new Date(), 1)),
 }).omit({
   id: true,
   userId: true,
+  createdAt: true,
 });
 
 export type TNewBudgetSchema = Zod.infer<typeof NewBudgetSchema>;
@@ -65,8 +63,6 @@ export const NewExpenseSchema = createInsertSchema(transactions, {
   amount: (schema) => schema.positive().min(1),
   title: (schema) =>
     schema.min(6, { message: "Title must be at least 6 character" }),
-  createdAt: (schema) =>
-    schema.min(set(new Date(), { hours: 0, minutes: 0, seconds: 0 })),
 }).omit({
   id: true,
   userId: true,

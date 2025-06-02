@@ -5,7 +5,6 @@ import { db } from "@/database/drizzle";
 import { budget, category, transactions } from "@/database/schema";
 import { and, avg, count, eq, lte, max, sum, gte } from "drizzle-orm";
 import { getThisMonth } from "@/lib/utils";
-import { PgColumn } from "drizzle-orm/pg-core";
 
 export const getBudgetDetailsOverview = async (id: string) => {
   try {
@@ -25,6 +24,8 @@ export const getBudgetDetailsOverview = async (id: string) => {
         averageSpent: avg(transactions.amount).mapWith(Number),
         largestTransaction: max(transactions.amount).mapWith(Number),
         createdAt: budget.createdAt,
+        durationFrom: budget.durationFrom,
+        durationTo: budget.durationTo,
       })
       .from(transactions)
       .leftJoin(budget, eq(transactions.budgetId, budget.id))
@@ -36,6 +37,8 @@ export const getBudgetDetailsOverview = async (id: string) => {
         category.color,
         budget.description,
         budget.createdAt,
+        budget.durationFrom,
+        budget.durationTo,
       )
       .where(
         and(eq(transactions.budgetId, id), eq(budget.userId, session.user.id)),

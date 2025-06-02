@@ -3,8 +3,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Dot } from "lucide-react";
 import Link from "next/link";
+import ExpenseActions from "./expense-actions";
 
 export interface IExpenseDetail {
+  id: string;
   title: string;
   budgetTitle: string | null;
   description: string | null;
@@ -17,6 +19,7 @@ export interface IExpenseDetail {
 }
 
 const ExpenseCard = ({
+  id,
   title,
   budgetTitle,
   amount,
@@ -63,9 +66,12 @@ const ExpenseCard = ({
           </Link>
         </p>
       </div>
-      <p className={"md:text-lg font-bold"}>
-        {numFormatter.format(amount)} MMK
-      </p>
+      <div className={"flex gap-x-2"}>
+        <p className={"md:text-lg font-bold"}>
+          {numFormatter.format(amount)} MMK
+        </p>
+        <ExpenseActions id={id} />
+      </div>
     </article>
   );
 };

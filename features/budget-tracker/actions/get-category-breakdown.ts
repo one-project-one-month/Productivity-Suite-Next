@@ -34,7 +34,6 @@ export const getCategoryBreakdown = async () => {
       .leftJoin(sq, eq(budget.id, sq.budgetId))
       .leftJoin(category, eq(budget.categoryId, category.id))
       .groupBy(category.name);
-
     return data;
   } catch (error) {
     console.log(error);
