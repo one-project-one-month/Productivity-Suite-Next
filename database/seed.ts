@@ -39,7 +39,7 @@ export const BUDGET_PLANS = [
     title: "Transportation",
     description: "Gas, public transit, and car maintenance",
     category: "Transport",
-    amount: 95_000,
+    amount: 120_000,
   },
 ];
 
@@ -74,7 +74,7 @@ try {
         categoryId,
         ...item,
         userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
-        durationFrom: subDays(Date.now(), 30),
+        durationFrom: subDays(Date.now(), 60),
         durationTo: new Date(addDays(Date.now(), 30)),
       })
       .returning();
@@ -83,9 +83,9 @@ try {
   const generatedBudgetPlans = await Promise.all(budgetPlanPromises);
 
   const generatedExpenses = generatedBudgetPlans.map(async (item) => {
-    const len = faker.helpers.rangeToNumber({ min: 5, max: 12 });
+    const len = faker.helpers.rangeToNumber({ min: 8, max: 10 });
     const expenses = Array.from({ length: len }, async () => {
-      const amount = faker.helpers.rangeToNumber({ min: 5, max: 11 }) * 1000;
+      const amount = faker.helpers.rangeToNumber({ min: 8, max: 15 }) * 1000;
       return db
         .insert(transactions)
         .values({

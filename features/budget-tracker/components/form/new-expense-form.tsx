@@ -1,25 +1,15 @@
 "use client";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NewExpenseSchema, TNewExpenseSchema } from "@/database/validators";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import BudgetPicker from "@/features/budget-tracker/components/budget/budget-picker";
-import ExpenseAmount from "@/features/budget-tracker/components/expense/expense-amount";
-import DurationPicker from "@/features/budget-tracker/components/util/duration-picker";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { createNewExpense } from "@/features/budget-tracker/actions/create-new-expense";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import ExpenseFormBody from "@/features/budget-tracker/components/form/expense-form-body";
 
 interface Budget {
   id: string;
@@ -57,71 +47,7 @@ const NewExpenseForm = ({ budgets }: { budgets: Budget[] }) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className={"flex flex-col gap-y-5"}
       >
-        <FormField
-          control={form.control}
-          name={"title"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Expense Title</FormLabel>
-              <FormControl>
-                <Input placeholder={"Eg: ExpenseCard Title"} {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name={"description"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Expense Description</FormLabel>
-              <FormControl>
-                {/*//@ts-expect-error description can't be null since i give it a default empty string*/}
-                <Textarea
-                  placeholder={"Eg: ExpenseCard Description"}
-                  {...field}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"budgetId"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Expense Description</FormLabel>
-              <FormControl>
-                <BudgetPicker budgets={budgets} {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"amount"}
-          render={({ field }) => (
-            <FormItem className={"w-full"}>
-              <FormLabel>Budget Amount</FormLabel>
-              <FormControl>
-                <ExpenseAmount {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"createdAt"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Date</FormLabel>
-              <FormControl>
-                <DurationPicker {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        <ExpenseFormBody control={form.control} />
         <div className={"flex items-center justify-between"}>
           <Button variant={"outline"} asChild={true}>
             <Link href={"/budget-tracker/overview"}>Cancel</Link>

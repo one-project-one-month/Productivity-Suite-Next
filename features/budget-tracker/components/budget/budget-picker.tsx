@@ -7,30 +7,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAllBudgets } from "@/features/budget-tracker/hooks/use-all-budgets";
 
 type BudgetPickerProps = {
-  budgets: { id: string; title: string }[];
   value: string;
   onChange: (value: string) => void;
 };
-const BudgetPicker = ({ budgets, value, onChange }: BudgetPickerProps) => {
+const BudgetPicker = ({ value, onChange }: BudgetPickerProps) => {
+  const { data, isLoading } = useAllBudgets();
   return (
     <Select value={value} onValueChange={onChange} defaultValue={"USD"}>
-      <SelectTrigger className={"w-full capitalize"}>
+      <SelectTrigger className={"w-full capitalize"} disabled={isLoading}>
         <SelectValue placeholder="Select Budget" className={"capitalize"} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Budgets</SelectLabel>
-          {budgets.map((budget) => (
-            <SelectItem
-              value={budget.id}
-              key={budget.id}
-              className={"capitalize"}
-            >
-              {budget.title}
-            </SelectItem>
-          ))}
+          {data &&
+            data.map((budget) => (
+              <SelectItem
+                value={budget.id}
+                key={budget.id}
+                className={"capitalize"}
+              >
+                {budget.title}
+              </SelectItem>
+            ))}
         </SelectGroup>
       </SelectContent>
     </Select>

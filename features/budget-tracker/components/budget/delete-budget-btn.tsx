@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Loader2, Trash } from "lucide-react";
 import { deleteBudget } from "@/features/budget-tracker/actions/delete-budget";
 import { Button } from "@/components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
 
 const DeleteBudgetBtn = ({ id }: { id: string }) => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
@@ -14,6 +15,7 @@ const DeleteBudgetBtn = ({ id }: { id: string }) => {
     "You are about to delete this budget plan.",
   );
   const router = useRouter();
+  const queryClient = useQueryClient();
   const onDelete = async () => {
     const ok = await confirm();
     if (ok) {
@@ -24,6 +26,9 @@ const DeleteBudgetBtn = ({ id }: { id: string }) => {
         return;
       } else {
         toast.success(message);
+        await queryClient.invalidateQueries({
+          queryKey: ["budgets"],
+        });
         router.replace("/budget-tracker/budgets");
         router.refresh();
       }
