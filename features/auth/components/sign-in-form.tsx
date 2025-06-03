@@ -53,7 +53,7 @@ const SignInForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={"py-6 flex flex-col gap-y-4"}
+        className={"py-6 flex flex-col gap-y-4 "}
       >
         <FormField
           control={form.control}
@@ -62,7 +62,11 @@ const SignInForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder={"Eg: super@gmail.com"} {...field} />
+                <Input
+                  placeholder={"Eg: super@gmail.com"}
+                  {...field}
+                  className={"bg-card"}
+                />
               </FormControl>
             </FormItem>
           )}
