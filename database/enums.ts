@@ -12,3 +12,4 @@ export const TodoPriority = pgEnum("todo_priority", [
 
 export type TimerType = (typeof TimerType.enumValues)[number];
 export type TodoStatus = (typeof TodoStatus.enumValues)[number];
+export type TodoPriority = (typeof TodoPriority.enumValues)[number];

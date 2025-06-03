@@ -5,8 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Todos from "@/features/todos/components/todos";
 import { getAllTodos } from "@/features/todos/actions/get-all-todos";
 import { notFound } from "next/navigation";
