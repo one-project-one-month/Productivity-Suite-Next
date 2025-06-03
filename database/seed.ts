@@ -1,7 +1,8 @@
 import { Faker, en } from "@faker-js/faker";
 import { db } from "@/database/drizzle";
-import { budget, category, transactions } from "./schema";
+import { budget, category, todos, transactions } from "./schema";
 import { addDays, subDays } from "date-fns";
+import { TodoPriority, TodoStatus } from "@/database/enums";
 
 const categories = [
   { name: "food", color: "#2a9d90" },
@@ -51,6 +52,9 @@ async function cleanUp() {
 
   // eslint-disable-next-line drizzle/enforce-delete-with-where
   await db.delete(category);
+
+  // eslint-disable-next-line drizzle/enforce-delete-with-where
+  await db.delete(todos);
 }
 
 try {
@@ -58,6 +62,25 @@ try {
   console.log("Cleaning Up....");
   await cleanUp();
   console.log("Clean up finished...");
+
+  const newTodoPromises = Array.from({ length: 40 }).map(async (_, idx) => {
+    const titleWordLen = faker.helpers.rangeToNumber({ min: 4, max: 6 });
+    const descriptionWordLen = faker.helpers.rangeToNumber({ min: 7, max: 10 });
+    const dueAtDay = faker.helpers.rangeToNumber({ min: 7, max: 21 });
+
+    const priority = faker.helpers.arrayElement(TodoPriority.enumValues);
+    return db.insert(todos).values({
+      userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
+      title: faker.lorem.words(titleWordLen),
+      description: faker.lorem.words(descriptionWordLen),
+      createdAt: new Date(),
+      priority,
+      dueAt: addDays(new Date(), dueAtDay),
+    });
+  });
+
+  await Promise.all(newTodoPromises);
+
   const categoryPromises = categories.map(async (item) => {
     const data = await db
       .insert(category)

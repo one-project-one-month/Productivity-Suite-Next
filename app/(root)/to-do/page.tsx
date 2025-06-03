@@ -1,26 +1,46 @@
-export const dynamic = "force-dynamic";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Todos from "@/features/todos/components/todos";
+import { getAllTodos } from "@/features/todos/actions/get-all-todos";
+import { notFound } from "next/navigation";
+import NewTodoDialog from "@/features/todos/components/new-todo-dialog";
 
-import { getTodos } from "@/features/to-do/actions/todo-action";
-import TodoHomePage from "@/features/to-do/components/todo-homepage";
-import { TodoSchema } from "@/features/to-do/types/todo-schema";
-
-const page = async () => {
-  const { success, error } = await getTodos();
-  if (error || !success) throw new Error(error ?? "Unknown error");
-
-  const todos: TodoSchema[] = success
-    .filter((todo) => todo.dueAt !== null)
-    .map((todo) => ({
-      id: todo.id,
-      title: todo.title,
-      description: todo.description ?? undefined,
-      dueAt: todo.dueAt!,
-      priority: String(todo.priority),
-      status: todo.status ?? "PENDING",
-      createdAt: todo.createdAt,
-    }));
-
-  return <TodoHomePage todos={todos} />;
+const TodoPage = async () => {
+  const todos = await getAllTodos();
+  if (!todos) {
+    return notFound();
+  }
+  return (
+    <section>
+      <Card
+        className={"max-w-[800px] mt-8 mx-auto bg-card text-muted-foreground"}
+      >
+        <CardHeader className={"flex justify-between"}>
+          <div>
+            <CardTitle
+              className={"text-black dark:text-muted-foreground font-bold"}
+            >
+              Task Manager
+            </CardTitle>
+            <CardDescription>
+              Track your tasks, priorities, and deadlines
+            </CardDescription>
+          </div>
+          <NewTodoDialog />
+        </CardHeader>
+        <CardContent>
+          <Todos data={todos} />
+        </CardContent>
+      </Card>
+    </section>
+  );
 };
 
-export default page;
+export default TodoPage;

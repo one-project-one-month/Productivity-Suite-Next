@@ -6,7 +6,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import DurationPicker from "../util/duration-picker";
+import DatePicker from "../../../../components/util/date-picker";
 import ExpenseAmount from "../expense/expense-amount";
 import BudgetPicker from "../budget/budget-picker";
 import { Control } from "react-hook-form";
@@ -80,7 +80,7 @@ const ExpenseFormBody = ({ control }: ExpenseFormBodyProps) => {
           <FormItem>
             <FormLabel>Date</FormLabel>
             <FormControl>
-              <DurationPicker {...field} value={field.value!} />
+              <DatePicker {...field} value={field.value!} />
             </FormControl>
           </FormItem>
         )}

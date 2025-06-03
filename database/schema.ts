@@ -8,7 +8,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { user } from "@/database/auth-schema";
-import { TimerType, TodoStatus } from "@/database/enums";
+import { TimerType, TodoPriority, TodoStatus } from "@/database/enums";
 
 /*
  * Pomodoro Related Tables
@@ -56,7 +56,7 @@ export const todos = pgTable("todo", {
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   status: TodoStatus("status").default("PENDING").notNull(),
-  priority: integer("priority").default(1).notNull(),
+  priority: TodoPriority("priority").default("LOW").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
