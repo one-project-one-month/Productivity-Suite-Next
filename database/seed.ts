@@ -81,52 +81,52 @@ try {
 
   await Promise.all(newTodoPromises);
 
-  const categoryPromises = categories.map(async (item) => {
-    const data = await db
-      .insert(category)
-      .values({ name: item.name, color: item.color })
-      .returning();
-    return data[0];
-  });
-  const generatedCategories = await Promise.all(categoryPromises);
-  const budgetPlanPromises = BUDGET_PLANS.map(async (item, idx) => {
-    const categoryId = generatedCategories[idx].id;
-    const data = await db
-      .insert(budget)
-      .values({
-        categoryId,
-        ...item,
-        userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
-        durationFrom: subDays(Date.now(), 60),
-        durationTo: new Date(addDays(Date.now(), 30)),
-      })
-      .returning();
-    return data[0];
-  });
-  const generatedBudgetPlans = await Promise.all(budgetPlanPromises);
-
-  const generatedExpenses = generatedBudgetPlans.map(async (item) => {
-    const len = faker.helpers.rangeToNumber({ min: 8, max: 10 });
-    const expenses = Array.from({ length: len }, async () => {
-      const amount = faker.helpers.rangeToNumber({ min: 8, max: 15 }) * 1000;
-      return db
-        .insert(transactions)
-        .values({
-          userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
-          amount: amount,
-          budgetId: item.id,
-          title: faker.lorem.words(2),
-          description: faker.lorem.words(3),
-          createdAt: faker.date.between({
-            from: subDays(Date.now(), 30),
-            to: Date.now(),
-          }),
-        })
-        .returning();
-    });
-    return await Promise.all(expenses);
-  });
-  await Promise.all(generatedExpenses);
+  // const categoryPromises = categories.map(async (item) => {
+  //   const data = await db
+  //     .insert(category)
+  //     .values({ name: item.name, color: item.color })
+  //     .returning();
+  //   return data[0];
+  // });
+  // const generatedCategories = await Promise.all(categoryPromises);
+  // const budgetPlanPromises = BUDGET_PLANS.map(async (item, idx) => {
+  //   const categoryId = generatedCategories[idx].id;
+  //   const data = await db
+  //     .insert(budget)
+  //     .values({
+  //       categoryId,
+  //       ...item,
+  //       userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
+  //       durationFrom: subDays(Date.now(), 60),
+  //       durationTo: new Date(addDays(Date.now(), 30)),
+  //     })
+  //     .returning();
+  //   return data[0];
+  // });
+  // const generatedBudgetPlans = await Promise.all(budgetPlanPromises);
+  //
+  // const generatedExpenses = generatedBudgetPlans.map(async (item) => {
+  //   const len = faker.helpers.rangeToNumber({ min: 8, max: 10 });
+  //   const expenses = Array.from({ length: len }, async () => {
+  //     const amount = faker.helpers.rangeToNumber({ min: 8, max: 15 }) * 1000;
+  //     return db
+  //       .insert(transactions)
+  //       .values({
+  //         userId: "YFwclaR5ifD6bn8cbZvzmTjE6rFQHpQ2",
+  //         amount: amount,
+  //         budgetId: item.id,
+  //         title: faker.lorem.words(2),
+  //         description: faker.lorem.words(3),
+  //         createdAt: faker.date.between({
+  //           from: subDays(Date.now(), 30),
+  //           to: Date.now(),
+  //         }),
+  //       })
+  //       .returning();
+  //   });
+  //   return await Promise.all(expenses);
+  // });
+  // await Promise.all(generatedExpenses);
   console.log("Seeding End");
 } catch (err) {
   console.log("Error during seeding:", err);

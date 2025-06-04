@@ -4,9 +4,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { EllipsisVertical, Trash } from "lucide-react";
+import { EllipsisVertical } from "lucide-react";
 import { Todo } from "@/database/interfaces.types";
 import TodoDeleteBtn from "@/features/todos/components/todo-delete-btn";
+import CompleteBtn from "@/features/todos/components/complete-btn";
 
 const TodoActionBtns = ({ data }: { data: Todo }) => {
   return (
@@ -16,7 +17,8 @@ const TodoActionBtns = ({ data }: { data: Todo }) => {
           <EllipsisVertical className={"md:size-6"} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={"w-fit"}>
+      <PopoverContent className={"w-fit flex flex-col gap-y-4"}>
+        {!data.completedAt && <CompleteBtn id={data.id} />}
         <TodoDeleteBtn id={data.id} />
       </PopoverContent>
     </Popover>
