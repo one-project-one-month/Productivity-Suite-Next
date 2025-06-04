@@ -12,7 +12,7 @@ const TodoCard = ({ data }: { data: Todo }) => {
     <Card className={"w-full  gap-4 md:gap-6"}>
       <CardHeader className={"flex items-start justify-between"}>
         <h3>{data.title}</h3>
-        <TodoActionBtns />
+        <TodoActionBtns data={data} />
       </CardHeader>
       <CardContent>
         <p className={"mb-4"}>{data.description}</p>

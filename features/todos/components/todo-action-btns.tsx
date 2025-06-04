@@ -5,8 +5,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { EllipsisVertical, Trash } from "lucide-react";
+import { Todo } from "@/database/interfaces.types";
+import TodoDeleteBtn from "@/features/todos/components/todo-delete-btn";
 
-const TodoActionBtns = () => {
+const TodoActionBtns = ({ data }: { data: Todo }) => {
   return (
     <Popover>
       <PopoverTrigger asChild={true}>
@@ -15,10 +17,7 @@ const TodoActionBtns = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className={"w-fit"}>
-        <Button variant={"destructive"}>
-          <Trash />
-          <span>Delete</span>
-        </Button>
+        <TodoDeleteBtn id={data.id} />
       </PopoverContent>
     </Popover>
   );
