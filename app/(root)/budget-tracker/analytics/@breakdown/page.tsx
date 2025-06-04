@@ -17,7 +17,7 @@ const BudgetAnalyticsBreakdownPage = async () => {
   return (
     <div
       className={
-        "p-6  border rounded-xl shadow-md bg-card text-card-foreground"
+        "p-6  border rounded-xl shadow-md bg-card text-card-foreground "
       }
     >
       <h2 className={"font-bold text-2xl"}>Category Breakdown</h2>
