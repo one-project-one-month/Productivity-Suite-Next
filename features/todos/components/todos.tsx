@@ -2,33 +2,35 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Todo } from "@/database/interfaces.types";
 import TodoList from "@/features/todos/components/todo-list";
-import { useTodoFilterStore } from "@/features/todos/hooks/use-todo-filter-store";
 import PriorityFilter from "@/features/todos/components/priority-filter";
 
 const Todos = ({ data }: { data: Todo[] }) => {
-  const { priority } = useTodoFilterStore();
   return (
-    <div className={"flex justify-between items-start"}>
-      <Tabs defaultValue={"all"}>
-        <TabsList>
+    <Tabs defaultValue={"all"} className={"w-full"}>
+      <div
+        className={"mb-4 flex items-center justify-between flex-wrap gap-y-4"}
+      >
+        <TabsList className={"w-fit"}>
           <TabsTrigger value={"all"}>All</TabsTrigger>
           <TabsTrigger value={"active"}>Active</TabsTrigger>
           <TabsTrigger value={"completed"}>Completed</TabsTrigger>
+          <TabsTrigger value={"overdue"}>Over Due</TabsTrigger>
         </TabsList>
-        <TabsContent value={"all"}>
-          <TodoList data={data} />
-        </TabsContent>
-        <TabsContent value={"active"}>
-          <TodoList data={data} />
-        </TabsContent>
-        <TabsContent value={"completed"}>
-          <TodoList data={data} />
-        </TabsContent>
-      </Tabs>
-      <div>
         <PriorityFilter />
       </div>
-    </div>
+      <TabsContent value={"all"}>
+        <TodoList data={data} type={"all"} />
+      </TabsContent>
+      <TabsContent value={"active"}>
+        <TodoList data={data} type={"active"} />
+      </TabsContent>
+      <TabsContent value={"completed"}>
+        <TodoList data={data} type={"completed"} />
+      </TabsContent>
+      <TabsContent value={"overdue"}>
+        <TodoList data={data} type={"overdue"} />
+      </TabsContent>
+    </Tabs>
   );
 };
 

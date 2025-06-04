@@ -66,7 +66,7 @@ try {
   const newTodoPromises = Array.from({ length: 40 }).map(async (_, idx) => {
     const titleWordLen = faker.helpers.rangeToNumber({ min: 4, max: 6 });
     const descriptionWordLen = faker.helpers.rangeToNumber({ min: 7, max: 10 });
-    const dueAtDay = faker.helpers.rangeToNumber({ min: 7, max: 21 });
+    const dueAtDay = faker.helpers.rangeToNumber({ min: -10, max: 10 });
 
     const priority = faker.helpers.arrayElement(TodoPriority.enumValues);
     return db.insert(todos).values({

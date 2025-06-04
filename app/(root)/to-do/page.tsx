@@ -16,7 +16,7 @@ const TodoPage = async () => {
     return notFound();
   }
   return (
-    <section>
+    <section className={"px-6"}>
       <Card
         className={"max-w-[800px] mt-8 mx-auto bg-card text-muted-foreground"}
       >

@@ -12,7 +12,7 @@ const PriorityFilter = () => {
   const onFilterChange = useTodoFilterStore((state) => state.setPriority);
   return (
     <Select onValueChange={onFilterChange}>
-      <SelectTrigger className={"max-w-[200px] capitalize py-4"}>
+      <SelectTrigger className={"max-w-[200px] min-w-[160px] capitalize py-4"}>
         <SelectValue placeholder={"Filter By Priority"} />
       </SelectTrigger>
       <SelectContent>
