@@ -9,12 +9,12 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
-type DurationPickerProps = {
+type DatePickerProps = {
   value: Date;
   onChange: (value: Date) => void;
 };
 
-const DurationPicker = ({ value, onChange }: DurationPickerProps) => {
+const DatePicker = ({ value, onChange }: DatePickerProps) => {
   return (
     <Popover modal={false}>
       <PopoverTrigger asChild className={"w-full"}>
@@ -42,4 +42,4 @@ const DurationPicker = ({ value, onChange }: DurationPickerProps) => {
   );
 };
 
-export default DurationPicker;
+export default DatePicker;

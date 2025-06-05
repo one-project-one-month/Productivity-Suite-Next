@@ -1,8 +1,9 @@
 import { createInsertSchema } from "drizzle-zod";
 import { user } from "@/database/auth-schema";
 import { z } from "zod";
-import { budget, category, transactions } from "./schema";
+import { budget, category, todos, transactions } from "./schema";
 import { addDays, set } from "date-fns";
+import { TodoPriority } from "@/database/enums";
 
 const password = z
   .string()
@@ -80,3 +81,22 @@ export const CategorySchema = createInsertSchema(category, {
 }).omit({ id: true, userId: true });
 
 export type TCategorySchema = Zod.infer<typeof CategorySchema>;
+
+export const CreateTodoSchema = createInsertSchema(todos, {
+  title: (schema) =>
+    schema.min(10, { message: "Title must be at least 10 character" }),
+  priority: (schema) =>
+    schema.refine((value) => TodoPriority.enumValues.indexOf(value) >= 0),
+  dueAt: (schema) =>
+    schema
+      .min(set(new Date(), { hours: 0, minutes: 0, seconds: 0 }))
+      .optional(),
+}).omit({
+  id: true,
+  userId: true,
+  createdAt: true,
+  completedAt: true,
+  status: true,
+});
+
+export type TCreateTodoSchema = Zod.infer<typeof CreateTodoSchema>;

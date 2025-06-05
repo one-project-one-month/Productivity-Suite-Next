@@ -6,7 +6,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import DurationPicker from "../util/duration-picker";
+import DatePicker from "../../../../components/util/date-picker";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Category } from "@/database/interfaces.types";
@@ -94,7 +94,7 @@ const BudgetFormBody = ({ control, categories }: BudgetFormBodyProps) => {
             <FormItem className={"w-full"}>
               <FormLabel>Start Date</FormLabel>
               <FormControl>
-                <DurationPicker {...field} value={field.value!} />
+                <DatePicker {...field} value={field.value!} />
               </FormControl>
             </FormItem>
           )}
@@ -106,7 +106,7 @@ const BudgetFormBody = ({ control, categories }: BudgetFormBodyProps) => {
             <FormItem className={"w-full"}>
               <FormLabel>End Date</FormLabel>
               <FormControl>
-                <DurationPicker {...field} />
+                <DatePicker {...field} />
               </FormControl>
             </FormItem>
           )}
