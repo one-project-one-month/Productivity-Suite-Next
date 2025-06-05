@@ -71,7 +71,7 @@ const BudgetFormBody = ({ control, categories }: BudgetFormBodyProps) => {
         name={"categoryId"}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Budget Amount</FormLabel>
+            <FormLabel>Budget Category</FormLabel>
             <FormControl>
               <CategoryPicker
                 value={field.value}

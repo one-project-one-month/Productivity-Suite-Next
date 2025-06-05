@@ -27,8 +27,8 @@ export const getBudgetDetailsOverview = async (id: string) => {
         durationFrom: budget.durationFrom,
         durationTo: budget.durationTo,
       })
-      .from(transactions)
-      .leftJoin(budget, eq(transactions.budgetId, budget.id))
+      .from(budget)
+      .leftJoin(transactions, eq(transactions.budgetId, budget.id))
       .leftJoin(category, eq(budget.categoryId, category.id))
       .groupBy(
         budget.amount,
@@ -40,14 +40,11 @@ export const getBudgetDetailsOverview = async (id: string) => {
         budget.durationFrom,
         budget.durationTo,
       )
-      .where(
-        and(eq(transactions.budgetId, id), eq(budget.userId, session.user.id)),
-      );
+      .where(and(eq(budget.id, id), eq(budget.userId, session.user.id)));
 
     if (!data) {
       return null;
     }
-
     const { start, end } = getThisMonth();
 
     const [thisMonth] = await db
@@ -58,7 +55,7 @@ export const getBudgetDetailsOverview = async (id: string) => {
       .leftJoin(budget, eq(transactions.budgetId, budget.id))
       .where(
         and(
-          eq(transactions.budgetId, id),
+          eq(budget.id, id),
           eq(budget.userId, session.user.id),
           gte(transactions.createdAt, start),
           lte(transactions.createdAt, end),

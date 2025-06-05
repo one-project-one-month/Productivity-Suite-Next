@@ -16,7 +16,7 @@ const BudgetsPage = async () => {
       className={cn(
         "mt-4 md:mt-6 p-6  border-1 border-black/40 rounded-xl bg-card text-card-foreground",
         !data.length &&
-          "border-black/20 border-dashed border-[1.5px] lg:border-2",
+          "border-black/20 border-dashed border-[1.5px] lg:border-2 dark:border-white/30",
       )}
     >
       <h2 className={"font-bold text-2xl"}>Your Budget Plans</h2>

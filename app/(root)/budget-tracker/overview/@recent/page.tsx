@@ -15,7 +15,8 @@ const RecentTransactionPage = async () => {
     <div
       className={cn(
         "md:col-span-2 p-6  border rounded-xl shadow-md bg-card text-card-foreground",
-        !data.length && "border-[1.5px] shadow-xs border-dashed",
+        !data.length &&
+          "border-[1.5px] shadow-xs border-dashed dark:border-white/30",
       )}
     >
       <h2 className={"font-bold text-2xl"}>Recent Expenses </h2>
