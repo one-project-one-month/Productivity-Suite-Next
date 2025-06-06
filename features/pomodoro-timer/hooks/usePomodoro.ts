@@ -1,19 +1,24 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+// import { useGetSequenceByTimerId } from "./use-get-sequence-by-timer-id";
+// import { useSelectedId } from "./use-selected-id";
 
-type TimerState = "work" | "shortBreak" | "longBreak" | "idle";
+export type TimerState = "work" | "break" | "idle";
 
 interface UsePomodoroReturn {
   time: number;
   setTime: (time: number) => void;
   workTime: number;
   setWorkTime: (time: number) => void;
-  shortBreakTime: number;
-  setShortBreakTime: (time: number) => void;
-  longBreakTime: number;
-  setLongBreakTime: (time: number) => void;
+  breakTime: number;
+  setBreakTime: (time: number) => void;
+  // shortBreakTime: number;
+  // setShortBreakTime: (time: number) => void;
+  // longBreakTime: number;
+  // setLongBreakTime: (time: number) => void;
   isActive: boolean;
+  setIsActive: (active: boolean) => void;
   timerState: TimerState;
   setTimerState: (state: TimerState) => void;
   pomodoroCount: number;
@@ -22,16 +27,34 @@ interface UsePomodoroReturn {
   resetTimer: () => void;
 }
 
-export const usePomodoro = (): UsePomodoroReturn => {
+type PomodoroProps = {
+  Ptime: number;
+  PworkTime: number;
+  PbreakTime: number;
+  // PshortBreakTime: number;
+  // PlongBreakTime: number;
+  PisActive: boolean;
+  PtimerState: TimerState;
+  PpomodoroCount: number;
+  PworkCompleted: boolean;
+  currentTimerId?: string;
+}
+
+export const usePomodoro = ({Ptime, PworkTime, PbreakTime, PisActive, PtimerState, PpomodoroCount, PworkCompleted, currentTimerId}: PomodoroProps): UsePomodoroReturn => {
+  // const { selectedId, setSelectedId } = useSelectedId();
+  // const { data: timerSequence, isSuccess } = useGetSequenceByTimerId(selectedId);
+  
   const [mounted, setMounted] = useState(false);
-  const [time, setTime] = useState<number>(25 * 60);
-  const [workTime, setWorkTime] = useState<number>(25 * 60);
-  const [shortBreakTime, setShortBreakTime] = useState<number>(5 * 60);
-  const [longBreakTime, setLongBreakTime] = useState<number>(15 * 60);
-  const [isActive, setIsActive] = useState(false);
-  const [timerState, setTimerState] = useState<TimerState>("idle");
-  const [pomodoroCount, setPomodoroCount] = useState(0);
-  const [workCompleted, setWorkCompleted] = useState(false);
+  const [time, setTime] = useState<number>(Ptime);
+  const [workTime, setWorkTime] = useState<number>(PworkTime);
+  const [breakTime, setBreakTime] = useState<number>(PbreakTime);
+  // const [shortBreakTime, setShortBreakTime] = useState<number>(PshortBreakTime);
+  // const [longBreakTime, setLongBreakTime] = useState<number>(PlongBreakTime);
+  const [isActive, setIsActive] = useState(PisActive);
+  const [timerState, setTimerState] = useState<TimerState>(PtimerState);
+  const [pomodoroCount, setPomodoroCount] = useState(PpomodoroCount);
+  const [workCompleted, setWorkCompleted] = useState(PworkCompleted);
+
 
   // Add mounted check
   useEffect(() => {
@@ -46,28 +69,31 @@ export const usePomodoro = (): UsePomodoroReturn => {
           currentTime: prevTime,
           currentType: timerState,
           durations: {
-            work: workTime,
-            shortBreak: shortBreakTime,
-            longBreak: longBreakTime,
+            work: PworkTime,
+            break: PbreakTime,
+            // shortBreak: shortBreakTime,
+            // longBreak: longBreakTime,
           },
           count: pomodoroCount,
         }),
       );
       return prevTime;
     });
-  }, [timerState, workTime, shortBreakTime, longBreakTime, pomodoroCount]);
+  }, [timerState, PbreakTime, pomodoroCount, PworkTime]);
 
-  // Load saved state on mount
   useEffect(() => {
-    const savedState = localStorage.getItem("pomodoro-state");
-    if (savedState) {
-      const state = JSON.parse(savedState);
-      setTime(state.currentTime);
-      setTimerState(state.currentType);
-      setWorkTime(state.durations.work);
-      setShortBreakTime(state.durations.shortBreak);
-      setLongBreakTime(state.durations.longBreak);
-      setPomodoroCount(state.count);
+    if(typeof window != "undefined") {
+      const savedState = localStorage.getItem("pomodoro-state");
+      if (savedState) {
+        const state = JSON.parse(savedState);
+        setTime(state.currentTime);
+        setTimerState(state.currentType);
+        setWorkTime(state.durations.work);
+        setBreakTime(state.durations.break);
+        // setShortBreakTime(state.durations.shortBreak);
+        // setLongBreakTime(state.durations.longBreak);
+        setPomodoroCount(state.count);
+      }
     }
   }, []);
 
@@ -104,35 +130,30 @@ export const usePomodoro = (): UsePomodoroReturn => {
       case "work":
         setTime(workTime);
         break;
-      case "shortBreak":
-        setTime(shortBreakTime);
-        break;
-      case "longBreak":
-        setTime(longBreakTime);
+      case "break":
+        setTime(breakTime);
         break;
       default:
         setTime(workTime);
     }
     saveTimerState();
     localStorage.removeItem("pomodoro-state");
-  }, [timerState, workTime, shortBreakTime, longBreakTime, saveTimerState]);
+  }, [ saveTimerState, workTime, timerState, breakTime ]);
 
   //switch to break every work is done and make it long break every 4
   const switchToBreak = useCallback(() => {
-    const isLongBreak = pomodoroCount > 0 && (pomodoroCount + 1) % 4 === 0;
-    const newState = isLongBreak ? "longBreak" : "shortBreak";
-    const newTime = isLongBreak ? longBreakTime : shortBreakTime;
+    // const isLongBreak = pomodoroCount > 0 && (pomodoroCount + 1) % 4 === 0;
+    // const newState = isLongBreak ? "longBreak" : "shortBreak";
+    // const newTime = isLongBreak ? longBreakTime : shortBreakTime;
 
-    setTimerState(newState);
-    setTime(newTime);
+    // setTimerState(newState);
+    setTime(breakTime);
     setIsActive(true); // Automatically start break timer
-  }, [pomodoroCount, longBreakTime, shortBreakTime]);
+  }, [breakTime]);
 
   useEffect(() => {
     if (!mounted) return;
-
     let interval: NodeJS.Timeout;
-
     if (isActive && time > 0) {
       interval = setInterval(() => {
         setTime((prevTime) => prevTime - 1);
@@ -141,7 +162,7 @@ export const usePomodoro = (): UsePomodoroReturn => {
       if (timerState === "work") {
         setWorkCompleted(true);
         switchToBreak();
-      } else if (timerState === "shortBreak" || timerState === "longBreak") {
+      } else if (timerState === "break") {
         if (workCompleted) {
           setPomodoroCount((prev) => prev + 1);
           setWorkCompleted(false);
@@ -151,7 +172,6 @@ export const usePomodoro = (): UsePomodoroReturn => {
         setIsActive(false);
       }
     }
-
     return () => clearInterval(interval);
   }, [
     isActive,
@@ -161,6 +181,7 @@ export const usePomodoro = (): UsePomodoroReturn => {
     workTime,
     mounted,
     workCompleted,
+    currentTimerId,
   ]);
 
   return {
@@ -168,11 +189,14 @@ export const usePomodoro = (): UsePomodoroReturn => {
     setTime,
     workTime,
     setWorkTime,
-    shortBreakTime,
-    setShortBreakTime,
-    longBreakTime,
-    setLongBreakTime,
+    breakTime,
+    setBreakTime,
+    // shortBreakTime,
+    // setShortBreakTime,
+    // longBreakTime,
+    // setLongBreakTime,
     isActive,
+    setIsActive,
     timerState,
     setTimerState,
     pomodoroCount,

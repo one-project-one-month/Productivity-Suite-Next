@@ -37,12 +37,13 @@ const SignInForm = () => {
         onSuccess: () => {
           toast.success("Sign In successfully");
           router.push("/");
+          router.refresh();
         },
         onError: (ctx) => {
           toast.error("Sign In Failed", {
             description: ctx.error.message,
             classNames: {
-              description: "text-black",
+              description: "text-foreground",
             },
           });
         },
