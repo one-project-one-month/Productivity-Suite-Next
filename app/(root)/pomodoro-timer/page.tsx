@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 export default async function PomodoroTimerPage() {
   const session = await getUserSession();
   if (!session) {
-    redirect("/sign-in");
+    redirect("/auth/sign-in");
   }
 
   return (
