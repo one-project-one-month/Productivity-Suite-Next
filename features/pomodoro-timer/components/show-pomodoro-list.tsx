@@ -33,7 +33,7 @@ interface PomodoroProps {
 const ShowPomodoroList = ({ userId, localState }: PomodoroProps) => {
   const { selectedId, setSelectedId } = useSelectedId();
   const { data: sequences } = useGetSequenceDataByUserId(userId);
-  const {mutate: updateTimer} = useUpdateTimer();
+  const { mutate: updateTimer } = useUpdateTimer();
 
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
@@ -43,7 +43,7 @@ const ShowPomodoroList = ({ userId, localState }: PomodoroProps) => {
     category: string,
   ) => {
     setSelectedId(id);
-    updateTimer({timerId: id, remaining: localState.currentTime});
+    updateTimer({ timerId: id, remaining: localState.currentTime });
 
     localStorage.setItem(
       "pomodoroSequence",
@@ -51,7 +51,7 @@ const ShowPomodoroList = ({ userId, localState }: PomodoroProps) => {
     );
 
     localStorage.setItem("pomodoro-state", JSON.stringify(localState));
-    
+
     // if (isSuccess) {
     //   setWorkTime(timerSequence[0].timer.duration);
     //   setTime(timerSequence[0].timer.remaining);

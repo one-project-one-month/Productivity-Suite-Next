@@ -12,7 +12,9 @@ const HomePage = async () => {
   const res = await fetch(
     "https://api.github.com/repos/one-project-one-month/Productivity-Suite-Next",
     { cache: "force-cache" },
-  ).catch(() => ({ json: () => ({ stargazers_count: 0, forks_count: 0, open_issues_count: 0 }) }));
+  ).catch(() => ({
+    json: () => ({ stargazers_count: 0, forks_count: 0, open_issues_count: 0 }),
+  }));
   const data = await res.json();
 
   const resContributors = await fetch(
@@ -24,7 +26,7 @@ const HomePage = async () => {
   const resMerged = await fetch(
     "https://api.github.com/repos/one-project-one-month/Productivity-Suite-Next/pulls",
     { cache: "force-cache" },
-  ).catch(() => ({json: () => [{ number: 0 }] }));
+  ).catch(() => ({ json: () => [{ number: 0 }] }));
   const merged = await resMerged.json();
 
   const resCommits = await fetch(
@@ -37,7 +39,10 @@ const HomePage = async () => {
 
   return (
     <section className="scroll-smooth mx-auto">
-      <HeroSection stars={data.stargazers_count ?? 0} forks={data.forks_count ?? 0} />
+      <HeroSection
+        stars={data.stargazers_count ?? 0}
+        forks={data.forks_count ?? 0}
+      />
       <Content />
       <Community
         contributors={contributors.length ?? 0}

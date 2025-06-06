@@ -21,26 +21,32 @@ export async function addTimerSequenceToDb(data: ITimerSequence) {
 }
 
 export async function getTimerSequenceById(id: string) {
-  return await db.select()
-  .from(timerSequence)
-  .where(eq(timerSequence.sequenceId, id))
-  .orderBy(asc(timerSequence.step))
-  .innerJoin(timers, eq(timerSequence.timerId, timers.id))
-  .innerJoin(sequences, eq(timerSequence.sequenceId, sequences.id))
-  ;
+  return await db
+    .select()
+    .from(timerSequence)
+    .where(eq(timerSequence.sequenceId, id))
+    .orderBy(asc(timerSequence.step))
+    .innerJoin(timers, eq(timerSequence.timerId, timers.id))
+    .innerJoin(sequences, eq(timerSequence.sequenceId, sequences.id));
 }
 
 export type ITimerUpdate = typeof timers.$inferInsert;
-export async function updateTimerOnPageLoad(data:ITimerUpdate) {
+export async function updateTimerOnPageLoad(data: ITimerUpdate) {
   await db.update(timers).set(data).where(eq(timers.id, data.id!));
 }
 
 export async function updateTimer(timerId: string, remaining: number) {
-  await db.update(timers).set({remaining: remaining}).where(eq(timers.id, timerId));
+  await db
+    .update(timers)
+    .set({ remaining: remaining })
+    .where(eq(timers.id, timerId));
   revalidatePath("/pomodoro-timer");
 }
 
 export async function resetDbTimer(timerId: string, remaining: number) {
-  await db.update(timers).set({remaining: remaining}).where(eq(timers.id, timerId));
+  await db
+    .update(timers)
+    .set({ remaining: remaining })
+    .where(eq(timers.id, timerId));
   revalidatePath("/pomodoro-timer");
 }

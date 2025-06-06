@@ -66,18 +66,12 @@ export default function HeroSection({
       <AnimateComponent delay={0.75}>
         <div className="flex gap-10 justify-center items-center text-muted-foreground">
           <div className="flex items-center gap-0.5">
-            <Star className="inline text-yellow-500" size={16} /> 
-            <Suspense fallback="...">
-              {stars} 
-            </Suspense>{" "}
-            stars
+            <Star className="inline text-yellow-500" size={16} />
+            <Suspense fallback="...">{stars}</Suspense> stars
           </div>
           <div className="flex items-center gap-0.5">
-            <GitFork className="inline text-blue-500" size={16} /> 
-            <Suspense fallback="...">
-              {forks} 
-            </Suspense>{" "}
-             forks
+            <GitFork className="inline text-blue-500" size={16} />
+            <Suspense fallback="...">{forks}</Suspense> forks
           </div>
           <div className="flex items-center gap-0.5">
             <Dot className="inline scale-200 text-green-500" size={16} />

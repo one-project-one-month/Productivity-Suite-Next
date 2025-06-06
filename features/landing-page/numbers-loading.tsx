@@ -1,4 +1,3 @@
-
 export default function NumbersLoading() {
   return (
     <span className="animate-bounce font-normal opacity-50">

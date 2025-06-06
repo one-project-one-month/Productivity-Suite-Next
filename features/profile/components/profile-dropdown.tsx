@@ -22,7 +22,6 @@ export default function ProfileDropdown({ session }: { session: Session }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" className="space-y-2">
-
         <DropdownMenuItem asChild>
           <LogoutBtn />
         </DropdownMenuItem>

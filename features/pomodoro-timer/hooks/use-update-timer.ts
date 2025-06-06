@@ -3,6 +3,12 @@ import { updateTimer } from "../actions";
 
 export const useUpdateTimer = () => {
   return useMutation({
-    mutationFn: ({ timerId, remaining }: { timerId: string; remaining: number }) => updateTimer(timerId, remaining),
+    mutationFn: ({
+      timerId,
+      remaining,
+    }: {
+      timerId: string;
+      remaining: number;
+    }) => updateTimer(timerId, remaining),
   });
 };

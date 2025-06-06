@@ -3,6 +3,12 @@ import { resetDbTimer } from "../actions";
 
 export const useResetTimer = () => {
   return useMutation({
-    mutationFn: ({ timerId, remaining }: { timerId: string; remaining: number }) => resetDbTimer(timerId, remaining),
+    mutationFn: ({
+      timerId,
+      remaining,
+    }: {
+      timerId: string;
+      remaining: number;
+    }) => resetDbTimer(timerId, remaining),
   });
 };

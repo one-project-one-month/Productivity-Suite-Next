@@ -36,7 +36,7 @@ export const SignUpFormSchema = createInsertSchema(user, {
     password: password,
   });
 
-export type SignUpSchema = Zod.infer<typeof SignUpFormSchema>;
+export type SignUpSchema = z.infer<typeof SignUpFormSchema>;
 
 export const SignInFormSchema = z.object({
   email: z.string().email(),
@@ -45,7 +45,7 @@ export const SignInFormSchema = z.object({
     .min(8, { message: "Password must be at least 8 characters" }),
 });
 
-export type SignInSchema = Zod.infer<typeof SignInFormSchema>;
+export type SignInSchema = z.infer<typeof SignInFormSchema>;
 
 export const NewBudgetSchema = createInsertSchema(budget, {
   title: (schema) =>
@@ -58,7 +58,7 @@ export const NewBudgetSchema = createInsertSchema(budget, {
   createdAt: true,
 });
 
-export type TNewBudgetSchema = Zod.infer<typeof NewBudgetSchema>;
+export type TNewBudgetSchema = z.infer<typeof NewBudgetSchema>;
 
 export const NewExpenseSchema = createInsertSchema(transactions, {
   amount: (schema) => schema.positive().min(1),
@@ -70,7 +70,7 @@ export const NewExpenseSchema = createInsertSchema(transactions, {
   updatedAt: true,
 });
 
-export type TNewExpenseSchema = Zod.infer<typeof NewExpenseSchema>;
+export type TNewExpenseSchema = z.infer<typeof NewExpenseSchema>;
 
 export const CategorySchema = createInsertSchema(category, {
   color: (schema) => schema.refine((color) => color.length === 7),
@@ -80,7 +80,7 @@ export const CategorySchema = createInsertSchema(category, {
     }),
 }).omit({ id: true, userId: true });
 
-export type TCategorySchema = Zod.infer<typeof CategorySchema>;
+export type TCategorySchema = z.infer<typeof CategorySchema>;
 
 export const CreateTodoSchema = createInsertSchema(todos, {
   title: (schema) =>
@@ -99,4 +99,4 @@ export const CreateTodoSchema = createInsertSchema(todos, {
   status: true,
 });
 
-export type TCreateTodoSchema = Zod.infer<typeof CreateTodoSchema>;
+export type TCreateTodoSchema = z.infer<typeof CreateTodoSchema>;

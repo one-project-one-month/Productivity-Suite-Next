@@ -25,14 +25,14 @@ interface PomodoroProps {
 }
 
 export type TLocalPomodoroState = {
-  currentTime: number,
-  currentType: TimerState,
+  currentTime: number;
+  currentType: TimerState;
   durations: {
-    work: number,
-    break: number,
-  },
-  count: number,
-}
+    work: number;
+    break: number;
+  };
+  count: number;
+};
 
 export function PomodoroTimer({ userId }: PomodoroProps) {
   const [currentPomodoro, setCurrentPomodoro] =
@@ -50,10 +50,12 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
   const { data, isSuccess } = useGetSequenceByTimerId(selectedId);
   const [seqIdx, setSeqIdx] = useState<number>(0);
   const currentTimer = data?.[seqIdx]?.timer;
-  
-  const activeTimer = data ? data.findIndex( item => item.timer.remaining !== 0) : 0;
 
-    // #region UsePomodoro
+  const activeTimer = data
+    ? data.findIndex((item) => item.timer.remaining !== 0)
+    : 0;
+
+  // #region UsePomodoro
   const {
     time,
     setTime,
@@ -87,7 +89,12 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
   const { mutateAsync: updateTimer } = useUpdateTimer();
   const { mutateAsync: resetDbTimer, isPending: isResetting } = useResetTimer();
   const queryClient = useQueryClient();
-  const allPomodorosFinished = isSuccess && data && data.filter(item => item.timer.type === "FOCUS").every(item => item.timer.remaining === 0);
+  const allPomodorosFinished =
+    isSuccess &&
+    data &&
+    data
+      .filter((item) => item.timer.type === "FOCUS")
+      .every((item) => item.timer.remaining === 0);
 
   useEffect(() => {
     if (typeof window != undefined) {
@@ -125,8 +132,17 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
         setTime(currentTimer.remaining || workTimer);
       }
     }
-  }, [setTime, setWorkTime, isSuccess, currentTimer, seqIdx, data, setTimerState, breakTime, setBreakTime]);
-
+  }, [
+    setTime,
+    setWorkTime,
+    isSuccess,
+    currentTimer,
+    seqIdx,
+    data,
+    setTimerState,
+    breakTime,
+    setBreakTime,
+  ]);
 
   const getMaxTime = () => {
     switch (timerState) {
@@ -151,17 +167,17 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
     if (currentTimer) {
       await updateTimer({ timerId: currentTimer.id, remaining: time });
     }
-  };
+  }
 
-  async function handleDotClick( idx: number) {
+  async function handleDotClick(idx: number) {
     setSeqIdx(idx * 2);
-    if(data) {
+    if (data) {
       setTime(data[idx].timer.remaining);
     }
     queryClient.invalidateQueries({
       queryKey: ["timerSequence", selectedId],
     });
-  };
+  }
 
   async function StartTimer() {
     startTimer();
@@ -175,7 +191,10 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
     resetTimer();
     if (data && data.length > 0) {
       for (const item of data) {
-        await resetDbTimer({ timerId: item.timer.id, remaining: item.timer.duration });
+        await resetDbTimer({
+          timerId: item.timer.id,
+          remaining: item.timer.duration,
+        });
       }
       setSeqIdx(0);
       setWorkTime(data[0].timer.duration);
@@ -217,15 +236,28 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
 
       if (data[seqIdx + 1]) {
         setTime(data[seqIdx + 1].timer.duration);
-
       } else {
         setTime(0);
         pauseTimer();
       }
     })();
-  }, [isActive, time, data, seqIdx, queryClient, updateTimer, selectedId, pauseTimer, startTimer, setTime, setTimerState, setWorkTime, setBreakTime]);
+  }, [
+    isActive,
+    time,
+    data,
+    seqIdx,
+    queryClient,
+    updateTimer,
+    selectedId,
+    pauseTimer,
+    startTimer,
+    setTime,
+    setTimerState,
+    setWorkTime,
+    setBreakTime,
+  ]);
 
-  // #region Return 
+  // #region Return
   return (
     <>
       <Card className="w-[350px] relative">
@@ -235,9 +267,13 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
               {timerState === "work" && "Focus Time"}
               {timerState === "break" && "Break Time"}
               {timerState === "idle" && "Pomodoro Timer"}
-              {
-                isSuccess && data[seqIdx]?.sequence.priority && <span className={`text-xs font-light ml-1 ${parsePriority(data[seqIdx]?.sequence.priority)} rounded-md px-2`}>{parsePriority(data[seqIdx].sequence.priority, false)}</span>
-              }
+              {isSuccess && data[seqIdx]?.sequence.priority && (
+                <span
+                  className={`text-xs font-light ml-1 ${parsePriority(data[seqIdx]?.sequence.priority)} rounded-md px-2`}
+                >
+                  {parsePriority(data[seqIdx].sequence.priority, false)}
+                </span>
+              )}
             </CardTitle>
             {currentPomodoro && (
               <div className="text-sm text-muted-foreground mt-1 max-w-80 text-nowrap overflow-hidden text-ellipsis mx-auto text-center">
@@ -246,10 +282,7 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
             )}
           </div>
           <div className="ml-auto self-start">
-            <ShowPomodoroList 
-              userId={userId} 
-              localState={localState}
-            />
+            <ShowPomodoroList userId={userId} localState={localState} />
           </div>
         </CardHeader>
 
@@ -290,33 +323,43 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
                   :{(time % 60).toString().padStart(2, "0")}
                 </div>
                 <div className="text-center font-medium text-sm">
-                  {
-                    (data && data[seqIdx]?.timer?.remaining == 0) || allPomodorosFinished ?
-                      "Completed"
-                      :
-                      timerState == "idle" ? (
-                        <span className="opacity-50">...</span>
-                      ) : isActive ? (
-                        <span className="text-green-500">Running</span>
-                      ) :
-                        (
-                          <span className="text-destructive">Paused</span>
-                        )}
+                  {(data && data[seqIdx]?.timer?.remaining == 0) ||
+                  allPomodorosFinished ? (
+                    "Completed"
+                  ) : timerState == "idle" ? (
+                    <span className="opacity-50">...</span>
+                  ) : isActive ? (
+                    <span className="text-green-500">Running</span>
+                  ) : (
+                    <span className="text-destructive">Paused</span>
+                  )}
                 </div>
               </div>
             </div>
             <div className="text-sm text-muted-foreground flex justify-between w-full">
               <p className="flex items-center gap-0.5">
                 <CheckCircleIcon className="inline size-4" />
-                {isSuccess ? data.filter((item) => item.timer.type === "FOCUS" && item.timer.remaining === 0).length : 0}
-                /{isSuccess ? data.filter((item) => item.timer.type === "FOCUS").length : 1} finished
+                {isSuccess
+                  ? data.filter(
+                      (item) =>
+                        item.timer.type === "FOCUS" &&
+                        item.timer.remaining === 0,
+                    ).length
+                  : 0}
+                /
+                {isSuccess
+                  ? data.filter((item) => item.timer.type === "FOCUS").length
+                  : 1}{" "}
+                finished
               </p>
               <p className="flex items-center gap-0.5 lowercase relative">
                 <span className="peer">
-                  {
-                  isSuccess ? data[seqIdx + 1] && data[seqIdx + 1].timer.duration / 60 + "-min " + data[seqIdx + 1]?.timer.type 
-                  : breakTime/60 + "-min break"
-                  }
+                  {isSuccess
+                    ? data[seqIdx + 1] &&
+                      data[seqIdx + 1].timer.duration / 60 +
+                        "-min " +
+                        data[seqIdx + 1]?.timer.type
+                    : breakTime / 60 + "-min break"}
                 </span>
                 <span className="peer-empty:hidden absolute -left-4">
                   <Forward className="inline size-4" />
@@ -325,17 +368,17 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
             </div>
 
             <div className="flex *:size-4 *:cursor-pointer *:hover:scale-110 ">
-              {
-                data?.filter((item) => item.timer.type == "FOCUS").map((item, index) => (
+              {data
+                ?.filter((item) => item.timer.type == "FOCUS")
+                .map((item, index) => (
                   <CircleSmall
                     key={item.timer.id}
-                    className={`${Math.floor(seqIdx/2) === index ? "fill-foreground" : ""}`}
+                    className={`${Math.floor(seqIdx / 2) === index ? "fill-foreground" : ""}`}
                     onClick={async () => {
                       await handleDotClick(index);
                     }}
                   />
-                ))
-              }
+                ))}
             </div>
 
             <div className="flex gap-2">
@@ -345,9 +388,7 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
                     await StartTimer();
                   }}
                   className="min-w-24"
-                  disabled={
-                   activeTimer !== seqIdx
-                  }
+                  disabled={activeTimer !== seqIdx}
                 >
                   {timerState === "idle" ? "Start" : "Resume"}
                 </Button>
@@ -378,8 +419,15 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
         </CardContent>
 
         <div className="absolute inset-0 pointer-events-none">
-          {allPomodorosFinished &&
-            <Confetti width={350} height={441} recycle={false} numberOfPieces={200} gravity={0.5} />}
+          {allPomodorosFinished && (
+            <Confetti
+              width={350}
+              height={441}
+              recycle={false}
+              numberOfPieces={200}
+              gravity={0.5}
+            />
+          )}
         </div>
       </Card>
     </>

@@ -38,12 +38,21 @@ type PomodoroProps = {
   PpomodoroCount: number;
   PworkCompleted: boolean;
   currentTimerId?: string;
-}
+};
 
-export const usePomodoro = ({Ptime, PworkTime, PbreakTime, PisActive, PtimerState, PpomodoroCount, PworkCompleted, currentTimerId}: PomodoroProps): UsePomodoroReturn => {
+export const usePomodoro = ({
+  Ptime,
+  PworkTime,
+  PbreakTime,
+  PisActive,
+  PtimerState,
+  PpomodoroCount,
+  PworkCompleted,
+  currentTimerId,
+}: PomodoroProps): UsePomodoroReturn => {
   // const { selectedId, setSelectedId } = useSelectedId();
   // const { data: timerSequence, isSuccess } = useGetSequenceByTimerId(selectedId);
-  
+
   const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState<number>(Ptime);
   const [workTime, setWorkTime] = useState<number>(PworkTime);
@@ -54,7 +63,6 @@ export const usePomodoro = ({Ptime, PworkTime, PbreakTime, PisActive, PtimerStat
   const [timerState, setTimerState] = useState<TimerState>(PtimerState);
   const [pomodoroCount, setPomodoroCount] = useState(PpomodoroCount);
   const [workCompleted, setWorkCompleted] = useState(PworkCompleted);
-
 
   // Add mounted check
   useEffect(() => {
@@ -82,7 +90,7 @@ export const usePomodoro = ({Ptime, PworkTime, PbreakTime, PisActive, PtimerStat
   }, [timerState, PbreakTime, pomodoroCount, PworkTime]);
 
   useEffect(() => {
-    if(typeof window != "undefined") {
+    if (typeof window != "undefined") {
       const savedState = localStorage.getItem("pomodoro-state");
       if (savedState) {
         const state = JSON.parse(savedState);
@@ -138,7 +146,7 @@ export const usePomodoro = ({Ptime, PworkTime, PbreakTime, PisActive, PtimerStat
     }
     saveTimerState();
     localStorage.removeItem("pomodoro-state");
-  }, [ saveTimerState, workTime, timerState, breakTime ]);
+  }, [saveTimerState, workTime, timerState, breakTime]);
 
   //switch to break every work is done and make it long break every 4
   const switchToBreak = useCallback(() => {

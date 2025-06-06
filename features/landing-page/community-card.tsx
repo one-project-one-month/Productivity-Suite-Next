@@ -17,10 +17,7 @@ export default function CommunityCard({
       </p>
       {/* <Users className="size-14 rounded-lg bg-gradient-to-b from-blue-600 to-purple-600 px-2 py-3 text-white" /> */}
       <p className="text-2xl font-bold md:text-3xl mt-3 dark:text-foreground">
-        <Suspense fallback={<NumbersLoading />}>
-          {num}+
-        </Suspense>
-        
+        <Suspense fallback={<NumbersLoading />}>{num}+</Suspense>
       </p>
       <p className="text-black/70 text-sm md:text-base dark:text-foreground">
         {desc}
