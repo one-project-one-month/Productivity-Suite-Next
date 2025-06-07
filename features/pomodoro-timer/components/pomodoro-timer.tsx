@@ -96,7 +96,7 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
     data
       .filter((item) => item.timer.type === "FOCUS")
       .every((item) => item.timer.remaining === 0);
-  
+
   useBeforeUnload(isActive);
 
   useEffect(() => {
@@ -308,10 +308,9 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
                   strokeDasharray={590}
                   strokeDashoffset={590 - (590 * calculateProgress()) / 100}
                   style={
-                    (isActive || !allPomodorosFinished) ? 
-                      {transition: "stroke-dashoffset 200ms linear"}
-                    :
-                      {transition: "none"}
+                    isActive || !allPomodorosFinished
+                      ? { transition: "stroke-dashoffset 200ms linear" }
+                      : { transition: "none" }
                   }
                 />
               </svg>
