@@ -6,10 +6,10 @@ import Link from "next/link";
 const SignUpPage = async () => {
   return (
     <section
-      className={"w-full max-w-[520px] p-6 bg-white shadow-md rounded-lg"}
+      className={"w-full max-w-[520px] p-6 bg-background shadow-md rounded-lg"}
     >
       <h1 className={"mb-2 text-lg font-bold"}>Sign Up New Account</h1>
-      <p className={"text-base text-black/65 font-semibold"}>
+      <p className={"text-base text-foreground font-semibold"}>
         Sign up to use our awesome productivity suit and boast your
         productivity.
       </p>
