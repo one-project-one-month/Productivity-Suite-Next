@@ -6,5 +6,6 @@ export const useGetSequenceByTimerId = (timerId: string) => {
     queryKey: ["timerSequence", timerId],
     queryFn: () => getTimerSequenceById(timerId),
     enabled: !!timerId,
+    refetchOnWindowFocus: false,
   });
 };

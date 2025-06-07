@@ -13,6 +13,7 @@ import { useResetTimer } from "../hooks/use-reset";
 import { parsePriority } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import Confetti from "react-confetti";
+import { useBeforeUnload } from "@/hooks/use-before-unload";
 
 interface PomodoroCardInterface {
   id: string;
@@ -95,6 +96,8 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
     data
       .filter((item) => item.timer.type === "FOCUS")
       .every((item) => item.timer.remaining === 0);
+  
+  useBeforeUnload(isActive);
 
   useEffect(() => {
     if (typeof window != undefined) {
@@ -291,22 +294,25 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
             <div className="relative size-52">
               <svg className="size-52 -rotate-90">
                 <circle
-                  cx="104"
-                  cy="104"
-                  r="94"
+                  cx={104}
+                  cy={104}
+                  r={94}
                   className="stroke-muted stroke-[8px] fill-none"
                 />
                 <circle
-                  cx="104"
-                  cy="104"
-                  r="94"
+                  cx={104}
+                  cy={104}
+                  r={94}
                   className="stroke-primary stroke-[8px] fill-none"
                   strokeLinecap="round"
                   strokeDasharray={590}
                   strokeDashoffset={590 - (590 * calculateProgress()) / 100}
-                  style={{
-                    transition: "stroke-dashoffset 200ms linear",
-                  }}
+                  style={
+                    (isActive || !allPomodorosFinished) ? 
+                      {transition: "stroke-dashoffset 200ms linear"}
+                    :
+                      {transition: "none"}
+                  }
                 />
               </svg>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
@@ -350,7 +356,7 @@ export function PomodoroTimer({ userId }: PomodoroProps) {
                 {isSuccess
                   ? data.filter((item) => item.timer.type === "FOCUS").length
                   : 1}{" "}
-                finished
+                completed
               </p>
               <p className="flex items-center gap-0.5 lowercase relative">
                 <span className="peer">

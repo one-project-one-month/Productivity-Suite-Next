@@ -15,7 +15,7 @@ import { INoteType, TNoteType } from "./note-types";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { NOTE_CHARS_LIMIT } from "@/constants";
-import { useBeforeUnload } from "../hooks/use-before-unload";
+import { useBeforeUnload } from "../../../hooks/use-before-unload";
 import MoreActions from "./more-actions";
 // import { getNoteContentById } from "../actions";
 

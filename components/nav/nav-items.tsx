@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navRoutes } from "./nav-routes";
 import { Button } from "@/components/ui/button";
-import { X, Menu, User } from "lucide-react";
+import { X, Menu } from "lucide-react";
 import { ThemeBtn } from "./theme-btn";
 import { Session } from "@/lib/server-util";
 import ProfileDropdown from "@/features/profile/components/profile-dropdown";
@@ -98,7 +98,7 @@ export default function NavBar({ session }: { session: Session }) {
         </div>
 
         <div className="flex flex-col gap-2 p-3">
-          {session && (
+          {/* {session && (
             <>
               <Link
                 onClick={() => setIsOpen(false)}
@@ -110,7 +110,7 @@ export default function NavBar({ session }: { session: Session }) {
               </Link>
               <hr />
             </>
-          )}
+          )} */}
 
           {navRoutes.map((nav, idx) => (
             <Link
