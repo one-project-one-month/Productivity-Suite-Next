@@ -18,43 +18,44 @@ import {
 } from "@/components/ui/select";
 import AddNewPomodoro from "./add-new-pomodoro";
 import PomodoroCard from "./pomodoros-card";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useGetSequenceDataByUserId } from "../hooks/use-get-sequence-data-by-userId";
-import { Menu } from "lucide-react";
+import { Settings } from "lucide-react";
 import { useSelectedId } from "../hooks/use-selected-id";
+import { TLocalPomodoroState } from "./pomodoro-timer";
+import { useUpdateTimer } from "../hooks/use-update-timer";
 
 interface PomodoroProps {
   userId: string;
+  localState: TLocalPomodoroState;
 }
 
-const ShowPomodoroList = ({ userId }: PomodoroProps) => {
-  const { data: sequences } = useGetSequenceDataByUserId(userId);
-
+const ShowPomodoroList = ({ userId, localState }: PomodoroProps) => {
   const { selectedId, setSelectedId } = useSelectedId();
+  const { data: sequences } = useGetSequenceDataByUserId(userId);
+  const { mutate: updateTimer } = useUpdateTimer();
 
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-  useEffect(() => {
-    if (typeof window != undefined) {
-      const savedId = localStorage.getItem("selectedPomodoroId");
-      if (savedId) {
-        setSelectedId(savedId);
-      }
-    }
-  }, [setSelectedId]);
-
-  const handlePomodoroSelect = (
+  const handlePomodoroSelect = async (
     id: string,
     description: string,
     category: string,
   ) => {
     setSelectedId(id);
-    // localStorage.setItem("selectedPomodoroId", id);
-    // localStorage.setIte("selectedPomodoroDescription", description);
+    updateTimer({ timerId: id, remaining: localState.currentTime });
+
     localStorage.setItem(
       "pomodoroSequence",
       JSON.stringify({ id, description, category }),
     );
+
+    localStorage.setItem("pomodoro-state", JSON.stringify(localState));
+
+    // if (isSuccess) {
+    //   setWorkTime(timerSequence[0].timer.duration);
+    //   setTime(timerSequence[0].timer.remaining);
+    // }
   };
 
   // const handleDelete = async (id: string) => {
@@ -90,7 +91,7 @@ const ShowPomodoroList = ({ userId }: PomodoroProps) => {
     <div className="w-10 flex justify-center items-center z-50 isolate">
       <Dialog>
         <DialogTrigger className="rounded-full cursor-pointer p-2 hover:bg-gray-200/10 transition-colors">
-          <Menu />
+          <Settings />
         </DialogTrigger>
 
         <DialogContent className="w-[90vw] max-w-[425px] md:w-full">
@@ -123,7 +124,7 @@ const ShowPomodoroList = ({ userId }: PomodoroProps) => {
             </div>
           </DialogHeader>
 
-          <div className="h-40 md:h-55 lg:h-64 overflow-y-scroll">
+          <div className="min-h-40 md:h-55 lg:h-64 overflow-y-auto">
             {filteredSequences.length > 0 ? (
               filteredSequences.map((sequence) => (
                 <div
@@ -135,10 +136,10 @@ const ShowPomodoroList = ({ userId }: PomodoroProps) => {
                       sequence.category || "",
                     )
                   }
-                  className={`cursor-pointer transition-all duration-200 hover:bg-muted-foreground/10 ${
+                  className={`cursor-pointer transition-all duration-200 ${
                     selectedId === sequence.id
-                      ? "bg-primary/10 rounded-2xl"
-                      : ""
+                      ? "bg-green-400/10 rounded-2xl"
+                      : "hover:bg-muted-foreground/10"
                   }`}
                 >
                   <PomodoroCard

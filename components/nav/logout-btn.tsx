@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
@@ -9,9 +11,10 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { authClient } from "@/lib/client-auth";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function LogoutBtn() {
+  const router = useRouter();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -35,23 +38,25 @@ export default function LogoutBtn() {
                   </Button>
                 </DialogClose>
 
-                <Button
-                  size="sm"
-                  variant="destructive"
-                  className="cursor-pointer"
-                  onClick={() =>
-                    authClient.signOut({
-                      fetchOptions: {
-                        onSuccess: () => {
-                          // router.push("/");
-                          redirect("/");
+                <DialogClose asChild>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    className="cursor-pointer"
+                    onClick={() =>
+                      authClient.signOut({
+                        fetchOptions: {
+                          onSuccess: () => {
+                            router.push("/");
+                            router.refresh();
+                          },
                         },
-                      },
-                    })
-                  }
-                >
-                  Logout
-                </Button>
+                      })
+                    }
+                  >
+                    Logout
+                  </Button>
+                </DialogClose>
               </div>
             </div>
           </DialogDescription>

@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Session } from "@/lib/server-util";
-import Link from "next/link";
 import LogoutBtn from "@/components/nav/logout-btn";
 
 export default function ProfileDropdown({ session }: { session: Session }) {
@@ -23,12 +22,6 @@ export default function ProfileDropdown({ session }: { session: Session }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" className="space-y-2">
-        <DropdownMenuItem>
-          <Link href="/profile" className="w-full">
-            Profile
-          </Link>
-        </DropdownMenuItem>
-
         <DropdownMenuItem asChild>
           <LogoutBtn />
         </DropdownMenuItem>

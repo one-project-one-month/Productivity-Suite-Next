@@ -146,7 +146,8 @@ const AddNewPomodoro = () => {
 
       timerSequence.forEach(async ({ timer }, idx) => {
         const res = await addTimerToDb({
-          ...timer,
+          duration: timer.duration * 60,
+          remaining: timer.duration * 60,
           type: timer.type == "work" ? "FOCUS" : "BREAK",
         });
         const timerSeq = await addTimerSequenceToDb({

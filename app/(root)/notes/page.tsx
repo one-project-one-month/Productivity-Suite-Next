@@ -65,7 +65,7 @@ export default async function NotePage({
     );
   }
   return (
-    <section className="bg-background text-foreground max-w-7xl mx-auto">
+    <section className="bg-background text-foreground max-w-7xl mx-auto pt-3">
       <div className="flex gap-3 items-center justify-center mb-2">
         {/* <form action={async (formData:FormData) => {
           "use server";

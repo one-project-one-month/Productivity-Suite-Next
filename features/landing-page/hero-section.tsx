@@ -1,6 +1,7 @@
 import { Dot, GitFork, Github, Star } from "lucide-react";
 import Link from "next/link";
 import AnimateComponent from "./animate-component";
+import { Suspense } from "react";
 
 export default function HeroSection({
   stars,
@@ -10,7 +11,7 @@ export default function HeroSection({
   forks: number;
 }) {
   return (
-    <section className="py-10 font-roboto flex flex-col gap-10 overflow-hidden relative md:h-[calc(100dvh-60px)] md:justify-center">
+    <section className="py-10 font-roboto flex flex-col gap-10 overflow-hidden relative min-h-[calc(100dvh-60px)] justify-center">
       <div className="">
         <AnimateComponent delay={0.8}>
           <div className="flex gap-1 items-center text-sm border text-foreground/90 mx-auto border-blue-300 dark:border-blue-500/50 bg-background rounded-full w-max px-3 py-2 ">
@@ -65,10 +66,12 @@ export default function HeroSection({
       <AnimateComponent delay={0.75}>
         <div className="flex gap-10 justify-center items-center text-muted-foreground">
           <div className="flex items-center gap-0.5">
-            <Star className="inline text-yellow-500" size={16} /> {stars} stars
+            <Star className="inline text-yellow-500" size={16} />
+            <Suspense fallback="...">{stars}</Suspense> stars
           </div>
           <div className="flex items-center gap-0.5">
-            <GitFork className="inline text-blue-500" size={16} /> {forks} forks
+            <GitFork className="inline text-blue-500" size={16} />
+            <Suspense fallback="...">{forks}</Suspense> forks
           </div>
           <div className="flex items-center gap-0.5">
             <Dot className="inline scale-200 text-green-500" size={16} />
